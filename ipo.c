@@ -1,7 +1,5 @@
 // 502. IPO
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * suppose leetcode will start its ipo soon. in order to sell a good price of
