@@ -1,8 +1,17 @@
+// 1328. Break a Palindrome
 #include "leetcode.h"
+
+/*
+ * given a palindrome string of lowercase english letters 'palindrome' replace
+ * exactly one character with any lowercase english letter so that the resulting
+ * string is not a palindrome and that it is the lexicographically smallest one
+ * possible. return the resulting string. if there is no way to replace a
+ * character to make it not a palindrome, return an empty string.
+ */
 
 class Solution {
 public:
-  string breakPalindrom(string palindrome) {
+  string breakPalindrome(string palindrome) {
     int n = palindrome.size();
     if (n == 1)
       return "";
@@ -19,5 +28,6 @@ public:
 
 int main() {
   Solution obj;
-  cout << obj.breakPalindrom("abccba");
+  cout << obj.breakPalindrome("abccba") << endl; // expect: aaccba
+  cout << obj.breakPalindrome("a") << endl;      // expect: null
 }
