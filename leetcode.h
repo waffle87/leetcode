@@ -1,12 +1,12 @@
+#include "lib/uthash/src/uthash.h"
+#include <ctype.h>
+#include <limits.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include <limits.h>
-#include <ctype.h>
-#include <stdint.h>
-#include "lib/uthash/src/uthash.h"
 
 #ifdef __cplusplus
 #include <bits/stdc++.h>
@@ -43,7 +43,24 @@ public:
     children = _children;
   }
 };
-#endif //__cplusplus
+#else //__cplusplus
+
+struct ListNode {
+  int val;
+  struct ListNode *next;
+};
+
+struct TreeNode {
+  int val;
+  struct TreeNode *left;
+  struct TreeNode *right;
+};
+
+struct ListNode *listnode_create(int val);
+void listnode_print(struct ListNode *head);
+
+struct TreeNode *treenode_create(int val);
+void treenode_print(struct TreeNode *root);
 
 #define IS_ARRAY(value)                                                        \
   (!__builtin_types_compatible_p(typeof((value)), typeof(&(value)[0])))
@@ -51,4 +68,4 @@ public:
 #define ARRAY_SIZE(array)                                                      \
   (__builtin_choose_expr(IS_ARRAY((array)),                                    \
                          sizeof((array)) / sizeof((array)[0]), (void)0))
-
+#endif
