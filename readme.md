@@ -23,6 +23,7 @@ int res = func(arr, ARRAY_SIZE(arr));
 returned by such functions. for example, see the following `main` functions.
 
 **ListNode data type**
+
 ![image](https://assets.leetcode.com/uploads/2022/02/02/ex1-1.png)
 ```c
 int main() {
@@ -41,6 +42,7 @@ int main() {
 ```
 
 **TreeNode data type**
+
 ![image](https://assets.leetcode.com/uploads/2021/04/08/leftsum-tree.jpg)
 ```c
 int main() {
