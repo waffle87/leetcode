@@ -1,7 +1,7 @@
 ## leetcode
 this repository contains my leetcode solutions for [user 0x6A73](https://leetcode.com/u/0x6A73).
 the daily challenge is solved in both c and python, but there are also 
-some problems soved in c++ and rust.
+some problems solved in c++ and rust.
 
 ### notes
 [`leetcode.h`](leetcode.h) contains various includes, standard leetcode
