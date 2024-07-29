@@ -1,6 +1,5 @@
 // 1395. Count Number of Teams
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * there are 'n' soldiers standing in a line. each soldier is assigned a unique
