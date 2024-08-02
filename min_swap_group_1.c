@@ -1,6 +1,5 @@
 // 2134. Minimum Swaps to Group All 1's Together II
-#include <math.h>
-#include <stdio.h>
+#include "leetcode.h"
 #pragma GCC optimize("-O3")
 
 /*
