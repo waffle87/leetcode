@@ -33,8 +33,11 @@ public:
 };
 
 int main() {
-  int k, val;
-  vector<int> nums;
-  KthLargest *obj = new KthLargest(k, nums);
-  int param_1 = obj->add(val);
+  vector<int> nums = {4, 5, 8, 2};
+  KthLargest *obj = new KthLargest(3, nums);
+  printf("%d\n", obj->add(3));  // expect: 4
+  printf("%d\n", obj->add(5));  // expect: 5
+  printf("%d\n", obj->add(10)); // expect: 5
+  printf("%d\n", obj->add(9));  // expect: 8
+  printf("%d\n", obj->add(4));  // expect: 8
 }

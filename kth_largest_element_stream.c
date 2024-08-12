@@ -1,7 +1,5 @@
 // 703. Kth Largest Element in a Stream
-#include <limits.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * design a class to find the k'th largest element in a stream. note that it is
