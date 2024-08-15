@@ -1,6 +1,5 @@
 // 860. Lemonade Change
-#include <stdbool.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * at a lemonade stand, each lemonade costs $5. customers are standing in a
