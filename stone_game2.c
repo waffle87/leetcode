@@ -1,7 +1,5 @@
 // 1140. Stone Game II
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * alice and bob continue their games with piles of stones. there are a number
@@ -16,10 +14,10 @@
 
 int stoneGameII(int *piles, int piles_size) {
   int n = piles_size;
-  int *sum = malloc((n + 1) * sizeof(int));
-  int **dp = malloc((n + 1) * sizeof(int *));
+  int *sum = (int *)malloc((n + 1) * sizeof(int));
+  int **dp = (int **)malloc((n + 1) * sizeof(int *));
   for (int i = 0; i <= n; i++)
-    dp[i] = calloc(n + 1, sizeof(int));
+    dp[i] = (int *)calloc(n + 1, sizeof(int));
   sum[n] = 0;
   for (int i = n - 1; i >= 0; i--)
     sum[i] = sum[i + 1] + piles[i];
