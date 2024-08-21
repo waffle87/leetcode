@@ -1,8 +1,5 @@
 // 664. Strange Printer
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * there is a strange printer with the following two special properties:
@@ -12,26 +9,32 @@
  * 's', return the minimum number of turns the printer needed to print it.
  */
 
-int f[100][100];
-
-int dfs(char *s, int left, int right) {
-  if (left > right)
-    return 0;
-  if (f[left][right])
-    return f[left][right];
-  f[left][right] = dfs(s, left, right - 1) + 1;
-  for (int i = left; i < right; i++) {
-    if (s[i] == s[right])
-      f[left][right] =
-          fmin(f[left][right], dfs(s, left, i) + dfs(s, i + 1, right - 1));
+int get_cnt(char *s, int **dp, int r, int l) {
+  if (dp[r][l] != -1)
+    return dp[r][l];
+  else {
+    int i = r;
+    while (i < l && s[i] == s[l])
+      i++;
+    int min = l - i;
+    for (int j = i; j < l; j++)
+      if (get_cnt(s, dp, i, j) + get_cnt(s, dp, j + 1, l) + 1 < min)
+        min = get_cnt(s, dp, i, j) + get_cnt(s, dp, j + 1, l) + 1;
+    dp[r][l] = min;
+    return dp[r][l];
   }
-  return f[left][right];
 }
 
 int strangePrinter(char *s) {
-  memset(f, 0, sizeof(f));
-  int len = strlen(s);
-  return dfs(s, 0, len - 1);
+  int n = strlen(s);
+  int **dp = (int **)malloc(n * sizeof(int *));
+  for (int i = 0; i < n; i++) {
+    dp[i] = (int *)malloc(n * sizeof(int));
+    dp[i][i] = 0;
+    for (int j = i + 1; j < n; j++)
+      dp[i][j] = -1;
+  }
+  return get_cnt(s, dp, 0, n - 1) + 1;
 }
 
 int main() {
