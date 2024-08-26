@@ -16,6 +16,15 @@ void listnode_print(struct ListNode *head) {
   printf("\n");
 }
 
+void listnode_free(struct ListNode *head) {
+  struct ListNode *tmp;
+  while (head) {
+    tmp = head;
+    head = head->next;
+    free(tmp);
+  }
+}
+
 struct TreeNode *treenode_create(int val) {
   struct TreeNode *new = (struct TreeNode *)malloc(sizeof(struct TreeNode));
   new->val = val;
@@ -30,4 +39,42 @@ void treenode_print(struct TreeNode *root) {
   treenode_print(root->left);
   printf("%d ", root->val);
   treenode_print(root->right);
+}
+
+void treenode_free(struct TreeNode *root) {
+  if (!root)
+    return;
+  treenode_free(root->left);
+  treenode_free(root->right);
+  free(root);
+}
+
+struct Node *node_create(int val, int numChildren) {
+  struct Node *new = (struct Node *)malloc(sizeof(struct Node));
+  new->val = val;
+  new->numChildren = numChildren;
+  if (numChildren) {
+    new->children = (struct Node **)malloc(numChildren * sizeof(struct Node *));
+    for (int i = 0; i < numChildren; i++)
+      new->children[i] = NULL;
+  } else
+    new->children = NULL;
+  return new;
+}
+
+void node_print(struct Node *root, int depth) {
+  if (!root)
+    return;
+  printf("%d\n", root->val);
+  for (int i = 0; i < root->numChildren; i++)
+    node_print(root->children[i], depth + 1);
+}
+
+void node_free(struct Node *root) {
+  if (!root)
+    return;
+  for (int i = 0; i < root->numChildren; i++)
+    node_free(root->children[i]);
+  free(root->children);
+  free(root);
 }

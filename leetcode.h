@@ -57,11 +57,23 @@ struct TreeNode {
   struct TreeNode *right;
 };
 
+struct Node {
+  int val;
+  int numChildren;
+  struct Node **children;
+};
+
 struct ListNode *listnode_create(int val);
 void listnode_print(struct ListNode *head);
+void listnode_free(struct ListNode *head);
 
 struct TreeNode *treenode_create(int val);
 void treenode_print(struct TreeNode *root);
+void treenode_free(struct treeTreeNode *root);
+
+struct Node *node_create(int val, int numChildren);
+void node_print(struct Node *root, int depth);
+void node_free(struct Node *root);
 
 #define IS_ARRAY(value)                                                        \
   (!__builtin_types_compatible_p(typeof((value)), typeof(&(value)[0])))
