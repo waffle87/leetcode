@@ -32,12 +32,11 @@ public:
       int node = top.second;
       if (!seen[node]) {
         seen[node]++;
-        for (auto to : vvp[node]) {
+        for (auto to : vvp[node])
           if (mx[to.first] < to.second * prob_a) {
             mx[to.first] = to.second * prob_a;
             pqp.push({mx[to.first], to.first});
           }
-        }
       }
     }
     return mx[end];
@@ -46,8 +45,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e = {{0, 1}, {1, 2}, {0, 2}};
+  vvd(int) e1 = {{0, 1}, {1, 2}, {0, 2}}, e2 = {{0, 1}, {1, 2}, {0, 2}};
   vector<double> sp1 = {0.5, 0.5, 0.2}, sp2 = {0.5, 0.5, 0.3};
-  printf("%f\n", obj.maxProbability(3, e, sp1, 0, 2)); // expect: 0.25000
-  printf("%f\n", obj.maxProbability(3, e, sp2, 0, 2)); // expect: 0.30000
+  printf("%f\n", obj.maxProbability(3, e1, sp1, 0, 2)); // expect: 0.25000
+  printf("%f\n", obj.maxProbability(3, e2, sp2, 0, 2)); // expect: 0.30000
 }

@@ -69,7 +69,7 @@ void listnode_free(struct ListNode *head);
 
 struct TreeNode *treenode_create(int val);
 void treenode_print(struct TreeNode *root);
-void treenode_free(struct treeTreeNode *root);
+void treenode_free(struct TreeNode *root);
 
 struct Node *node_create(int val, int numChildren);
 void node_print(struct Node *root, int depth);
