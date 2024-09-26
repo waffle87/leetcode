@@ -1,38 +1,31 @@
+// 729. My Calendar I
 #include "leetcode.h"
 
-struct lNode {
-public:
-  int start, end;
-  lNode *next;
-  lNode(int s, int e, lNode *n) {
-    start = s;
-    end = e;
-    next = n;
-  }
-};
+/*
+ * you are implementing a program to use as your calendar. we can add a new
+ * event if adding the event will not cause a double booking. a double booking
+ * happens when two events have some non empty intersection (ie. some moment is
+ * common to both events.). the event can be represented as a pair of integers
+ * 'start' and 'end' that represent a booking on the half open interval '[start,
+ * end)', the range of real numbers 'x' such that 'start <= x < end'.
+ */
 
 class MyCalendar {
+  vector<pair<int, int>> books;
+
 public:
-  MyCalendar() {
-    lNode *tail = new lNode(INT_MAX, INT_MAX, nullptr);
-    calendar = new lNode(-1, -1, tail);
-  }
   bool book(int start, int end) {
-    lNode *curr = calendar, *last = curr;
-    while (start >= curr->end)
-      last = curr, curr = curr->next;
-    if (curr->start < end)
-      return false;
-    last->next = new lNode(start, end, curr);
+    for (pair<int, int> p : books)
+      if (max(p.first, start) < min(end, p.second))
+        return false;
+    books.push_back({start, end});
     return true;
   }
-
-private:
-  lNode *calendar;
 };
 
 int main() {
-  int start, end;
   MyCalendar *obj = new MyCalendar();
-  bool param_1 = obj->book(start, end);
+  printf("%d\n", obj->book(10, 20)); // expect: 1
+  printf("%d\n", obj->book(15, 25)); // expect: 0
+  printf("%d\n", obj->book(20, 30)); // expect: 1
 }
