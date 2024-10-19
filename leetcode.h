@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#pragma once
+
 #ifdef __cplusplus
 #include <bits/stdc++.h>
 using namespace std;
@@ -46,6 +48,12 @@ public:
 };
 #else //__cplusplus
 
+struct two_d_arr {
+  int row_size;
+  int *col_size;
+  int **arr;
+};
+
 struct ListNode {
   int val;
   struct ListNode *next;
@@ -62,6 +70,10 @@ struct Node {
   int numChildren;
   struct Node **children;
 };
+
+void two_d_arr_init(struct two_d_arr *obj, int row_size, int col_size,
+                    int arr[row_size][col_size]);
+void two_d_arr_free(struct two_d_arr *obj);
 
 struct ListNode *listnode_create(int val);
 void listnode_print(struct ListNode *head);

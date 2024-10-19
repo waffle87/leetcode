@@ -1,5 +1,25 @@
 #include "leetcode.h"
 
+void two_d_arr_init(struct two_d_arr *obj, int row_size, int col_size,
+                    int arr[row_size][col_size]) {
+  obj->row_size = row_size;
+  obj->col_size = (int *)malloc(row_size * sizeof(int));
+  obj->arr = (int **)malloc(row_size * sizeof(int *));
+  for (int i = 0; i < row_size; i++) {
+    obj->col_size[i] = col_size;
+    obj->arr[i] = (int *)malloc(col_size * sizeof(int));
+    for (int j = 0; j < col_size; j++)
+      obj->arr[i][j] = arr[i][j];
+  }
+}
+
+void two_d_arr_free(struct two_d_arr *obj) {
+  for (int i = 0; i < obj->row_size; i++)
+    free(obj->arr[i]);
+  free(obj->arr);
+  free(obj->col_size);
+}
+
 struct ListNode *listnode_create(int val) {
   struct ListNode *new = (struct ListNode *)malloc(sizeof(struct ListNode));
   new->val = val;

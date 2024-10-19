@@ -1,12 +1,12 @@
 ## leetcode
-this repository contains my leetcode solutions for [user 0x6A73](https://leetcode.com/u/0x6A73).
-the daily challenge is solved in both c and python, but there are also 
-some problems solved in c++ and rust.
+This repository contains my Leetcode solutions for [user 0x6A73](https://leetcode.com/u/0x6A73).
+the daily challenge is solved in both C and Python3, but there are also
+some problems solved in C++ and Rust.
 
 ### notes
 [`leetcode.h`](leetcode.h) contains various includes, standard leetcode
 structs (`ListNode`, `TreeNode`), and some helpful macros, like
-calculating the size of a c array using `builtin` functions.
+calculating the size of a C array using `builtin` functions.
 ```c
 #define IS_ARRAY(value)                                                        \
   (!__builtin_types_compatible_p(typeof((value)), typeof(&(value)[0])))
@@ -20,7 +20,7 @@ int res = func(arr, ARRAY_SIZE(arr));
 
 [`leetcode.c`](leetcode.c) has helpful functions to fill `ListNode` and
 `TreeNode` data structures with provided data, and also print data
-returned by such functions. for example, see the following `main` functions.
+returned by such functions. For example, see the following `main` functions.
 
 **ListNode data type**
 
@@ -54,5 +54,19 @@ int main() {
   root->right->right = treenode_create(7);
   struct TreeNode *res = func(root);
   treenode_print(res);
+}
+```
+
+Also functions to aid in working with 2D C arrays:
+```c
+int func(int **edges, int edgesSize, int *edgesColSize);
+
+int main() {
+  // edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
+  int edges_input[6][2] = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}, {2, 6}};
+  struct two_d_arr edges;
+  two_d_arr_init(&edges, 6, 2, edges_input);
+  int res = func(edges.arr, edges.row_size, edges.col_size);
+  two_d_arr_free(&edges);
 }
 ```
