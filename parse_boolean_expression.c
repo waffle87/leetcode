@@ -1,7 +1,5 @@
 // 1106. Parsing A Boolean Expression
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * a boolean expression is an expression that evaluates to either 'true' or
@@ -18,53 +16,38 @@
  * evaluation of that expression
  */
 
-#define IS_VALUE(c) ((c) == 't' || (c) == 'f')
-#define IS_OPERA(c) ((c) == '!' || (c) == '&' || (c) == '|')
-
-static char *expr, *s;
-
-bool parse() {
-  if (IS_VALUE(*s))
-    return (*s++) == 't';
-  if (IS_OPERA(*s)) {
-    char op = *s;
-    s++;
-    if (*s != '(') {
-      fprintf(stderr, "error: unexpected char '%c' at pos %ld, expects '('\n",
-              *s, s - expr);
-      exit(1);
-    }
-    s++;
-    bool b = false;
-    if (op == '!')
-      b = !parse();
-    else {
-      b = parse();
-      while (*s == ',') {
-        s++;
-        bool n = parse();
-        if (op == '&')
-          b = b && n;
-        else
-          b = b || n;
-      }
-    }
-    if (*s != ')') {
-      fprintf(stderr, "error: unexpected char '%c' at pos %ld, expects ')'\n",
-              *s, s - expr);
-      exit(1);
-    }
-    s++;
-    return b;
-  }
-  fprintf(stderr, "error: unexpected char '%c' at pos %ld\n", *s, s - expr);
-  exit(1);
+void substr(char *dst, char *src, int start, int len) {
+  strncpy(dst, src + start, len);
+  dst[len] = '\0';
 }
 
 bool parseBoolExpr(char *expression) {
-  expr = expression;
-  s = expression;
-  return parse();
+  int n = strlen(expression);
+  if (n == 1)
+    return expression[0] == 't';
+  if (expression[0] == '!') {
+    char sub_expr[n - 2];
+    substr(sub_expr, expression, 2, n - 3);
+    return !parseBoolExpr(sub_expr);
+  }
+  bool is_and = expression[0] == '&', ans = is_and;
+  int i = 2, j = 2, cnt = 0;
+  for (; ans == is_and && i < n; ++i) {
+    if (expression[i] == '(')
+      ++cnt;
+    if (expression[i] == ')')
+      --cnt;
+    if (i == n - 1 || (expression[i] == ',' && !(cnt))) {
+      char sub_expr[i - j + 1];
+      substr(sub_expr, expression, j, i - 1);
+      if (is_and)
+        ans &= parseBoolExpr(sub_expr);
+      else
+        ans |= parseBoolExpr(sub_expr);
+      j = i + 1;
+    }
+  }
+  return ans;
 }
 
 int main() {
