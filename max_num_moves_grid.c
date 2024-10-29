@@ -10,40 +10,36 @@
  * of the current cell. return the maximum number of moves that you can perform.
  */
 
-// int dfs(int **dp, int **grid, int row_size, int *col_size, int row, int col,
-//         int prev, int ith) {
-int dfs(int **dp, int r, int c, int grid[r][c], int row_size, int *col_size,
-        int row, int col, int prev, int ith) {
-  if (row < 0 || row >= row_size || col < 0 || col > *col_size - 1 ||
-      grid[row][col] <= prev)
-    return ith;
-  if (dp[row][col])
-    return ith + dp[row][col] + 1;
-  int tmp = dfs(dp, r, c, grid, row_size, col_size, row - 1, col + 1,
-                grid[row][col], ith + 1);
-  tmp = fmax(tmp, dfs(dp, r, c, grid, row_size, col_size, row, col + 1,
-                      grid[row][col], ith + 1));
-  tmp = fmax(tmp, dfs(dp, r, c, grid, row_size, col_size, row + 1, col,
-                      grid[row][col], ith + 1));
-  dp[row][col] = tmp - ith - 1;
-  return tmp;
-}
-
-// int maxMoves(int **grid, int grid_size, int *grid_col_size) {
-int maxMoves(int r, int c, int grid[r][c], int grid_size, int *grid_col_size) {
-  int ans = 0;
-  int **dp = malloc(sizeof(int *) * grid_size);
+int maxMoves(int **grid, int grid_size, int *grid_col_size) {
+  int dp[grid_size][grid_col_size[0]], max = 0;
+  memset(dp, 0, sizeof(dp));
   for (int i = 0; i < grid_size; i++)
-    dp[i] = calloc(*grid_col_size, sizeof(int));
+    dp[i][0] = 1;
+  for (int j = 0; j < grid_col_size[0] - 1; j++)
+    for (int i = 0; i < grid_size; i++) {
+      if (!dp[i][j])
+        continue;
+      if (i && grid[i - 1][j + 1] > grid[i][j])
+        dp[i - 1][j + 1] = fmax(dp[i][j] + 1, dp[i - 1][j + 1]);
+      if (i + 1 < grid_size && grid[i + 1][j + 1] > grid[i][j])
+        dp[i + 1][j + 1] = fmax(dp[i][j] + 1, dp[i + 1][j + 1]);
+      if (grid[i][j + 1] > grid[i][j])
+        dp[i][j + 1] = fmax(dp[i][j] + 1, dp[i][j + 1]);
+    }
   for (int i = 0; i < grid_size; i++)
-    ans = fmax(ans, dfs(dp, r, c, grid, grid_size, grid_col_size, i, 0, 0, -1));
-  return ans;
+    for (int j = 0; j < grid_col_size[i]; j++)
+      max = fmax(max, dp[i][j]);
+  return max - 1;
 }
 
 int main() {
-  int g1[4][4] = {{2, 4, 3, 5}, {5, 4, 9, 3}, {3, 4, 2, 11}, {10, 9, 13, 15}};
-  int g2[3][3] = {{3, 2, 4}, {2, 1, 9}, {1, 1, 7}};
-  int gcs1[] = {}, gcs2[] = {};
-  printf("%d\n", maxMoves(4, 4, g1, 4, gcs1)); // expect: 3
-  printf("%d\n", maxMoves(3, 3, g2, 3, gcs2)); // expect: 0
+  int g1i[4][4] = {{2, 4, 3, 5}, {5, 4, 9, 3}, {3, 4, 2, 11}, {10, 9, 13, 15}};
+  int g2i[3][3] = {{3, 2, 4}, {2, 1, 9}, {1, 1, 7}};
+  struct two_d_arr g1, g2;
+  two_d_arr_init(&g1, 4, 4, g1i);
+  two_d_arr_init(&g2, 3, 3, g2i);
+  printf("%d\n", maxMoves(g1.arr, g1.row_size, g1.col_size)); // expect: 3
+  printf("%d\n", maxMoves(g2.arr, g2.row_size, g2.col_size)); // expect: 0
+  two_d_arr_free(&g1);
+  two_d_arr_free(&g2);
 }
