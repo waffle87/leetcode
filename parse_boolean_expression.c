@@ -16,38 +16,95 @@
  * evaluation of that expression
  */
 
-void substr(char *dst, char *src, int start, int len) {
-  strncpy(dst, src + start, len);
-  dst[len] = '\0';
+struct parse_node {
+  char op;
+  char val;
+  int num_ops;
+  int cap;
+  struct parse_node **operand;
+};
+
+struct parse_node *parse_node_create(void) {
+  struct parse_node *p = (struct parse_node *)malloc(sizeof(struct parse_node));
+  p->op = '\0';
+  p->num_ops = 0;
+  p->cap = 4;
+  p->operand =
+      (struct parse_node **)malloc(p->cap * sizeof(struct parse_node *));
+  p->val = '?';
+  return p;
+}
+
+void parse_node_free(struct parse_node *p) {
+  for (int i = 0; i < p->num_ops; i++)
+    parse_node_free(p->operand[i]);
+  free(p->operand);
+  free(p);
+}
+
+void parse_node_addop(struct parse_node *res, const struct parse_node *expr) {
+  res->operand[res->num_ops++] = (struct parse_node *)expr;
+  if (res->num_ops >= res->cap) {
+    res->cap <<= 1;
+    res->operand = (struct parse_node **)realloc(
+        res->operand, res->cap * sizeof(struct parse_node *));
+  }
+}
+
+int parse_expr(const char *expr, struct parse_node *res) {
+  char *orig_expr = (char *)expr;
+  switch (*expr) {
+  case '&':
+  case '|':
+  case '!':
+    res->op = *expr;
+    expr++;
+    do {
+      expr++;
+      struct parse_node *e = parse_node_create();
+      expr += parse_expr(expr, e);
+      parse_node_addop(res, e);
+    } while (*expr != ')');
+    expr++;
+    break;
+  case 't':
+  case 'f':
+    res->val = *expr++;
+    break;
+  }
+  return expr - orig_expr;
+}
+
+bool parse_node_eval(struct parse_node *p) {
+  if (p->val != '?')
+    return p->val == 't';
+  if (p->op == '!')
+    return p->val = !parse_node_eval(p->operand[0]);
+  if (p->op == '&') {
+    for (int i = 0; i < p->num_ops; i++) {
+      bool v = parse_node_eval(p->operand[i]);
+      if (!v)
+        return p->val = false;
+    }
+    return p->val = true;
+  }
+  if (p->op == '|') {
+    for (int i = 0; i < p->num_ops; i++) {
+      bool v = parse_node_eval(p->operand[i]);
+      if (v)
+        return p->val = true;
+    }
+    return p->val = false;
+  }
+  return false;
 }
 
 bool parseBoolExpr(char *expression) {
-  int n = strlen(expression);
-  if (n == 1)
-    return expression[0] == 't';
-  if (expression[0] == '!') {
-    char sub_expr[n - 2];
-    substr(sub_expr, expression, 2, n - 3);
-    return !parseBoolExpr(sub_expr);
-  }
-  bool is_and = expression[0] == '&', ans = is_and;
-  int i = 2, j = 2, cnt = 0;
-  for (; ans == is_and && i < n; ++i) {
-    if (expression[i] == '(')
-      ++cnt;
-    if (expression[i] == ')')
-      --cnt;
-    if (i == n - 1 || (expression[i] == ',' && !(cnt))) {
-      char sub_expr[i - j + 1];
-      substr(sub_expr, expression, j, i - 1);
-      if (is_and)
-        ans &= parseBoolExpr(sub_expr);
-      else
-        ans |= parseBoolExpr(sub_expr);
-      j = i + 1;
-    }
-  }
-  return ans;
+  struct parse_node *root = parse_node_create();
+  int len = parse_expr(expression, root);
+  bool eval = parse_node_eval(root);
+  parse_node_free(root);
+  return eval;
 }
 
 int main() {
