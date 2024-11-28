@@ -20,20 +20,36 @@ class Solution(object):
         :type queries: List[List[int]]
         :rtype: List[int]
         """
-        ans = []
-        mp = {i: [i + 1] for i in range(n - 1)}
-        for i in queries:
-            mp[i[0]].append(i[1])
-            dp = [float("inf")] * n
-            dp[n - 1] = 0
-            for j in range(n - 2, -1, -1):
-                for next in mp[j]:
-                    dp[j] = min(dp[j], dp[next] + 1)
-            ans.append(dp[0])
-        return ans
+        # ans = []
+        # mp = {i: [i + 1] for i in range(n - 1)}
+        # for i in queries:
+        #     mp[i[0]].append(i[1])
+        #     dp = [float("inf")] * n
+        #     dp[n - 1] = 0
+        #     for j in range(n - 2, -1, -1):
+        #         for next in mp[j]:
+        #             dp[j] = min(dp[j], dp[next] + 1)
+        #     ans.append(dp[0])
+        # return ans
+        sol = []
+        city_distances = {i: [-1] * i + list(range(n - i)) for i in range(n)}
+        for query in queries:
+            source, destination = query
+            city_distances[source][destination] = 1
+            for i in range(destination + 1, n):
+                city_distances[source][i] = min(
+                    city_distances[destination][i] + 1, city_distances[source][i]
+                )
+            for i in range(source - 1, -1, -1):
+                city_distances[i][destination] = min(
+                    city_distances[i][source] + 1, city_distances[i][destination]
+                )
+            sol.append(city_distances[0][-1])
+        return sol
 
 
 if __name__ == "__main__":
     obj = Solution()
     print(obj.shortestDistanceAfterQueries(n=5, queries=[[2, 4], [0, 2], [0, 4]]))
     print(obj.shortestDistanceAfterQueries(n=4, queries=[[0, 3], [0, 2]]))
+    print(obj.shortestDistanceAfterQueries(n=5, queries=[[1, 3], [0, 3]]))
