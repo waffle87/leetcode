@@ -27,9 +27,10 @@ public:
 
 int main() {
   Solution obj;
-  vector<int> s1 = {8, 13, 15}, s2 = {1, 5, 7, 9};
+  vector<int> s1 = {8, 13, 15}, s2 = {1, 5, 7, 9}, s3 = {0, 1, 2, 3, 4, 5, 6};
   cout << obj.addSpaces("LeetcodeHelpsMeLearn", s1)
        << endl; // expect: Leetcode Helps Me Learn
   cout << obj.addSpaces("icodeinpython", s2)
-       << endl; // expect: i code in py thon
+       << endl;                                 // expect: i code in py thon
+  cout << obj.addSpaces("spacing", s3) << endl; // expect:  s p a c i n g
 }
