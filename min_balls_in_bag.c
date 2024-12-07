@@ -1,6 +1,5 @@
 // 1760. Minimum Limit of Balls in a Bag
-#include <stdbool.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * given an integer array 'nums' where the i'th bag contains
@@ -12,19 +11,17 @@
  * after the operations. return the minimum possible penalty.
  */
 
-bool work(int *nums, int nums_size, int operation, int min) {
-  for (int i = 0; i < nums_size && operation >= 0; i++)
+bool work(int *nums, int numsSize, int operation, int min) {
+  for (int i = 0; i < numsSize && operation >= 0; i++)
     operation -= (nums[i] - 1) / min;
   return operation >= 0;
 }
 
-int minimumSize(int *nums, int nums_size, int max_operations) {
-  int i = 1, j = 1000000000, k;
-  bool can;
+int minimumSize(int *nums, int numsSize, int max_operations) {
+  int i = 1, j = INT_MAX, k;
   while (i < j) {
     k = (i + j) / 2;
-    can = work(nums, nums_size, max_operations, k);
-    if (can)
+    if (work(nums, numsSize, max_operations, k))
       j = k;
     else
       i = k + 1;
@@ -34,6 +31,6 @@ int minimumSize(int *nums, int nums_size, int max_operations) {
 
 int main() {
   int n1[] = {9}, n2[] = {2, 4, 8, 2};
-  printf("%d\n", minimumSize(n1, 1, 2)); // expect: 3
-  printf("%d\n", minimumSize(n2, 4, 4)); // expect: 2
+  printf("%d\n", minimumSize(n1, ARRAY_SIZE(n1), 2)); // expect: 3
+  printf("%d\n", minimumSize(n2, ARRAY_SIZE(n2), 4)); // expect: 2
 }
