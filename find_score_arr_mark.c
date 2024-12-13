@@ -1,7 +1,5 @@
 // 2593. Find Score of an Array After Marking All Elements
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given an array 'nums' consisting of positive integers. starting with 'score =
