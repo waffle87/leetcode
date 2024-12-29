@@ -1,30 +1,28 @@
 // 1639. Number of Ways to Form a Target String Given a Dictionary
 #include "leetcode.h"
 
-class Solution {
-  int dp[1001][1001] = {};
-  int dfs(vvd(int) cnt, string target, int i, int j) {
-    if (j >= target.size())
-      return 1;
-    if (!dp[i][j]) {
-      dp[i][j] = 1;
-      for (int k = i; k + (target.size() - j) <= cnt.size(); ++k)
-        if (cnt[k][target[j] - 'a'])
-          dp[i][j] =
-              ((long)cnt[k][target[j] - 'a'] * dfs(cnt, target, k + 1, j + 1) +
-               dp[i][j]) %
-              1000000007;
-    }
-    return dp[i][j] - 1;
-  }
+/*
+ * you are given a list of strings of the same length 'words' and a string
+ * 'target'. your task is to form 'target' using the given 'words'. notice that
+ * you can use multiple characters from the same string in 'words' provided the
+ * conditions above are met. return the number of ways to from 'target' from
+ * 'words'. since the answer may be too large, return it modulo 10^9+7
+ */
 
+class Solution {
 public:
   int numWays(vector<string> &words, string target) {
-    vvd(int) cnt(words[0].size(), vector<int>(26));
-    for (auto w : words)
-      for (auto i = 0; i < w.size(); ++i)
-        ++cnt[i][w[i] - 'a'];
-    return dfs(cnt, target, 0, 0);
+    int n = target.length(), mod = 1e9 + 7;
+    vector<long> ans(n + 1);
+    ans[0] = 1;
+    for (int i = 0; i < words[0].length(); ++i) {
+      vector<int> cnt(26);
+      for (auto &w : words)
+        cnt[w[i] - 'a']++;
+      for (int j = n - 1; j >= 0; --j)
+        ans[j + 1] += ans[j] * cnt[target[j] - 'a'] % mod;
+    }
+    return ans[n] % mod;
   }
 };
 
