@@ -16,19 +16,18 @@
 class Solution {
 public:
   int countGoodStrings(int low, int high, int zero, int one) {
+    int mod = 1e9 + 7, ans = 0;
     vector<int> dp(high + 1, 0);
     dp[0] = 1;
-    int mod = 1000000007;
-    for (int i = 1; i <= high; ++i) {
-      if (i >= zero)
-        dp[i] += dp[i - zero] % mod;
+    for (int i = 1; i <= high; i++) {
       if (i >= one)
-        dp[i] += dp[i - one] % mod;
+        dp[i] = (dp[i] + dp[i - one]) % mod;
+      if (i >= zero)
+        dp[i] = (dp[i] + dp[i - zero]) % mod;
+      if (i >= low)
+        ans = (ans + dp[i]) % mod;
     }
-    long long cnt = 0;
-    for (int i = low; i <= high; ++i)
-      cnt = (cnt + dp[i]) % mod;
-    return cnt;
+    return ans;
   }
 };
 

@@ -1,6 +1,5 @@
 // 2466. Count Ways To Build Good Strings
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given the integers 'zero, one, low, and high', we can construct a string by
@@ -15,9 +14,8 @@
  */
 
 int countGoodStrings(int low, int high, int zero, int one) {
-  int mod = 1e9 + 7;
-  int *dp = calloc(high + 1, sizeof(int));
-  long long ans = 0;
+  int mod = 1e9 + 7, ans = 0;
+  int *dp = (int *)calloc(high + 1, sizeof(int));
   dp[0] = 1;
   for (int i = 1; i <= high; i++) {
     if (i >= one)
@@ -27,6 +25,7 @@ int countGoodStrings(int low, int high, int zero, int one) {
     if (i >= low)
       ans = (ans + dp[i]) % mod;
   }
+  free(dp);
   return ans;
 }
 
