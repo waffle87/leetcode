@@ -1,7 +1,5 @@
 // 983. Minimum Cost For Tickets
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * you have planned some train traveling one year in advance. the days of the
@@ -13,42 +11,28 @@
  * day in the given list of days.
  */
 
-#define MIN(a, b, c)                                                           \
-  ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
-
-bool find_item(int *days, int days_size, int target) {
-  int left = 0, right = days_size - 1, mid;
-  while (left <= right) {
-    mid = (left + right) / 2;
-    if (days[mid] == target)
-      return true;
-    if (days[mid] > target)
-      right = mid - 1;
-    else
-      left = mid + 1;
-  }
-  return false;
-}
-
-int mincostTickets(int *days, int days_size, int *costs, int costs_size) {
-  int arr_size = days[days_size - 1] + 30;
-  int *dp = calloc(arr_size, sizeof(int));
-  for (int i = 30; i < arr_size; i++) {
-    if (find_item(days, days_size, i - 29) == false)
+int mincostTickets(int *days, int daysSize, int *costs, int costsSize) {
+  int dp[366] = {0}, idx = 0;
+  for (int i = 1; i <= 365; ++i)
+    if (idx < daysSize && i == days[idx]) {
+      int one = dp[i - 1] + costs[0];
+      int seven = dp[i - 7 > 0 ? i - 7 : 0] + costs[1];
+      int thirty = dp[i - 30 > 0 ? i - 30 : 0] + costs[2];
+      dp[i] = one < seven      ? one < thirty ? one : thirty
+              : seven < thirty ? seven
+                               : thirty;
+      ++idx;
+    } else
       dp[i] = dp[i - 1];
-    else
-      dp[i] = MIN(dp[i - 1] + costs[0], dp[i - 7] + costs[i],
-                  dp[i - 30] + costs[2]);
-  }
-  int ans = dp[arr_size - 1];
-  free(dp);
-  return ans;
+  return dp[365];
 }
 
 int main() {
   int d1[] = {1, 4, 6, 7, 8, 20},
       d2[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 30, 31};
-  int c1[] = {2, 7, 15};
-  printf("%d\n", mincostTickets(d1, 6, c1, 3));  // expect: 11
-  printf("%d\n", mincostTickets(d2, 12, c1, 3)); // expect: 11
+  int c1[] = {2, 7, 15}, c2[] = {2, 7, 15};
+  printf("%d\n",
+         mincostTickets(d1, ARRAY_SIZE(d1), c1, ARRAY_SIZE(c1))); // expect: 11
+  printf("%d\n",
+         mincostTickets(d2, ARRAY_SIZE(d2), c1, ARRAY_SIZE(c2))); // expect: 17
 }
