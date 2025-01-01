@@ -14,14 +14,14 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        max_score = prefix_zero = 0
-        suffix_one = s.count("1")
+        ans, zeros, ones = 0, 0, s.count("1")
         for i in range(len(s) - 1):
-            prefix_zero += s[i] == "0"
-            suffix_one -= s[i] == "1"
-            max_score = max(max_score, prefix_zero + suffix_one)
-
-        return max_score
+            if s[i] == "1":
+                ones -= 1
+            else:
+                zeros += 1
+            ans = max(ans, zeros + ones)
+        return ans
 
 
 if __name__ == "__main__":
