@@ -1,4 +1,13 @@
+// 304. Range Sum Query 2D - Immutable
 #include "leetcode.h"
+
+/*
+ * given a 2d matrix 'matrix', handle multiple queries of the following type:
+ * calculate the sum of the elements of 'matrix' inside the rectangle defined by
+ * its upper left corner '(row1, col1)' and lower right corer '(row2, col2)'.
+ * you must design an algorithm where 'sumRegion' works on 'O(1)' time
+ * complexity.
+ */
 
 class NumMatrix {
 public:
@@ -18,4 +27,14 @@ public:
   }
 };
 
-int main() {}
+int main() {
+  vvd(int) matrix = {{3, 0, 1, 4, 2},
+                     {5, 6, 3, 2, 1},
+                     {1, 2, 0, 1, 5},
+                     {4, 1, 0, 1, 7},
+                     {1, 0, 3, 0, 5}};
+  NumMatrix *obj = new NumMatrix(matrix);
+  printf("%d\n", obj->sumRegion(2, 1, 4, 3)); // expect: 8
+  printf("%d\n", obj->sumRegion(1, 1, 2, 2)); // expect: 11
+  printf("%d\n", obj->sumRegion(1, 2, 2, 4)); // expect: 12
+}
