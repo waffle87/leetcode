@@ -1,8 +1,5 @@
 // 93. Restore IP Addresses
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#define IN_RANGE(c, m, n) ((c) >= (m) && c <= (n))
+#include "leetcode.h"
 
 /*
  * a valid ip address consists of exactly 4 integers separated by single dots
@@ -12,63 +9,62 @@
  * reordered or removed. return addresses in any order.
  */
 
-int isValidPart(char *s, int l) {
-  switch (l) {
-  case 1:
-    return IN_RANGE(s[0], '0', '9');
-    break;
-  case 2:
-    return IN_RANGE(s[0], '1', '9') && IN_RANGE(s[1], '0', '9');
-    break;
-  case 3:
-    return (s[0] == '1' && IN_RANGE(s[1], '0', '9') &&
-            IN_RANGE(s[2], '0', '9')) ||
-           (s[0] == '2' &&
-            (IN_RANGE(s[1], '0', '4') && IN_RANGE(s[2], '0', '9') ||
-             s[1] == '5' && IN_RANGE(s[2], '0', '5')));
-    break;
-  default:
-    return 0;
-  }
-}
-
-char *getAddr(char *s, int l, int a, int b, int c) {
-  if (isValidPart(s, a) && isValidPart(s + a, b - a) &&
-      isValidPart(s + b, c - b) && isValidPart(s + c, l - c)) {
-    char *addr = malloc(sizeof(char) * (l + 4));
-    memcpy(addr, s, a);
-    memcpy(addr + a + 1, s + a, b - a);
-    memcpy(addr + b + 2, s + b, c - b);
-    memcpy(addr + c + 3, s + c, l - c);
-    addr[a] = addr[b + 1] = addr[c + 2] = '.';
-    addr[l + 3] = '\0';
-    return addr;
-  } else
-    return NULL;
-}
-
 char **restoreIpAddresses(char *s, int *returnSize) {
+  int n = strlen(s), capacity = 0;
+  char **ans = NULL;
   *returnSize = 0;
-  int l = strlen(s), a, b, c;
-  if (l < 4 || l > 12)
-    return NULL;
-  char **addrs = malloc(sizeof(char *) * ((l - 1) * (l - 2) * (l - 3) / 6)),
-       *addr;
-  for (a = 1; a < 4; a++) {
-    if (a > l - 3 || a < l - 9)
-      continue;
-    for (b = a + 1; b < a + 4; b++) {
-      if (b > l - 2 || b < l - 6)
-        continue;
-      for (c = b + 1; c < b + 4; c++) {
-        if (c > l - 1 || c < l - 3)
-          continue;
-        if (addr = getAddr(s, l, a, b, c))
-          addrs[(*returnSize)++] = addr;
+  for (int a = 1; a <= 3 && a + 2 < n && (1 == a || '0' != s[0]) &&
+                  (a < 3 || 0 > memcmp(s, "256", 3));
+       ++a) {
+    for (int b = a + 1;
+         b <= a + 3 && b + 1 < n && (a + 1 == b || '0' != s[a]) &&
+         (b < a + 3 || 0 > memcmp(s + a, "256", 3));
+         ++b) {
+      for (int c = b + 1; c <= b + 3 && c < n && (b + 1 == c || '0' != s[b]) &&
+                          (c < b + 3 || 0 > memcmp(s + b, "256", 3));
+           ++c) {
+        if (c + 3 >= n && (c + 1 == n || '0' != s[c]) &&
+            (n < c + 3 || 0 > memcmp(s + c, "256", 3))) {
+          if (*returnSize >= capacity) {
+            capacity = capacity ? capacity * 2 : 1;
+            ans = (char **)realloc(ans, capacity * sizeof(char *));
+          }
+          char *dest = (char *)malloc((n + 4) * sizeof(char));
+          memcpy(dest, s, a);
+          dest[a] = '.';
+          memcpy(dest + a + 1, s + a, b - a);
+          dest[b + 1] = '.';
+          memcpy(dest + b + 2, s + b, c - b);
+          dest[c + 2] = '.';
+          memcpy(dest + c + 3, s + c, n - c);
+          dest[n + 3] = '\0';
+          ans[(*returnSize)++] = dest;
+        }
       }
     }
   }
-  return addrs;
+  return ans;
 }
 
-int main() { char s1[] = {"25525511135"}, s2[] = {"0000"}, s3[] = {"101023"}; }
+int main() {
+  char *s1 = "25525511135", *s2 = "0000", *s3 = "101023";
+  int rs1, rs2, rs3;
+  char **ria1 = restoreIpAddresses(s1, &rs1);
+  char **ria2 = restoreIpAddresses(s2, &rs2);
+  char **ria3 = restoreIpAddresses(s3, &rs3);
+  for (int i = 0; i < rs1; i++)
+    printf("%s ", ria1[i]); // expect: ["255.255.11.135","255.255.111.35"]
+  printf("\n");
+  for (int i = 0; i < rs2; i++)
+    printf("%s ", ria2[i]); // expect: ["0.0.0.0"]
+  printf("\n");
+  for (int i = 0; i < rs3; i++)
+    printf(
+        "%s ",
+        ria3[i]); // expect:
+                  // ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+  printf("\n");
+  free(ria1);
+  free(ria2);
+  free(ria3);
+}
