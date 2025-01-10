@@ -1,59 +1,75 @@
 // 491. Non-decreasing Subsequences
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given: integer array 'nums'
  * return: all possible different non-decreasing subsequences
  * of given array with at least two elements. return value can be in any order
- *
- * returns an array of arrays of size '*returnSize'
- * sizes of the arrays are returned as '*returnColumnSizes' array
- * note: both returned array and '*columnSizes' array must be malloc'd
- * (assume caller free()'s)
  */
 
 int **ans, ansTop, *path, pathTop, *len;
 
-int findUsed(int *uset, int usetSize, int key) {
+bool find_used(int *uset, int usetSize, int key) {
   for (int i = 0; i < usetSize; i++)
     if (uset[i] == key)
-      return 1;
-  return 0;
+      return true;
+  return false;
 }
 
-void backtracking(int *nums, int numsSize, int startIdx) {
+void backtrack(int *nums, int numsSize, int startIdx) {
   if (pathTop >= 2) {
-    int *tmp = malloc(sizeof(int) * pathTop);
+    int *tmp = (int *)malloc(pathTop * sizeof(int));
     for (int i = 0; i < pathTop; i++)
       tmp[i] = path[i];
     len[ansTop] = pathTop;
     ans[ansTop++] = tmp;
   }
-  int *uset = malloc(sizeof(int) * numsSize), usetTop = 0;
+  int *uset = (int *)malloc(numsSize * sizeof(int)), usetTop = 0;
   for (int i = startIdx; i < numsSize; i++) {
     if (pathTop > 0 && nums[i] < path[pathTop - 1] ||
-        findUsed(uset, usetTop, nums[i]))
+        find_used(uset, usetTop, nums[i]))
       continue;
     uset[usetTop++] = nums[i];
     path[pathTop++] = nums[i];
-    backtracking(nums, numsSize, i + 1);
+    backtrack(nums, numsSize, i + 1);
     pathTop--;
   }
 }
 
 int **findSubsequences(int *nums, int numsSize, int *returnSize,
                        int **returnColumnSizes) {
-  ans = malloc(sizeof(int *) * 40000);
-  path = malloc(sizeof(int) * numsSize);
-  len = malloc(sizeof(int) * 40000);
-  pathTop = ansTop = 0;
-  backtracking(nums, numsSize, 0);
+  ans = (int **)malloc(10000 * sizeof(int *));
+  path = (int *)malloc(numsSize * sizeof(int));
+  len = (int *)malloc(10000 * sizeof(int));
+  pathTop = 0;
+  ansTop = 0;
+  backtrack(nums, numsSize, 0);
   *returnSize = ansTop;
-  *returnColumnSizes = malloc(sizeof(int) * ansTop);
+  *returnColumnSizes = (int *)malloc(ansTop * sizeof(int));
   for (int i = 0; i < ansTop; i++)
     (*returnColumnSizes)[i] = len[i];
   return ans;
 }
 
-int main() { int nums1[] = {4, 6, 7, 7}, nums2[] = {4, 4, 3, 2, 1}; }
+int main() {
+  int n1[] = {4, 6, 7, 7}, n2[] = {4, 4, 3, 2, 1};
+  int rs1, rs2, *rcs1, *rcs2;
+  int **fs1 = findSubsequences(n1, ARRAY_SIZE(n1), &rs1, &rcs1);
+  int **fs2 = findSubsequences(n2, ARRAY_SIZE(n2), &rs2, &rcs2);
+  for (int i = 0; i < rs1; i++) {
+    for (int j = 0; j < *rcs1; j++)
+      printf("%d ", fs1[i][j]);
+    printf("\n");
+  }
+  printf("\n");
+  for (int i = 0; i < rs2; i++) {
+    for (int j = 0; j < *rcs2; j++)
+      printf("%d ", fs2[i][j]);
+    printf("\n");
+  }
+  printf("\n");
+  for (int i = 0; i < rs1; i++)
+    free(fs1[i]);
+  for (int i = 0; i < rs2; i++)
+    free(fs2[i]);
+}

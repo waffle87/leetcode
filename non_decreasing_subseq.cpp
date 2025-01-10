@@ -10,19 +10,18 @@
 
 class Solution {
 public:
-  vvd(int) findSubsequences(vector<int> &nums) {
+  vector<vector<int>> findSubsequences(vector<int> &nums) {
     set<vector<int>> seqs = {vector<int>(0)};
     for (int i = 0; i < nums.size(); i++) {
-      vvd(int) built(seqs.size());
+      vector<vector<int>> built(seqs.size());
       copy(seqs.begin(), seqs.end(), built.begin());
-      for (auto s : built) {
+      for (auto s : built)
         if (s.empty() || nums[i] >= s.back()) {
           s.push_back(nums[i]);
           seqs.insert(s);
         }
-      }
     }
-    vvd(int) ans;
+    vector<vector<int>> ans;
     for (auto s : seqs)
       if (s.size() > 1)
         ans.push_back(s);
@@ -32,12 +31,16 @@ public:
 
 int main() {
   Solution obj;
-  vector<int> nums1 = {4, 6, 7, 7}, nums2 = {4, 4, 3, 2, 1};
-  for (auto i : obj.findSubsequences(nums1))
+  vector<int> n1 = {4, 6, 7, 7}, n2 = {4, 4, 3, 2, 1};
+  for (auto i : obj.findSubsequences(n1)) {
     for (auto j : i)
-      cout << j << ' ';
-  cout << endl;
-  for (auto i : obj.findSubsequences(nums2))
+      printf("%d ", j);
+    printf("\n");
+  }
+  printf("\n");
+  for (auto i : obj.findSubsequences(n2)) {
     for (auto j : i)
-      cout << j << ' ';
+      printf("%d ", j);
+    printf("\n");
+  }
 }
