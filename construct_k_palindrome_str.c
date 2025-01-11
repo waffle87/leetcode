@@ -7,20 +7,14 @@
  */
 
 bool canConstruct(char *s, int k) {
-  int n = strlen(s);
-  if (n < k)
-    return 0;
-  int *c = calloc(26, sizeof(int));
-  for (int i = 0; i < n; i++)
-    c[s[i] - 'a']++;
-  int odd = 0;
+  int cnt[26] = {0}, odds = 0;
+  if (k > strlen(s))
+    return false;
+  for (int i = 0; s[i]; i++)
+    cnt[s[i] - 'a']++;
   for (int i = 0; i < 26; i++)
-    if (c[i] % 2 == 1)
-      odd++;
-  free(c);
-  if (odd > k)
-    return 0;
-  return 1;
+    odds += (cnt[i] % 2);
+  return k >= odds;
 }
 
 int main() {
