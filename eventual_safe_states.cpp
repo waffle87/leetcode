@@ -13,33 +13,30 @@
  */
 
 class Solution {
-  unordered_set<int> cycle_nodes, safe_nodes;
-  bool dfs(const vvd(int) & graph, int i, unordered_set<int> visited) {
-    if (safe_nodes.find(i) != safe_nodes.end())
-      return true;
-    if (cycle_nodes.find(i) != cycle_nodes.end())
-      return false;
-    if (visited.find(i) != visited.end()) {
-      cycle_nodes.insert(i);
-      return false;
-    }
-    visited.insert(i);
-    for (int node : graph[i])
-      if (!dfs(graph, node, visited)) {
-        cycle_nodes.insert(i);
-        return false;
-      }
-    safe_nodes.insert(i);
-    return true;
-  }
-
 public:
-  vector<int> eventualSafeNodes(vvd(int) & graph) {
+  vector<int> eventualSafeNodes(vector<vector<int>> &graph) {
+    int n = graph.size();
+    vector<vector<int>> g(n);
+    vector<int> dp(n, 0);
+    for (int i = 0; i < n; i++)
+      for (int j = 0; j < graph[i].size(); j++) {
+        g[graph[i][j]].push_back(i);
+        dp[i]++;
+      }
+    queue<int> q;
+    for (int i = 0; i < n; i++)
+      if (!dp[i])
+        q.push(i);
     vector<int> ans;
-    unordered_set<int> visited;
-    for (int i = 0; i < graph.size(); i++)
-      if (dfs(graph, i, visited))
-        ans.push_back(i);
+    while (!q.empty()) {
+      int u = q.front();
+      q.pop();
+      ans.push_back(u);
+      for (int v : g[u])
+        if (!--dp[v])
+          q.push(v);
+    }
+    sort(ans.begin(), ans.end());
     return ans;
   }
 };
