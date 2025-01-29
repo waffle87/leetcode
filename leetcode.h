@@ -1,3 +1,4 @@
+#pragma once
 #include "lib/uthash/src/uthash.h"
 #include <assert.h>
 #include <ctype.h>
@@ -9,13 +10,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#pragma once
-
 #ifdef __cplusplus
 #include <bits/stdc++.h>
 using namespace std;
 
-#define vvd(data) vector<vector<data>>
+typedef vector<vector<int>> vvd;
 
 struct ListNode {
   int val;
@@ -80,6 +79,7 @@ void listnode_print(struct ListNode *head);
 void listnode_free(struct ListNode *head);
 
 struct TreeNode *treenode_create(int val);
+struct TreeNode *treenode_build(int *vals, int size);
 void treenode_print(struct TreeNode *root);
 void treenode_free(struct TreeNode *root);
 

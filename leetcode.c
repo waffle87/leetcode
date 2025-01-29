@@ -53,6 +53,31 @@ struct TreeNode *treenode_create(int val) {
   return new;
 }
 
+struct TreeNode *treenode_build(int *vals, int size) {
+  if (!size || vals[0] == -1)
+    return NULL;
+  struct TreeNode *root = treenode_create(vals[0]);
+  struct TreeNode **queue =
+      (struct TreeNode **)malloc(size * sizeof(struct TreeNode *));
+  queue[0] = root;
+  int front = 0, rear = 1;
+  for (int i = 1; i < size; i++) {
+    struct TreeNode *curr = queue[front];
+    if (vals[i] != -1) {
+      curr->left = treenode_create(vals[i]);
+      queue[rear++] = curr->left;
+    }
+    if (i + 1 < size && vals[i + 1] != -1) {
+      curr->right = treenode_create(vals[i + 1]);
+      queue[rear++] = curr->right;
+    }
+    i++;
+    front++;
+  }
+  free(queue);
+  return root;
+}
+
 void treenode_print(struct TreeNode *root) {
   if (!root)
     return;
