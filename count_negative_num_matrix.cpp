@@ -6,7 +6,7 @@
 
 class Solution {
 public:
-  int countNegatives(vvd(int) & grid) {
+  int countNegatives(vvd & grid) {
     int ans = 0;
     for (vector<int> row : grid)
       for (int i : row)
@@ -29,9 +29,9 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int)
+  vvd
       g1 = {{4, 3, 2, -1}, {3, 2, 1, -1}, {1, 1, -1, -2}, {-1, -1, -2, -3}};
-  vvd(int) g2 = {{3, 2}, {1, 0}};
+  vvd g2 = {{3, 2}, {1, 0}};
   printf("%d\n", obj.countNegatives(g1)); // expect: 8
   printf("%d\n", obj.countNegatives(g2)); // expect: 0
 }

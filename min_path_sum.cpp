@@ -6,9 +6,9 @@
 
 class Solution {
 public:
-  int minPathSum(vvd(int) & grid) {
+  int minPathSum(vvd & grid) {
     int m = grid.size(), n = grid[0].size();
-    vvd(int) sum(m, vector<int>(n, grid[0][0]));
+    vvd sum(m, vector<int>(n, grid[0][0]));
     for (int i = 1; i < m; i++)
       sum[i][0] = sum[i - 1][0] + grid[i][0];
     for (int j = 1; j < n; j++)
@@ -22,8 +22,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
-  vvd(int) g2 = {{1, 2, 3}, {4, 5, 6}};
+  vvd g1 = {{1, 3, 1}, {1, 5, 1}, {4, 2, 1}};
+  vvd g2 = {{1, 2, 3}, {4, 5, 6}};
   printf("%d\n", obj.minPathSum(g1)); // expect: 7
   printf("%d\n", obj.minPathSum(g2)); // expect: 12
 }

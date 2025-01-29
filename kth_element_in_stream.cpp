@@ -8,7 +8,7 @@ private:
 public:
   KthLargest(int k, vector<int> &nums) {
     this->k = k;
-    auto endPointer = nums.begin() + min(k, (int)nums.size());
+    auto endPointer = nums.begin() + min(k, nums.size());
     pq = priority_queue<int, vector<int>, greater<int>>(nums.begin(),
                                                         endPointer);
     for (int i = k; i < nums.size(); ++i) {

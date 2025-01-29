@@ -7,7 +7,7 @@ public:
       return 0;
     if (prices.size() == 0 || prices.size() == 1)
       return 0;
-    vvd(int) dp(k + 1, vector<int>(prices.size()));
+    vvd dp(k + 1, vector<int>(prices.size()));
     for (int i = 0; i < dp.size(); i++) {
       for (int j = 0; j < dp[i].size(); j++) {
         if (i == 0 || j == 0)

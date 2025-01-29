@@ -3,8 +3,8 @@
 
 class Solution {
 public:
-  vector<int> shortestAlternatingPaths(int n, vvd(int) & redEdges,
-                                       vvd(int) & blueEdges) {
+  vector<int> shortestAlternatingPaths(int n, vvd & redEdges,
+                                       vvd & blueEdges) {
     vector<int> ans(n, -1), v1(n, 0), v2(n, 0);
     vector<vector<pair<int, int>>> vvp(n);
     queue<pair<int, int>> qp;
@@ -46,8 +46,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) re1 = {{0, 1}, {1, 2}}, be1 = {};
-  vvd(int) re2 = {{0, 1}}, be2 = {{2, 1}};
+  vvd re1 = {{0, 1}, {1, 2}}, be1 = {};
+  vvd re2 = {{0, 1}}, be2 = {{2, 1}};
   for (auto i : obj.shortestAlternatingPaths(3, re1, be1))
     cout << i << ' '; // expect: 0 1 -1
   cout << endl;

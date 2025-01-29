@@ -18,7 +18,7 @@
 
 class Solution {
 public:
-  bool checkValidGrid(vvd(int) & grid) {
+  bool checkValidGrid(vvd & grid) {
     int dir[8][2] = {{1, -2}, {2, -1}, {2, 1},   {1, 2},
                      {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}};
     int cnt = 0, max_cnt = grid.size() * grid.size() - 1;
@@ -48,12 +48,12 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{0, 11, 16, 5, 20},
+  vvd g1 = {{0, 11, 16, 5, 20},
                  {17, 4, 19, 10, 15},
                  {12, 1, 8, 21, 6},
                  {3, 18, 23, 14, 9},
                  {24, 13, 2, 7, 22}};
-  vvd(int) g2 = {{0, 3, 6}, {5, 8, 1}, {2, 7, 4}};
+  vvd g2 = {{0, 3, 6}, {5, 8, 1}, {2, 7, 4}};
   printf("%d\n", obj.checkValidGrid(g1)); // expect: 1
   printf("%d\n", obj.checkValidGrid(g2)); // expect: 0
 }

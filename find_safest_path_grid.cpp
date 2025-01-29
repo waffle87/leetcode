@@ -81,7 +81,7 @@ public:
 };
 
 int main() {
-  vvd(int) g1 = {{1, 0, 0}, {0, 0, 0}, {0, 0, 1}},
+  vvd g1 = {{1, 0, 0}, {0, 0, 0}, {0, 0, 1}},
            g2 = {{0, 0, 1}, {0, 0, 0}, {0, 0, 0}};
   Solution obj;
   printf("%d\n", obj.maximumSafenessFactor(g1)); // expect: 0

@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  int largestOverlap(vvd(int) & img1, vvd(int) & img2) {
+  int largestOverlap(vvd & img1, vvd & img2) {
     vector<int> la, lb;
     int n = img1.size();
     unordered_map<int, int> count;

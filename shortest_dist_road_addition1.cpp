@@ -36,7 +36,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) q1 = {{2, 4}, {0, 2}, {0, 4}}, q2 = {{0, 3}, {0, 3}};
+  vvd q1 = {{2, 4}, {0, 2}, {0, 4}}, q2 = {{0, 3}, {0, 3}};
   vector<int> sdaq1 = obj.shortestDistanceAfterQueries(5, q1);
   vector<int> sdaq2 = obj.shortestDistanceAfterQueries(4, q2);
   for (auto i : sdaq1)

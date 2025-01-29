@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  int numberOfWeakCharacters(vvd(int) & properties) {
+  int numberOfWeakCharacters(vvd & properties) {
     sort(properties.begin(), properties.end(), compare);
     int currMax = INT_MIN, ans = 0;
     for (auto p : properties) {

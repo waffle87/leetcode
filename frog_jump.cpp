@@ -14,7 +14,7 @@
 
 class Solution {
   bool process(vector<int> &stones, map<int, int> &mp, int i, int k,
-               vvd(int) & dp) {
+               vvd & dp) {
     if (i == stones.size() - 1)
       return dp[i][k] = 1;
     if (dp[i][k] != -1)
@@ -34,7 +34,7 @@ public:
     map<int, int> mp;
     for (int i = 0; i < n; i++)
       mp[stones[i]] = i;
-    vvd(int) dp(n + 1, vector<int>(n + 1, -1));
+    vvd dp(n + 1, vector<int>(n + 1, -1));
     return process(stones, mp, 0, 0, dp);
   }
 };

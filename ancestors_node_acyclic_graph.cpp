@@ -35,11 +35,11 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{0, 3}, {0, 4}, {1, 3}, {2, 4}, {2, 7},
+  vvd e1 = {{0, 3}, {0, 4}, {1, 3}, {2, 4}, {2, 7},
                  {3, 5}, {3, 6}, {3, 7}, {4, 6}};
-  vvd(int) e2 = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 2},
+  vvd e2 = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 2},
                  {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 4}};
-  vvd(int) ga1 = obj.getAncestors(8, e1), ga2 = obj.getAncestors(5, e2);
+  vvd ga1 = obj.getAncestors(8, e1), ga2 = obj.getAncestors(5, e2);
   for (int i = 0; i < ga1.size(); i++) {
     for (int j = 0; j < ga1[0].size(); j++)
       printf("%d ",

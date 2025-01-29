@@ -46,9 +46,9 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{0, 1}, {1, 0}};
-  vvd(int) g2 = {{0, 0, 0}, {1, 1, 0}, {1, 1, 0}};
-  vvd(int) g3 = {{1, 0, 0}, {1, 1, 0}, {1, 1, 0}};
+  vvd g1 = {{0, 1}, {1, 0}};
+  vvd g2 = {{0, 0, 0}, {1, 1, 0}, {1, 1, 0}};
+  vvd g3 = {{1, 0, 0}, {1, 1, 0}, {1, 1, 0}};
   printf("%d\n", obj.shortestPathBinaryMatrix(g1)); // expect: 2
   printf("%d\n", obj.shortestPathBinaryMatrix(g2)); // expect: 4
   printf("%d\n", obj.shortestPathBinaryMatrix(g3)); // expect: -1

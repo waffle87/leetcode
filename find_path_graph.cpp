@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  bool validPath(int n, vvd(int) & edges, int source, int destination) {
+  bool validPath(int n, vvd & edges, int source, int destination) {
     vector<int> ds(n, -1);
     for (auto &e : edges) {
       int p1 = find(ds, e[0]), p2 = find(ds, e[1]);
@@ -20,7 +20,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) edges = {{0, 1}, {1, 2}, {2, 0}};
+  vvd edges = {{0, 1}, {1, 2}, {2, 0}};
   if (obj.validPath(3, edges, 0, 2))
     cout << "true";
   else

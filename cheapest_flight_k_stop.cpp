@@ -12,7 +12,7 @@
 typedef tuple<int, int, int> tp;
 class Solution {
 public:
-  int findCheapestPrice(int n, vvd(int) & flights, int src, int dst, int k) {
+  int findCheapestPrice(int n, vvd & flights, int src, int dst, int k) {
     vector<vector<pair<int, int>>> vvp(n);
     for (const auto &f : flights)
       vvp[f[0]].emplace_back(f[1], f[2]);
@@ -36,10 +36,10 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) flights1 = {
+  vvd flights1 = {
       {0, 1, 100}, {1, 2, 100}, {2, 0, 100}, {1, 3, 600}, {2, 3, 200}};
-  vvd(int) flights2 = {{0, 1, 100}, {1, 2, 100}, {0, 2, 500}};
-  vvd(int) flights3 = {{0, 1, 100}, {1, 2, 100}, {0, 2, 500}};
+  vvd flights2 = {{0, 1, 100}, {1, 2, 100}, {0, 2, 500}};
+  vvd flights3 = {{0, 1, 100}, {1, 2, 100}, {0, 2, 500}};
   cout << obj.findCheapestPrice(4, flights1, 0, 3, 1) << endl; // expect: 700
   cout << obj.findCheapestPrice(3, flights2, 0, 2, 1) << endl; // expect: 200
   cout << obj.findCheapestPrice(3, flights3, 0, 2, 0) << endl; // expect: 500

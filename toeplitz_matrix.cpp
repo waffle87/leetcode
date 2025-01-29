@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  bool isToeplitzMatrix(vvd(int) & matrix) {
+  bool isToeplitzMatrix(vvd & matrix) {
     int m = matrix.size(), n = matrix[0].size();
     for (int i = 1; i < m; i++)
       for (int j = 1; j < n; j++)
@@ -15,9 +15,9 @@ public:
 int main() {
   Solution obj;
   // true - all diagonals have the same elements
-  vvd(int) matrix = {{1, 2, 3, 4}, {5, 1, 2, 3}, {9, 5, 1, 2}};
+  vvd matrix = {{1, 2, 3, 4}, {5, 1, 2, 3}, {9, 5, 1, 2}};
   // false - diagonals do not share same elements
-  vvd(int) matrix2 = {{1, 2}, {2, 2}};
+  vvd matrix2 = {{1, 2}, {2, 2}};
 
   if (obj.isToeplitzMatrix(matrix))
     cout << "true";

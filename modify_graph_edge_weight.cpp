@@ -70,10 +70,10 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{4, 1, -1}, {2, 0, -1}, {0, 3, -1}, {4, 3, -1}},
+  vvd e1 = {{4, 1, -1}, {2, 0, -1}, {0, 3, -1}, {4, 3, -1}},
            e2 = {{0, 1, -1}, {0, 2, 5}},
            e3 = {{1, 0, 4}, {1, 2, 3}, {2, 3, 5}, {0, 3, -1}};
-  vvd(int) mge1 = obj.modifiedGraphEdges(5, e1, 0, 1, 5),
+  vvd mge1 = obj.modifiedGraphEdges(5, e1, 0, 1, 5),
            mge2 = obj.modifiedGraphEdges(3, e2, 0, 2, 6),
            mge3 = obj.modifiedGraphEdges(4, e3, 0, 2, 6);
   for (int i = 0; i < mge1.size(); i++)

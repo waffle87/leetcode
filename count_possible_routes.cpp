@@ -19,7 +19,7 @@ class Solution {
 public:
   int countRoutes(vector<int> &locations, int start, int finish, int fuel) {
     int n = locations.size(), mod = 1e9 + 7, ans = 0;
-    vvd(int) dp(n, vector<int>(fuel + 1));
+    vvd dp(n, vector<int>(fuel + 1));
     dp[start][fuel] = 1;
     for (int f = fuel; f >= 0; f--)
       for (int i = 0; i < n; i++)

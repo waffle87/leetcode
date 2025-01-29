@@ -2,14 +2,14 @@
 
 class Solution {
 public:
-  vvd(int) palindromePairs(vector<string> &words) {
+  vvd palindromePairs(vector<string> &words) {
     unordered_map<string, int> um;
     for (int i = 0; i < words.size(); i++) {
       string x = words[i];
       reverse(x.begin(), x.end());
       um[x] = i;
     }
-    vvd(int) ans;
+    vvd ans;
     for (int j = 0; j < words.size(); j++) {
       string str = words[j];
       for (int i = 0; i <= str.size(); i++) {

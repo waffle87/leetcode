@@ -6,11 +6,11 @@
 
 class Solution {
 public:
-  vvd(int) zigzagLevelOrder(TreeNode *root) {
+  vvd zigzagLevelOrder(TreeNode *root) {
     if (!root)
       return {};
     queue<TreeNode *> q;
-    vvd(int) ans;
+    vvd ans;
     q.push(root);
     int level = 0;
     while (!q.empty()) {

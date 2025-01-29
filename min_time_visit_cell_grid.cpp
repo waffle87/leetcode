@@ -45,7 +45,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{0, 1, 3, 2}, {5, 1, 2, 5}, {4, 3, 8, 6}},
+  vvd g1 = {{0, 1, 3, 2}, {5, 1, 2, 5}, {4, 3, 8, 6}},
            g2 = {{0, 2, 4}, {3, 2, 1}, {1, 0, 4}};
   printf("%d\n", obj.minimumTime(g1)); // expect: 7
   printf("%d\n", obj.minimumTime(g2)); // expect: -1

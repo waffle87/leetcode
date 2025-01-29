@@ -11,12 +11,12 @@ class Solution {
 public:
   int minDistance(string word1, string word2) {
     int m = word1.size(), n = word2.size();
-    vvd(int) memo(m + 1, vector<int>(n + 1, -1));
+    vvd memo(m + 1, vector<int>(n + 1, -1));
     return editDistance(word1, word2, m, n, memo);
   }
 
 private:
-  int editDistance(string word1, string word2, int m, int n, vvd(int) memo) {
+  int editDistance(string word1, string word2, int m, int n, vvd memo) {
     if (m == 0)
       return memo[m][n] = n;
     if (n == 0)

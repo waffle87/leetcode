@@ -11,7 +11,7 @@
 
 class Solution {
 public:
-  vector<int> findSmallestSetOfVertices(int n, vvd(int) & edges) {
+  vector<int> findSmallestSetOfVertices(int n, vvd & edges) {
     vector<int> ans, seen(n);
     for (auto e : edges)
       seen[e[1]] = 1;
@@ -24,8 +24,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{0, 1}, {0, 2}, {2, 5}, {3, 4}, {4, 2}};
-  vvd(int) e2 = {{0, 1}, {2, 1}, {3, 1}, {1, 4}, {2, 4}};
+  vvd e1 = {{0, 1}, {0, 2}, {2, 5}, {3, 4}, {4, 2}};
+  vvd e2 = {{0, 1}, {2, 1}, {3, 1}, {1, 4}, {2, 4}};
   for (auto i : obj.findSmallestSetOfVertices(6, e1))
     printf("%d ", i); // expect: 0 3
   printf("\n");

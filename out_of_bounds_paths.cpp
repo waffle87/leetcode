@@ -20,7 +20,7 @@ public:
       curr.swap(last);
       for (int i = 1; i <= m; i++)
         for (int j = 1; j <= n; j++)
-          curr[i][j] = (int)(((long)last[i - 1][j] + last[i + 1][j] +
+          curr[i][j] = (((long)last[i - 1][j] + last[i + 1][j] +
                               last[i][j - 1] + last[i][j + 1]) %
                              1000000007L);
       ans = (ans + curr[startRow + 1][startColumn + 1]) % 1000000007L;

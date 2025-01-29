@@ -13,7 +13,7 @@
 
 class Solution {
   const int mod = 1e9 + 7;
-  long long solve(int n, int goal, int k, vvd(int) & dp) {
+  long long solve(int n, int goal, int k, vvd & dp) {
     if (!n && !goal)
       return 1;
     if (!n || !goal)
@@ -27,7 +27,7 @@ class Solution {
 
 public:
   int numMusicPlaylists(int n, int goal, int k) {
-    vvd(int) dp(n + 1, vector<int>(goal + 1, -1));
+    vvd dp(n + 1, vector<int>(goal + 1, -1));
     return solve(n, goal, k, dp);
   }
 };

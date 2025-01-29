@@ -12,7 +12,7 @@
 
 class Solution {
 public:
-  bool searchMatrix(vvd(int) & matrix, int target) {
+  bool searchMatrix(vvd & matrix, int target) {
     int rows = matrix.size(), cols = matrix[0].size(), row = 0, col = cols - 1;
     while (row < rows && col > -1) {
       int curr = matrix[row][col];
@@ -29,7 +29,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) matrix = {{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
+  vvd matrix = {{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}};
   printf("%d\n", obj.searchMatrix(matrix, 3));  // expect: 1
   printf("%d\n", obj.searchMatrix(matrix, 13)); // expect: 0
 }

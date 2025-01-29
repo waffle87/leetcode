@@ -20,7 +20,7 @@ public:
       um[num] = ways;
       ans = (ans + ways) % 1000000007;
     }
-    return (int)ans;
+    return ans;
   }
 };
 

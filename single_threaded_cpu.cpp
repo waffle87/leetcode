@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  vector<int> getOrder(vvd(int) & tasks) {
+  vector<int> getOrder(vvd & tasks) {
     vector<int> ans, idx(tasks.size());
     priority_queue<pair<int, int>> pqp;
     iota(begin(idx), end(idx), 0);
@@ -25,7 +25,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) tasks = {{1, 2}, {2, 4}, {3, 2}, {4, 1}};
+  vvd tasks = {{1, 2}, {2, 4}, {3, 2}, {4, 1}};
   for (auto i : obj.getOrder(tasks))
     cout << i << ' '; // expect 0,2,3,1
 }

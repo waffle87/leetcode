@@ -20,7 +20,7 @@ public:
       cols[stones[i][1]].push_back(i);
     }
     unordered_set<int> seen;
-    function<int(int)> dfs;
+    function<int> dfs;
     dfs = [&](int i) -> int {
       if (seen.count(i))
         return 0;
@@ -40,7 +40,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) s1 = {{0, 0}, {0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 2}},
+  vvd s1 = {{0, 0}, {0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 2}},
            s2 = {{0, 1}, {0, 2}, {1, 1}, {2, 0}, {2, 2}};
   printf("%d\n", obj.removeStones(s1)); // expect: 5
   printf("%d\n", obj.removeStones(s2)); // expect: 3

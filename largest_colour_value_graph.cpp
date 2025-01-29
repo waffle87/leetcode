@@ -15,7 +15,7 @@
  */
 
 class Solution {
-  bool dfs(vvd(int) & al, vector<int> &gb, int i) {
+  bool dfs(vvd & al, vector<int> &gb, int i) {
     if (!gb[i]) {
       gb[i] = 1;
       for (auto j : al[i])
@@ -27,14 +27,14 @@ class Solution {
   }
 
 public:
-  int largestPathValue(string colours, vvd(int) & edges) {
+  int largestPathValue(string colours, vvd & edges) {
     int cnt[128] = {}, colours_size = colours_size;
     for (auto c : colours)
       ++cnt[c];
     char s[26] = {};
     iota(begin(s), end(s), 'a');
     sort(begin(s), end(s), [&](char a, char b) { return cnt[a] > cnt[b]; });
-    vvd(int) al(colours_size);
+    vvd al(colours_size);
     vector<bool> target(colours_size);
     for (auto &e : edges) {
       al[e[0]].push_back(e[1]);
@@ -80,8 +80,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{0, 1}, {0, 2}, {2, 3}, {3, 4}};
-  vvd(int) e2 = {{0, 0}};
+  vvd e1 = {{0, 1}, {0, 2}, {2, 3}, {3, 4}};
+  vvd e2 = {{0, 0}};
   printf("%d\n", obj.largestPathValue("abaca", e1)); // expect: 3
   printf("%d\n", obj.largestPathValue("a", e2));     // expect: -1
 }

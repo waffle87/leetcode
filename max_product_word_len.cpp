@@ -10,7 +10,7 @@ public:
         chars[i][ch - 'a'] = 1;
       for (int j = 0; j < i; j++)
         if (!helper(chars[i], chars[j]))
-          ans = max(ans, (int)words[i].size() * (int)words[j].size());
+          ans = max(ans, words[i].size() * words[j].size());
     }
     return ans;
   }

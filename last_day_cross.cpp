@@ -18,8 +18,8 @@
 
 class Solution {
 public:
-  int latestDayToCross(int row, int col, vvd(int) & cells) {
-    vvd(int) grid(row, vector<int>(col, 1));
+  int latestDayToCross(int row, int col, vvd & cells) {
+    vvd grid(row, vector<int>(col, 1));
     p = vector<int>(row * col + 3, -1);
     int start_g = row * col + 1, end_g = row * col + 2;
     for (int i = 0; i < col; i++) {
@@ -55,7 +55,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) c1 = {{1, 1}, {2, 1}, {1, 2}, {2, 2}},
+  vvd c1 = {{1, 1}, {2, 1}, {1, 2}, {2, 2}},
            c2 = {{1, 1}, {1, 2}, {2, 1}, {2, 2}};
   printf("%d\n", obj.latestDayToCross(2, 2, c1)); // expect: 2
   printf("%d\n", obj.latestDayToCross(2, 2, c2)); // expect: 1

@@ -10,13 +10,13 @@
 
 class Solution {
   int dx[4] = {0, 0, -1, 1}, dy[4] = {1, -1, 0, 0};
-  bool is_valid(vvd(int) & grid, int i, int j, int r, int c) {
+  bool is_valid(vvd & grid, int i, int j, int r, int c) {
     if (i >= 0 && i < r && j >= 0 && j < c && grid[i][j] == 0)
       return true;
     else
       return false;
   }
-  void dfs(vvd(int) & grid, int i, int j, int r, int c) {
+  void dfs(vvd & grid, int i, int j, int r, int c) {
     grid[i][j] = 1;
     for (int x = 0; x < 4; ++x) {
       int new_x = i + dx[x];
@@ -27,7 +27,7 @@ class Solution {
   }
 
 public:
-  int closedIsland(vvd(int) & grid) {
+  int closedIsland(vvd & grid) {
     int r = grid.size(), c = grid[0].size(), ans = 0;
     for (int i = 0; i < r; ++i)
       for (int j = 0; j < c; ++j)
@@ -46,12 +46,12 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{1, 1, 1, 1, 1, 1, 1, 0},
+  vvd g1 = {{1, 1, 1, 1, 1, 1, 1, 0},
                  {1, 0, 0, 0, 0, 1, 1, 0},
                  {1, 0, 0, 0, 0, 1, 0, 1},
                  {1, 1, 1, 1, 1, 1, 1, 0}};
-  vvd(int) g2 = {{0, 0, 1, 0, 0}, {0, 1, 0, 1, 0}};
-  vvd(int)
+  vvd g2 = {{0, 0, 1, 0, 0}, {0, 1, 0, 1, 0}};
+  vvd
       g3 = {{1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 1, 1, 0, 1},
             {1, 0, 1, 0, 1, 0, 1}, {1, 0, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1}};

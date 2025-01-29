@@ -14,8 +14,8 @@
  */
 
 class Solution {
-  vvd(int) dp;
-  int dfs(vvd(int) & events, int k, int i) {
+  vvd dp;
+  int dfs(vvd & events, int k, int i) {
     if (!k || i >= events.size())
       return 0;
     if (dp[i][k] != -1)
@@ -28,8 +28,8 @@ class Solution {
   }
 
 public:
-  int maxValue(vvd(int) & events, int k) {
-    dp = vvd(int)(events.size(), vector<int>(k + 1, -1));
+  int maxValue(vvd & events, int k) {
+    dp = vvd(events.size(), vector<int>(k + 1, -1));
     sort(begin(events), end(events));
     return dfs(events, k, 0);
   }
@@ -37,7 +37,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{1, 2, 4}, {3, 4, 3}, {2, 3, 1}},
+  vvd e1 = {{1, 2, 4}, {3, 4, 3}, {2, 3, 1}},
            e2 = {{1, 2, 4}, {3, 4, 3}, {2, 3, 10}},
            e3 = {{1, 1, 1}, {2, 2, 2}, {3, 3, 3}, {4, 4, 4}};
   printf("%d\n", obj.maxValue(e1, 2)); // expect: 7

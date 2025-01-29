@@ -12,7 +12,7 @@ public:
       maxH = max(maxH, horizontalCuts[i] - horizontalCuts[i - 1]);
     for (int i = 1; i < verticalCuts.size(); i++)
       maxV = max(maxV, verticalCuts[i] - verticalCuts[i - 1]);
-    return (int)((long)maxH * maxV % 1000000007);
+    return ((long)maxH * maxV % 1000000007);
   }
 };
 

@@ -2,11 +2,11 @@
 
 class Solution {
 public:
-  vvd(int) pacificAtlantic(vvd(int) & heights) {
+  vvd pacificAtlantic(vvd & heights) {
     n = heights.size();
     m = heights[0].size();
     vvd(bool) flag1(n, vector<bool>(m)), flag2(n, vector<bool>(m));
-    vvd(int) ans;
+    vvd ans;
     for (int i = 0; i < n; i++)
       dfs(heights, flag1, i, 0);
     for (int i = 1; i < m; i++)
@@ -24,7 +24,7 @@ public:
 
 private:
   int n, m;
-  void dfs(vvd(int) & grid, vvd(bool) & flag, int x, int y) {
+  void dfs(vvd & grid, vvd(bool) & flag, int x, int y) {
     flag[x][y] = true;
     if (x - 1 >= 0 && !flag[x - 1][y] && grid[x - 1][y] >= grid[x][y])
       dfs(grid, flag, x - 1, y);

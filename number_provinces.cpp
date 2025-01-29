@@ -13,7 +13,7 @@
  */
 
 class Solution {
-  void dfs(int i, vvd(int) & is_connected, vector<bool> &vis) {
+  void dfs(int i, vvd & is_connected, vector<bool> &vis) {
     vis[i] = true;
     for (int j = 0; j < vis.size(); j++)
       if (i != j && is_connected[i][j] && !vis[j])
@@ -21,7 +21,7 @@ class Solution {
   }
 
 public:
-  int findCircleNum(vvd(int) & is_connected) {
+  int findCircleNum(vvd & is_connected) {
     if (is_connected.empty())
       return 0;
     int n = is_connected.size(), groups = 0;
@@ -34,8 +34,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) ic1 = {{1, 1, 0}, {1, 1, 0}, {0, 0, 1}};
-  vvd(int) ic2 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+  vvd ic1 = {{1, 1, 0}, {1, 1, 0}, {0, 0, 1}};
+  vvd ic2 = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
   printf("%d\n", obj.findCircleNum(ic1)); // expect: 2
   printf("%d\n", obj.findCircleNum(ic2)); // expect: 3
 }

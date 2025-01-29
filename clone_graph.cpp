@@ -5,7 +5,7 @@
 using namespace std;
 
 // given reference of a node in a connected undirected graph. return a deep copy
-// (clone) of the graph. each node in the graph contains a value (int) and a
+// (clone) of the graph. each node in the graph contains a value  and a
 // list (list[node]).
 
 class Node {

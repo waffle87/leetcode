@@ -45,7 +45,7 @@ class Solution {
   }
 
 public:
-  int numOfWays(vector<int> &nums) { return (int)dfs(nums) - 1; }
+  int numOfWays(vector<int> &nums) { return dfs(nums) - 1; }
 };
 
 int main() {

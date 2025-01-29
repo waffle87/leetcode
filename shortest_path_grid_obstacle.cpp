@@ -2,13 +2,13 @@
 
 class Solution {
 public:
-  int shortestPath(vvd(int) & grid, int k) {
+  int shortestPath(vvd & grid, int k) {
     int rows = grid.size(), cols = grid[0].size();
     int minStep = max(0, rows + cols - 2), obstacles = minStep - 1,
         minStepNext = minStep;
     if (obstacles <= k)
       return minStep;
-    vvd(int) dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    vvd dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
     list<vector<int>> togo;
     togo.push_back({0, 0, k});
     vector<int> visited(rows * cols, -1);
@@ -42,7 +42,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) grid = {{0, 0, 0}, {1, 1, 0}, {0, 0, 0}, {0, 1, 1}, {0, 0, 0}};
+  vvd grid = {{0, 0, 0}, {1, 1, 0}, {0, 0, 0}, {0, 1, 1}, {0, 0, 0}};
   int k = 1;
   cout << obj.shortestPath(grid, k);
 }

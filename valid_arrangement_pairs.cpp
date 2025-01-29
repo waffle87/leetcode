@@ -53,11 +53,11 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) p1 = {{5, 1}, {4, 5}, {11, 9}, {9, 4}},
+  vvd p1 = {{5, 1}, {4, 5}, {11, 9}, {9, 4}},
            p2 = {{1, 3}, {3, 2}, {2, 1}}, p3 = {{1, 2}, {1, 3}, {2, 1}};
-  vvd(int) va1 = obj.validArrangement(p1);
-  vvd(int) va2 = obj.validArrangement(p2);
-  vvd(int) va3 = obj.validArrangement(p3);
+  vvd va1 = obj.validArrangement(p1);
+  vvd va2 = obj.validArrangement(p2);
+  vvd va3 = obj.validArrangement(p3);
   for (int i = 0; i < va1.size(); i++)
     for (int j = 0; j < va1[0].size(); j++)
       printf("%d ", va1[i][j]); // expect: [[11,9],[9,4],[4,5],[5,1]]

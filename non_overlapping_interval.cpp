@@ -11,7 +11,7 @@ class Solution {
   static bool cmp(vector<int> &a, vector<int> &b) { return a[1] < b[1]; }
 
 public:
-  int eraseOverlapIntervals(vvd(int) & intervals) {
+  int eraseOverlapIntervals(vvd & intervals) {
     int ans = -1;
     if (!intervals.size())
       return 0;
@@ -29,9 +29,9 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) i1 = {{1, 2}, {2, 3}, {3, 4}, {1, 3}};
-  vvd(int) i2 = {{1, 2}, {1, 2}, {1, 2}};
-  vvd(int) i3 = {{1, 2}, {2, 3}};
+  vvd i1 = {{1, 2}, {2, 3}, {3, 4}, {1, 3}};
+  vvd i2 = {{1, 2}, {1, 2}, {1, 2}};
+  vvd i3 = {{1, 2}, {2, 3}};
   printf("%d\n", obj.eraseOverlapIntervals(i1)); // expect: 1
   printf("%d\n", obj.eraseOverlapIntervals(i2)); // expect: 2
   printf("%d\n", obj.eraseOverlapIntervals(i3)); // expect: 0

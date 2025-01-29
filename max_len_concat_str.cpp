@@ -17,7 +17,7 @@ public:
       for (int i = concat.size() - 1; i >= 0; i--)
         if ((concat[i] & u).none()) {
           concat.push_back(concat[i] | u);
-          ans = max(ans, (int)(concat[i].count() + u.count()));
+          ans = max(ans, (concat[i].count() + u.count()));
         }
     return ans;
   }

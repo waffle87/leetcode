@@ -60,7 +60,7 @@ public:
     int ans = -1;
     vector<vector<vector<int>>> vis;
     for (int i = 0; i < 1 << key_cnt; i++) {
-      vvd(int) tmp(m, vector<int>(n, 0));
+      vvd tmp(m, vector<int>(n, 0));
       vis.push_back(tmp);
     }
     while (!q.empty()) {

@@ -16,7 +16,7 @@ public:
        * it also returns n - 1. eg. log10(100) = 2
        * use bitwise and to check if it's odd
        */
-      ans += (int)log10(i) & 1;
+      ans += log10(i) & 1;
     return ans;
   }
 };

@@ -27,9 +27,9 @@ public:
             continue;
           if (um.find(t) == um.end())
             continue;
-          if (um[t] < (int)v.size())
+          if (um[t] < v.size())
             continue;
-          um[t] = (int)v.size();
+          um[t] = v.size();
           v.push_back(t);
           qpv.push({t, v});
           v.pop_back();

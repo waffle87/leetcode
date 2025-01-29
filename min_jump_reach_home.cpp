@@ -4,7 +4,7 @@ class Solution {
 public:
   int minimumJumps(vector<int> &forbidden, int a, int b, int x) {
     unordered_set<int> f(forbidden.begin(), forbidden.end());
-    vvd(int) visited(2, vector<int>(5000));
+    vvd visited(2, vector<int>(5000));
     queue<pair<int, bool>> qp;
     qp.push({0, false});
     visited[0][0] = 1;

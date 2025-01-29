@@ -2,9 +2,9 @@
 
 class Solution {
 public:
-  vector<int> findBall(vvd(int) & grid) {
+  vector<int> findBall(vvd & grid) {
     int m = grid.size(), n = grid[0].size();
-    vvd(int) ugrid(m * 3, vector<int>(n * 3));
+    vvd ugrid(m * 3, vector<int>(n * 3));
     for (auto i = 0; i < m; i++)
       for (auto j = 0; j < n; j++) {
         ugrid[i * 3 + 1][j * 3 + 1] = 1;
@@ -19,7 +19,7 @@ public:
 
 private:
   vector<pair<int, int>> dir{{1, 0}, {0, -1}, {0, 1}};
-  int drop(int pos, vvd(int) & ugrid, int m, int n) {
+  int drop(int pos, vvd & ugrid, int m, int n) {
     queue<pair<int, int>> qp;
     qp.push({0, pos});
     while (!qp.empty()) {
@@ -40,7 +40,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) grid = {{1, 1, 1, -1, -1},
+  vvd grid = {{1, 1, 1, -1, -1},
                    {1, 1, 1, -1, -1},
                    {-1, -1, -1, 1, 1},
                    {1, 1, 1, 1, -1},

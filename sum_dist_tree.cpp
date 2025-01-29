@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  vector<int> sumOfDistancesInTree(int n, vvd(int) & edges) {
+  vector<int> sumOfDistancesInTree(int n, vvd & edges) {
     tree.resize(n);
     ans.assign(n, 0);
     count.assign(n, 1);
@@ -39,7 +39,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) edges = {{0, 1}, {0, 2}, {2, 3}, {2, 4}, {2, 5}};
+  vvd edges = {{0, 1}, {0, 2}, {2, 3}, {2, 4}, {2, 5}};
   for (auto i : obj.sumOfDistancesInTree(6, edges))
     cout << i << ' '; // expect: 8 12 6 10 10 10
 }

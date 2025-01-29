@@ -11,8 +11,8 @@
 
 class Solution {
 public:
-  int minFallingPathSum(vvd(int) & matrix) {
-    vvd(int) dp(matrix.size(), vector<int>(matrix.size(), INT_MAX));
+  int minFallingPathSum(vvd & matrix) {
+    vvd dp(matrix.size(), vector<int>(matrix.size(), INT_MAX));
     for (int i = 0; i < matrix.size(); i++)
       dp[0][i] = matrix[0][i];
     for (int i = 1; i < matrix.size(); i++) {
@@ -38,7 +38,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) matrix = {{2, 1, 3},          // 1
+  vvd matrix = {{2, 1, 3},          // 1
                      {6, 5, 4},          //-> 4
                      {7, 8, 9}};         // 8 <-
   cout << obj.minFallingPathSum(matrix); // expect 13

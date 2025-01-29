@@ -13,7 +13,7 @@
 
 class Solution {
 public:
-  int maxValueOfCoins(vvd(int) & piles, int k) {
+  int maxValueOfCoins(vvd & piles, int k) {
     int n = piles.size(), m[1001][2001] = {};
     memset(m, -1, sizeof(m));
     function<int(int, int)> dp = [&](int i, int j) {
@@ -34,7 +34,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int)
+  vvd
       p1 = {{1, 100, 3}, {7, 8, 9}},
       p2 = {{100}, {100}, {100}, {100}, {100}, {100}, {1, 1, 1, 1, 1, 1, 700}};
   printf("%d\n", obj.maxValueOfCoins(p1, 2)); // expect: 101

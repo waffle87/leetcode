@@ -56,7 +56,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}}, g2 = {{1, 1}};
+  vvd g1 = {{0, 1, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}}, g2 = {{1, 1}};
   printf("%d\n", obj.minDays(g1)); // expect: 2
   printf("%d\n", obj.minDays(g2)); // expect: 2
 }

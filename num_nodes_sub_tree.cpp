@@ -2,10 +2,10 @@
 
 class Solution {
 public:
-  vector<int> countSubTrees(int n, vvd(int) & edges, string labels) {
+  vector<int> countSubTrees(int n, vvd & edges, string labels) {
     vector<int> ans(n);
     int cnt[26] = {};
-    vvd(int) i(n);
+    vvd i(n);
     for (auto e : edges) {
       i[e[0]].push_back(e[1]);
       i[e[1]].push_back(e[0]);
@@ -15,7 +15,7 @@ public:
   }
 
 private:
-  void dfs(int i, string labels, vvd(int) & edges, int cnt[],
+  void dfs(int i, string labels, vvd & edges, int cnt[],
            vector<int> &ans) {
     if (ans[i] == 0) {
       ans[i] = 1;
@@ -32,7 +32,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) edges1 = {{0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}},
+  vvd edges1 = {{0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}},
            edges2 = {{0, 1}, {1, 2}, {0, 3}},
            edges3 = {{0, 1}, {0, 2}, {1, 3}, {0, 4}};
   for (auto i : obj.countSubTrees(7, edges1, "abaedcd"))

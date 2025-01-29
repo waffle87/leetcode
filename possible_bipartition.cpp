@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  bool possibleBipartition(int n, vvd(int) & dislikes) {
+  bool possibleBipartition(int n, vvd & dislikes) {
     enum color { green = -1, uncolored, blue };
     if (n == 1 || dislikes.size() == 0)
       return true;
@@ -33,7 +33,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) dislikes1 = {{1, 2}, {1, 3}, {2, 4}},
+  vvd dislikes1 = {{1, 2}, {1, 3}, {2, 4}},
            dislikes2 = {{1, 2}, {1, 3}, {2, 3}},
            dislikes3 = {{1, 2}, {2, 3}, {3, 4}, {4, 5}, {1, 5}};
   testBool(obj.possibleBipartition(4, dislikes1));

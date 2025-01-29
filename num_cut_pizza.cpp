@@ -8,12 +8,12 @@
  */
 
 class Solution {
-  void add(long &a, long &b) { a = (a + b) % ((int)1e9 + 7); }
+  void add(long &a, long &b) { a = (a + b) % (1e9 + 7); }
 
 public:
   int ways(vector<string> &pizza, int k) {
     int m = pizza.size(), n = pizza[0].size();
-    vvd(int) cnt(m + 1, vector<int>(n + 1));
+    vvd cnt(m + 1, vector<int>(n + 1));
     for (int i = m - 1; i >= 0; --i) {
       int s = 0;
       for (int j = n - 1; j >= 0; --j) {

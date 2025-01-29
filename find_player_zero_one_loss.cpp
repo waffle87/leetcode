@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  vvd(int) findWinners(vvd(int) & matches) {
+  vvd findWinners(vvd & matches) {
     map<int, int> lost;
     for (auto m : matches) {
       if (!lost.count(m[0]))

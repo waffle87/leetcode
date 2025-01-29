@@ -10,12 +10,12 @@
 
 class Solution {
 public:
-  vvd(int) kSmallestPairs(vector<int> &nums1, vector<int> &nums2, int k) {
+  vvd kSmallestPairs(vector<int> &nums1, vector<int> &nums2, int k) {
     priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>,
                    greater<pair<int, pair<int, int>>>>
         pq;
     int n = nums1.size(), m = nums2.size();
-    vvd(int) ans;
+    vvd ans;
     for (int i = 0; i < n; i++)
       pq.push({nums1[i] + nums2[0], {i, 0}});
     while (!pq.empty() && k--) {

@@ -17,8 +17,8 @@
 
 class Solution {
 public:
-  int minReorder(int n, vvd(int) & connections) {
-    vvd(int) ans(n);
+  int minReorder(int n, vvd & connections) {
+    vvd ans(n);
     for (auto &c : connections) {
       ans[c[0]].push_back(c[1]);
       ans[c[1]].push_back(-c[0]);
@@ -27,7 +27,7 @@ public:
   }
 
 private:
-  int dfs(vvd(int) & res, vector<bool> visited, int from) {
+  int dfs(vvd & res, vector<bool> visited, int from) {
     auto change = 0;
     visited[from] = true;
     for (auto to : res[from])
@@ -39,9 +39,9 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) connections1 = {{0, 1}, {1, 3}, {2, 3}, {4, 0}, {4, 5}};
-  vvd(int) connections2 = {{1, 0}, {1, 2}, {3, 2}, {3, 4}};
-  vvd(int) connections3 = {{1, 0}, {2, 0}};
+  vvd connections1 = {{0, 1}, {1, 3}, {2, 3}, {4, 0}, {4, 5}};
+  vvd connections2 = {{1, 0}, {1, 2}, {3, 2}, {3, 4}};
+  vvd connections3 = {{1, 0}, {2, 0}};
   cout << obj.minReorder(6, connections1) << endl; // expect: 3
   cout << obj.minReorder(5, connections2) << endl; // expect: 2
   cout << obj.minReorder(3, connections3) << endl; // expect: 0

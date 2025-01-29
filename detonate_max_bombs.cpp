@@ -14,7 +14,7 @@
  */
 
 class Solution {
-  void dfs(vvd(int) & graph, vector<bool> &visited, int c, int i) {
+  void dfs(vvd & graph, vector<bool> &visited, int c, int i) {
     visited[i] = true;
     c++;
     for (int j = 0; j < graph[i].size(); j++)
@@ -23,9 +23,9 @@ class Solution {
   }
 
 public:
-  int maximumDetonation(vvd(int) & bombs) {
+  int maximumDetonation(vvd & bombs) {
     int n = bombs.size(), ans = INT_MIN;
-    vvd(int) graph(n);
+    vvd graph(n);
     for (int i = 0; i < n; i++) {
       long long int x1, y1, r1;
       x1 = bombs[i][0];
@@ -52,9 +52,9 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) b1 = {{2, 1, 3}, {6, 1, 4}};
-  vvd(int) b2 = {{1, 1, 5}, {10, 10, 5}};
-  vvd(int) b3 = {{1, 2, 3}, {2, 3, 1}, {3, 4, 2}, {4, 5, 3}, {5, 6, 4}};
+  vvd b1 = {{2, 1, 3}, {6, 1, 4}};
+  vvd b2 = {{1, 1, 5}, {10, 10, 5}};
+  vvd b3 = {{1, 2, 3}, {2, 3, 1}, {3, 4, 2}, {4, 5, 3}, {5, 6, 4}};
   printf("%d\n", obj.maximumDetonation(b1)); // expect: 2
   printf("%d\n", obj.maximumDetonation(b2)); // expect: 1
   printf("%d\n", obj.maximumDetonation(b3)); // expect: 5

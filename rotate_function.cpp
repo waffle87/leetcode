@@ -18,7 +18,7 @@ public:
       fn = max(fn, newFn);
       l++;
     }
-    return (int)fn;
+    return fn;
   }
 };
 

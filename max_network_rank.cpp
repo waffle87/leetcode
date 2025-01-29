@@ -14,7 +14,7 @@
 
 class Solution {
 public:
-  int maximalNetworkRank(int n, vvd(int) & roads) {
+  int maximalNetworkRank(int n, vvd & roads) {
     vector<unordered_set<int>> graph(n);
     for (auto r : roads) {
       graph[r[0]].insert(r[1]);
@@ -35,7 +35,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) r1 = {{0, 1}, {0, 3}, {1, 2}, {1, 3}},
+  vvd r1 = {{0, 1}, {0, 3}, {1, 2}, {1, 3}},
            r2 = {{0, 1}, {0, 3}, {1, 2}, {1, 3}, {2, 3}, {2, 4}},
            r3 = {{0, 1}, {1, 2}, {2, 3}, {2, 4}, {5, 6}, {5, 7}};
   printf("%d\n", obj.maximalNetworkRank(4, r1)); // expect: 4

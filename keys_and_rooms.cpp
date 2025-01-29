@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  bool canVisitAllRooms(vvd(int) & rooms) {
+  bool canVisitAllRooms(vvd & rooms) {
     stack<int> dfs;
     dfs.push(0);
     unordered_set<int> seen = {0};
@@ -24,7 +24,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) rooms = {{1}, {2}, {3}, {}};
+  vvd rooms = {{1}, {2}, {3}, {}};
   if (obj.canVisitAllRooms(rooms))
     cout << "true";
   else

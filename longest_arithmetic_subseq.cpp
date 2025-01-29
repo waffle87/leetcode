@@ -15,7 +15,7 @@ class Solution {
 public:
   int longestArithmeticSeqLength(vector<int> &nums) {
     int n = nums.size(), ans = 0;
-    vvd(int) dp(n, vector<int>(n, 1));
+    vvd dp(n, vector<int>(n, 1));
     for (int i = 1; i < n - 1; ++i)
       for (int j = i + 1; j < n; ++j) {
         for (int k = i - 1; k >= 0; k--)

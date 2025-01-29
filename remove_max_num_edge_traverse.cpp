@@ -21,7 +21,7 @@ public:
   int find(vector<int> &ds, int i) {
     return ds[i] < 0 ? i : ds[i] = find(ds, ds[i]);
   }
-  int maxNumEdgesToRemove(int n, vvd(int) & edges) {
+  int maxNumEdgesToRemove(int n, vvd & edges) {
     vector<int> ds_both(n + 1, -1);
     int used = 0;
     for (int type = 3; type > 0; --type) {
@@ -48,10 +48,10 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int)
+  vvd
       e1 = {{3, 1, 2}, {3, 2, 3}, {1, 1, 3}, {1, 2, 4}, {1, 1, 2}, {2, 3, 4}};
-  vvd(int) e2 = {{3, 1, 2}, {3, 2, 3}, {1, 1, 4}, {2, 1, 4}};
-  vvd(int) e3 = {{3, 2, 3}, {1, 1, 2}, {2, 3, 4}};
+  vvd e2 = {{3, 1, 2}, {3, 2, 3}, {1, 1, 4}, {2, 1, 4}};
+  vvd e3 = {{3, 2, 3}, {1, 1, 2}, {2, 3, 4}};
   printf("%d\n", obj.maxNumEdgesToRemove(4, e1));
   printf("%d\n", obj.maxNumEdgesToRemove(4, e2));
   printf("%d\n", obj.maxNumEdgesToRemove(4, e3));

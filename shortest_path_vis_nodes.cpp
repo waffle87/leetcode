@@ -23,7 +23,7 @@ public:
     }
   };
 
-  int shortestPathLength(vvd(int) & graph) {
+  int shortestPathLength(vvd & graph) {
     int n = graph.size();
     queue<tuple> q;
     set<pair<int, int>> vis;
@@ -55,7 +55,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{1, 2, 3}, {0}, {0}},
+  vvd g1 = {{1, 2, 3}, {0}, {0}},
            g2 = {{1}, {0, 2, 4}, {1, 3, 4}, {2}, {1, 2}};
   printf("%d\n", obj.shortestPathLength(g1)); // expect: 4
   printf("%d\n", obj.shortestPathLength(g2)); // expect: 4

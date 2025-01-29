@@ -12,7 +12,7 @@
 
 class Solution {
 public:
-  int findJudge(int n, vvd(int) trust) {
+  int findJudge(int n, vvd trust) {
     vector<unordered_set<int>> graph(n + 1, unordered_set<int>());
     for (auto &edge : trust) {
       int a = edge[0], b = edge[1];
@@ -38,7 +38,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) trust1 = {{1, 2}}, trust2 = {{1, 3}, {2, 3}},
+  vvd trust1 = {{1, 2}}, trust2 = {{1, 3}, {2, 3}},
            trust3 = {{1, 3}, {2, 3}, {3, 1}};
   cout << obj.findJudge(2, trust1) << endl; // expect: 2
   cout << obj.findJudge(3, trust2) << endl; // expect: 3

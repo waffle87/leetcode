@@ -27,8 +27,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) r1 = {{0, 1}, {1, 2}, {2, 3}, {0, 2}, {1, 3}, {2, 4}};
-  vvd(int) r2 = {{0, 3}, {2, 4}, {1, 3}};
+  vvd r1 = {{0, 1}, {1, 2}, {2, 3}, {0, 2}, {1, 3}, {2, 4}};
+  vvd r2 = {{0, 3}, {2, 4}, {1, 3}};
   printf("%lld\n", obj.maximumImportance(5, r1)); // expect: 43
   printf("%lld\n", obj.maximumImportance(5, r2)); // expect: 20
 }

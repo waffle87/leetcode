@@ -29,7 +29,7 @@ public:
       }
     }
     vector<int> ans(s.size());
-    for (int i = (int)s.size() - 1; i >= 0; i--) {
+    for (int i = s.size() - 1; i >= 0; i--) {
       ans[i] = s.top();
       s.pop();
     }

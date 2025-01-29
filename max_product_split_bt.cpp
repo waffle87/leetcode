@@ -4,7 +4,7 @@ class Solution {
 public:
   int maxProduct(TreeNode *root) {
     tot = solve(root), solve(root);
-    return ans % (int)(1e9 + 7);
+    return ans % (1e9 + 7);
   }
 
 private:

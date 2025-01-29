@@ -9,8 +9,8 @@
 
 class Solution {
 public:
-  vvd(int) combine(int n, int k) {
-    vvd(int) ans;
+  vvd combine(int n, int k) {
+    vvd ans;
     int i = 0;
     vector<int> p(k, 0);
     while (i >= 0) {

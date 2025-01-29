@@ -44,7 +44,7 @@ public:
 
 class Solution {
 public:
-  Node *construct(vvd(int) & grid) {
+  Node *construct(vvd & grid) {
     grid_v = move(grid);
     leafNodes_a[0] = new Node(false, true, nullptr, nullptr, nullptr, nullptr);
     leafNodes_a[1] = new Node(true, true, nullptr, nullptr, nullptr, nullptr);
@@ -52,7 +52,7 @@ public:
   }
 
 private:
-  vvd(int) grid_v;
+  vvd grid_v;
   array<Node *, 2> leafNodes_a;
   Node *construct(int r, int c, int s) {
     if (s == 1)
@@ -70,6 +70,6 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) grid = {{0, 1}, {1, 0}};
+  vvd grid = {{0, 1}, {1, 0}};
   cout << obj.construct(grid); // expect: [[0,1],[1,0],[1,1],[1,1],[1,0]]
 }

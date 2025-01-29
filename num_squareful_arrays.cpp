@@ -33,7 +33,7 @@ public:
       cnt++;
     }
     s.push_back(cnt);
-    vvd(int) f(1 << n, vector<int>(n, 0));
+    vvd f(1 << n, vector<int>(n, 0));
     for (int i = 0; i < n; i++)
       f[1 << i][i] = 1;
     for (int S = 1; S < 1 << n; S++)

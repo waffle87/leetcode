@@ -45,7 +45,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) b1 = {{1, 2, 3}, {4, 0, 5}}, b2 = {{1, 2, 3}, {5, 4, 0}},
+  vvd b1 = {{1, 2, 3}, {4, 0, 5}}, b2 = {{1, 2, 3}, {5, 4, 0}},
            b3 = {{4, 1, 2}, {5, 0, 3}};
   printf("%d\n", obj.slidingPuzzle(b1)); // expect 1
   printf("%d\n", obj.slidingPuzzle(b2)); // expect -1

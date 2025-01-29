@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  int findMinArrowShots(vvd(int) & points) {
+  int findMinArrowShots(vvd & points) {
     if (points.size() == 0)
       return 0;
     sort(points.begin(), points.end(), cmp);
@@ -21,7 +21,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) points1 = {{10, 16}, {2, 8}, {1, 6}, {7, 12}},
+  vvd points1 = {{10, 16}, {2, 8}, {1, 6}, {7, 12}},
            points2 = {{1, 2}, {3, 4}, {5, 6}, {7, 8}},
            points3 = {{1, 2}, {2, 3}, {3, 4}, {4, 5}};
   cout << obj.findMinArrowShots(points1) << endl; // expect: 2

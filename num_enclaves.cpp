@@ -11,7 +11,7 @@
  */
 
 class Solution {
-  int dfs(vvd(int) & grid, int i, int j) {
+  int dfs(vvd & grid, int i, int j) {
     if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() ||
         grid[i][j] == 0)
       return 0;
@@ -21,7 +21,7 @@ class Solution {
   }
 
 public:
-  int numEnclaves(vvd(int) & grid) {
+  int numEnclaves(vvd & grid) {
     int ones = 0, zeros = 0;
     for (int i = 0; i < grid.size(); i++)
       for (int j = 0; j < grid[0].size(); j++)
@@ -38,8 +38,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{0, 0, 0, 0}, {1, 0, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}};
-  vvd(int) g2 = {{0, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}};
+  vvd g1 = {{0, 0, 0, 0}, {1, 0, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}};
+  vvd g2 = {{0, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}};
   printf("%d\n", obj.numEnclaves(g1)); // expect: 3
   printf("%d\n", obj.numEnclaves(g2)); // expect: 0
 }

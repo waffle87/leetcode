@@ -16,9 +16,9 @@
 
 class Solution {
 public:
-  int minimumTime(int n, vvd(int) & relations, vector<int> &time) {
+  int minimumTime(int n, vvd & relations, vector<int> &time) {
     vector<int> in_deg(n + 1);
-    vvd(int) g(n + 1);
+    vvd g(n + 1);
     for (auto r : relations) {
       int a = r[0];
       int b = r[1];
@@ -47,7 +47,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) r1 = {{1, 3}, {2, 3}}, r2 = {{1, 5}, {2, 5}, {3, 5}, {3, 4}, {4, 5}};
+  vvd r1 = {{1, 3}, {2, 3}}, r2 = {{1, 5}, {2, 5}, {3, 5}, {3, 4}, {4, 5}};
   vector<int> t1 = {3, 2, 5}, t2 = {1, 2, 3, 4, 5};
   printf("%d\n", obj.minimumTime(3, r1, t1)); // expect: 8
   printf("%d\n", obj.minimumTime(5, r2, t2)); // expect: 12

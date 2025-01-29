@@ -9,7 +9,7 @@
 
 class Solution {
 public:
-  bool checkStraightLine(vvd(int) & coordinates) {
+  bool checkStraightLine(vvd & coordinates) {
     int n = coordinates.size();
     if (n == 1)
       return false;
@@ -28,8 +28,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) c1 = {{1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}};
-  vvd(int) c2 = {{1, 1}, {2, 2}, {3, 4}, {4, 5}, {5, 6}, {7, 7}};
+  vvd c1 = {{1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 7}};
+  vvd c2 = {{1, 1}, {2, 2}, {3, 4}, {4, 5}, {5, 6}, {7, 7}};
   printf("%d\n", obj.checkStraightLine(c1)); // expect: 1
   printf("%d\n", obj.checkStraightLine(c2)); // expect: 0
 }

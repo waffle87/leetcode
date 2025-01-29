@@ -16,7 +16,7 @@ class Solution {
 public:
   int stoneGameII(vector<int> &piles) {
     int n = piles.size();
-    vvd(int) dp(n + 1, vector<int>(n + 1, 0));
+    vvd dp(n + 1, vector<int>(n + 1, 0));
     vector<int> sum(n + 1, 0);
     for (int i = n - 1; i >= 0; i--)
       sum[i] = sum[i + 1] + piles[i];

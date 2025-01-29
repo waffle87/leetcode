@@ -2,8 +2,8 @@
 
 class Solution {
 public:
-  vvd(int) getSkyline(vvd(int) & buildings) {
-    vvd(int) ans;
+  vvd getSkyline(vvd & buildings) {
+    vvd ans;
     map<int, vector<pair<int, int>>> mvp;
     for (auto &b : buildings) {
       mvp[b[0]].push_back({b[2], 0});

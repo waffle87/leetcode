@@ -4,7 +4,7 @@ class Solution {
 public:
   int findLength(vector<int> &nums1, vector<int> &nums2) {
     int m = nums1.size(), n = nums2.size();
-    vvd(int) dp(m + 1, vector<int>(n + 1));
+    vvd dp(m + 1, vector<int>(n + 1));
     int ans = 0;
     for (int i = 1; i <= m; ++i) {
       for (int j = 1; j <= n; ++j) {

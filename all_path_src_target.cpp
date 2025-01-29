@@ -2,15 +2,15 @@
 
 class Solution {
 public:
-  vvd(int) allPathsSourceTarget(vvd(int) & graph) {
-    vvd(int) ans;
+  vvd allPathsSourceTarget(vvd & graph) {
+    vvd ans;
     vector<int> path;
     dfs(graph, ans, path, 0);
     return ans;
   }
 
 private:
-  void dfs(vvd(int) & graph, vvd(int) & ans, vector<int> &path, int curr) {
+  void dfs(vvd & graph, vvd & ans, vector<int> &path, int curr) {
     path.push_back(curr);
     if (curr == graph.size() - 1)
       ans.push_back(path);
@@ -23,7 +23,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) graph = {{1, 2}, {3}, {3}, {}};
+  vvd graph = {{1, 2}, {3}, {3}, {}};
   for (auto i : obj.allPathsSourceTarget(graph))
     for (auto j : i)
       cout << j << ' ';

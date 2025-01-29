@@ -24,7 +24,7 @@ class Solution {
   }
 
 public:
-  bool canFinish(int num_courses, vvd(int) & prerequisites) {
+  bool canFinish(int num_courses, vvd & prerequisites) {
     vector<int> adj[num_courses];
     for (auto edge : prerequisites)
       adj[edge[1]].push_back(edge[0]);
@@ -38,7 +38,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) p1 = {{1, 0}}, p2 = {{1, 0}, {0, 1}};
+  vvd p1 = {{1, 0}}, p2 = {{1, 0}, {0, 1}};
   printf("%d\n", obj.canFinish(2, p1)); // expect: 1
   printf("%d\n", obj.canFinish(2, p2)); // expect: 0
 }

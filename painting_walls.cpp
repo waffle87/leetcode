@@ -16,7 +16,7 @@ class Solution {
 public:
   int paintWalls(vector<int> &cost, vector<int> &time) {
     this->n = cost.size();
-    vvd(int) memo(n, vector<int>(n + 1));
+    vvd memo(n, vector<int>(n + 1));
     this->cost = cost;
     this->time = time;
     return dfs(0, n, memo);
@@ -27,7 +27,7 @@ private:
   vector<int> cost;
   vector<int> time;
   int n;
-  int dfs(int curr, int left_wall, vvd(int) & memo) {
+  int dfs(int curr, int left_wall, vvd & memo) {
     if (left_wall <= 0)
       return 0;
     if (curr == n)

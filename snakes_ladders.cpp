@@ -4,7 +4,7 @@
 typedef pair<int, int> pii;
 class Solution {
 public:
-  int snakesAndLadders(vvd(int) & board) {
+  int snakesAndLadders(vvd & board) {
     int rows = board.size(), cols = board[0].size();
     int target = rows * cols, r, c, p;
     vector<int> visited(rows * cols + 1); // cells on board starting from 1
@@ -38,10 +38,10 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) board1 = {{-1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1},
+  vvd board1 = {{-1, -1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1, -1},
                      {-1, -1, -1, -1, -1, -1}, {-1, 35, -1, -1, 13, -1},
                      {-1, -1, -1, -1, -1, -1}, {-1, 15, -1, -1, -1, -1}};
-  vvd(int) board2 = {{-1, -1}, {-1, 3}};
+  vvd board2 = {{-1, -1}, {-1, 3}};
   cout << obj.snakesAndLadders(board1) << endl; // expect: 4
   cout << obj.snakesAndLadders(board2) << endl; // expect: 1
 }

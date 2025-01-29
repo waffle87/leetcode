@@ -10,7 +10,7 @@
 
 class Solution {
 public:
-  long long countPairs(int n, vvd(int) & edges) {
+  long long countPairs(int n, vvd & edges) {
     unordered_map<int, vector<int>> m;
     for (int i = 0; i < edges.size(); i++) {
       m[edges[i][0]].push_back(edges[i][0]);
@@ -41,8 +41,8 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{0, 1}, {0, 2}, {1, 2}};
-  vvd(int) e2 = {{0, 2}, {0, 5}, {2, 4}};
+  vvd e1 = {{0, 1}, {0, 2}, {1, 2}};
+  vvd e2 = {{0, 2}, {0, 5}, {2, 4}};
   printf("%lld\n", obj.countPairs(3, e1)); // expect: 0
   printf("%lld\n", obj.countPairs(7, e2)); // expect: 14
 }

@@ -13,7 +13,7 @@
 
 class Solution {
 public:
-  double maxProbability(int n, vvd(int) & edges, vector<double> &succ_prob,
+  double maxProbability(int n, vvd & edges, vector<double> &succ_prob,
                         int start, int end) {
     vector<vector<pair<int, double>>> vvp(n);
     for (int i = 0; i < edges.size(); i++) {
@@ -45,7 +45,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{0, 1}, {1, 2}, {0, 2}}, e2 = {{0, 1}, {1, 2}, {0, 2}};
+  vvd e1 = {{0, 1}, {1, 2}, {0, 2}}, e2 = {{0, 1}, {1, 2}, {0, 2}};
   vector<double> sp1 = {0.5, 0.5, 0.2}, sp2 = {0.5, 0.5, 0.3};
   printf("%f\n", obj.maxProbability(3, e1, sp1, 0, 2)); // expect: 0.25000
   printf("%f\n", obj.maxProbability(3, e2, sp2, 0, 2)); // expect: 0.30000

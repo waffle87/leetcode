@@ -13,9 +13,9 @@
 
 class Solution {
 public:
-  vvd(int) findDifference(vector<int> &n1, vector<int> &n2) {
+  vvd findDifference(vector<int> &n1, vector<int> &n2) {
     unordered_set<int> us1(begin(n1), end(n1)), us2(begin(n2), end(n2));
-    vvd(int) ans(2);
+    vvd ans(2);
     for (int i : us1)
       if (!us2.count(i))
         ans[0].push_back(i);
@@ -30,6 +30,6 @@ int main() {
   Solution obj;
   vector<int> n11 = {1, 2, 3}, n21 = {2, 4, 6};
   vector<int> n12 = {1, 2, 3, 3}, n22 = {1, 1, 2, 2};
-  vvd(int) fd1 = obj.findDifference(n11, n21);
-  vvd(int) fd2 = obj.findDifference(n12, n22);
+  vvd fd1 = obj.findDifference(n11, n21);
+  vvd fd2 = obj.findDifference(n12, n22);
 }

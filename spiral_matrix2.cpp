@@ -6,8 +6,8 @@
 
 class Solution {
 public:
-  vvd(int) generateMatrix(int n) {
-    vvd(int) matrix(n, vector<int>(n));
+  vvd generateMatrix(int n) {
+    vvd matrix(n, vector<int>(n));
     int num = 1, row = 0, col = 0, dir = 0;
     vector<int> d_r = {0, 1, 0, -1}, d_c = {1, 0, -1, 0};
     while (num <= n * n) {

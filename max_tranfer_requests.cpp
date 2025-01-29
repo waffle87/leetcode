@@ -14,10 +14,10 @@
 
 class Solution {
 public:
-  int maximumRequests(int n, vvd(int) & requests) {
+  int maximumRequests(int n, vvd & requests) {
     int ans = 0, k = requests.size(), r = 1 << k, x;
     for (int i = 1; i < r; i++) {
-      int *a = (int *)calloc(n, sizeof(int));
+      int *a = (int *)calloc(n, sizeof);
       int curr = 0;
       for (int j = 0; j < k; j++) {
         if (int(i >> j) & 1) {
@@ -38,8 +38,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) r1 = {{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}};
-  vvd(int) r2 = {{0, 0}, {1, 2}, {2, 1}}, r3 = {{0, 3}, {3, 1}, {1, 2}, {2, 0}};
+  vvd r1 = {{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}};
+  vvd r2 = {{0, 0}, {1, 2}, {2, 1}}, r3 = {{0, 3}, {3, 1}, {1, 2}, {2, 0}};
   printf("%d\n", obj.maximumRequests(5, r1)); // expect: 5
   printf("%d\n", obj.maximumRequests(3, r2)); // expect: 3
   printf("%d\n", obj.maximumRequests(4, r3)); // expect: 4

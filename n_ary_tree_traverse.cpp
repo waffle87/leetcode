@@ -2,8 +2,8 @@
 
 class Solution {
 public:
-  vvd(int) levelOrder(Node *root) {
-    vvd(int) ans;
+  vvd levelOrder(Node *root) {
+    vvd ans;
     if (!root)
       return ans;
     queue<Node *> q;

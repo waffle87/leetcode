@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  const int mod = (int)1e9 + 7;
+  const int mod = 1e9 + 7;
   int maxPerformance(int n, vector<int> &speed, vector<int> &efficiency,
                      int k) {
     priority_queue<int, vector<int>, greater<int>> pqvg;

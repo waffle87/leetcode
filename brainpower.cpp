@@ -14,7 +14,7 @@
 
 class Solution {
 public:
-  long long mostPoints(vvd(int) & questions) {
+  long long mostPoints(vvd & questions) {
     int n = questions.size();
     vector<long long> dp(n + 1, 0);
     for (int i = n - 1; i >= 0; --i) {
@@ -30,8 +30,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) q1 = {{3, 2}, {4, 3}, {4, 4}, {2, 5}};
-  vvd(int) q2 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
+  vvd q1 = {{3, 2}, {4, 3}, {4, 4}, {2, 5}};
+  vvd q2 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
   printf("%lld\n", obj.mostPoints(q1)); // expect: 5
   printf("%lld\n", obj.mostPoints(q2)); // expect: 7
 }

@@ -31,7 +31,7 @@ class Solution {
 
 public:
   vector<int> sortItems(int n, int m, vector<int> &group,
-                        vvd(int) & beforeItems) {
+                        vvd & beforeItems) {
     vector<int> ans(n), stat(n + 2 * m), ans_tmp;
     vector<unordered_set<int>> al(n + 2 * m);
     for (auto i = 0; i < n; ++i) {
@@ -63,7 +63,7 @@ int main() {
   Solution obj;
   vector<int> g1 = {-1, -1, 1, 0, 0, 1, 0, -1},
               g2 = {-1, -1, 1, 0, 0, 1, 0, -1};
-  vvd(int) bi1 = {{}, {6}, {5}, {6}, {3, 6}, {}, {}, {}},
+  vvd bi1 = {{}, {6}, {5}, {6}, {3, 6}, {}, {}, {}},
            bi2 = {{}, {6}, {5}, {6}, {3}, {}, {4}, {}};
   for (auto i : obj.sortItems(8, 2, g1, bi1))
     printf("%d ", i); // expect: [6,3,4,1,5,2,0,7]

@@ -11,7 +11,7 @@
 
 class Solution {
   queue<pair<int, int>> qp;
-  void dfs(vvd(int) & grid, int i, int j) {
+  void dfs(vvd & grid, int i, int j) {
     if (i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() ||
         grid[i][j] == 2 || !grid[i][j])
       return;
@@ -22,9 +22,9 @@ class Solution {
     dfs(grid, i, j + 1);
     dfs(grid, i, j - 1);
   }
-  int bfs(vvd(int) & grid) {
+  int bfs(vvd & grid) {
     int d = 0, min_dist = INT_MAX;
-    vvd(int) dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    vvd dir = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
     while (!qp.empty()) {
       int n = qp.size();
       while (n--) {
@@ -49,7 +49,7 @@ class Solution {
   }
 
 public:
-  int shotestBridge(vvd(int) & grid) {
+  int shotestBridge(vvd & grid) {
     bool flag = false;
     for (int i = 0; i < grid.size(); i++) {
       for (int j = 0; j < grid[0].size(); j++) {
@@ -69,9 +69,9 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{0, 1}, {1, 0}};
-  vvd(int) g2 = {{0, 1, 0}, {0, 0, 0}, {0, 0, 1}};
-  vvd(int) g3 = {{1, 1, 1, 1, 1},
+  vvd g1 = {{0, 1}, {1, 0}};
+  vvd g2 = {{0, 1, 0}, {0, 0, 0}, {0, 0, 1}};
+  vvd g3 = {{1, 1, 1, 1, 1},
                  {1, 0, 0, 0, 1},
                  {1, 0, 1, 0, 1},
                  {1, 0, 0, 0, 1},

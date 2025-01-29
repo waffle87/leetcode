@@ -2,15 +2,15 @@
 
 class Solution {
 public:
-  vvd(int) pathSum(TreeNode *root, int targetSum) {
-    vvd(int) ans;
+  vvd pathSum(TreeNode *root, int targetSum) {
+    vvd ans;
     vector<int> d;
     dfs(root, targetSum, d, ans);
     return ans;
   }
 
 private:
-  void dfs(TreeNode *root, int targetSum, vector<int> d, vvd(int) & ans) {
+  void dfs(TreeNode *root, int targetSum, vector<int> d, vvd & ans) {
     if (root == NULL)
       return;
     d.push_back(root->val);

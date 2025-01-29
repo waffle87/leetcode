@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  vector<int> sumEvenAfterQueries(vector<int> &nums, vvd(int) & queries) {
+  vector<int> sumEvenAfterQueries(vector<int> &nums, vvd & queries) {
     int evenSum = 0;
     for (auto x : nums)
       if (x % 2 == 0)

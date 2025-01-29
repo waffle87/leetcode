@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  vvd(int) verticalTraversal(TreeNode *root) {
+  vvd verticalTraversal(TreeNode *root) {
     map<int, map<int, multiset<int>>> mmm;
     queue<pair<TreeNode *, pair<int, int>>> qpp;
     qpp.push({root, {0, 0}});
@@ -17,7 +17,7 @@ public:
       if (node->right)
         qpp.push({node->right, {x + 1, y + 1}});
     }
-    vvd(int) ans;
+    vvd ans;
     for (auto q : mmm) {
       vector<int> col;
       for (auto p : q.second)

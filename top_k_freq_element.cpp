@@ -10,7 +10,7 @@ public:
     priority_queue<pair<int, int>> pqp;
     for (auto it = um.begin(); it != um.end(); it++) {
       pqp.push(make_pair(it->second, it->first));
-      if (pqp.size() > (int)um.size() - k)
+      if (pqp.size() > um.size() - k)
         ans.push_back(pqp.top().second), pqp.pop();
     }
     return ans;

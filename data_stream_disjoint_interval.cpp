@@ -26,8 +26,8 @@ public:
     m[mn] = mx;
     m[mx] = mn;
   }
-  vvd(int) getIntervals() {
-    vvd(int) ans;
+  vvd getIntervals() {
+    vvd ans;
     auto it = m.begin();
     while (it != m.end()) {
       ans.push_back({it->first, it->second});
@@ -41,5 +41,5 @@ int main() {
   SummaryRanges *obj = new SummaryRanges();
   int value;
   obj->addNum(value);
-  vvd(int) param_2 = obj->getIntervals();
+  vvd param_2 = obj->getIntervals();
 }

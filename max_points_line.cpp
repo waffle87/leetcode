@@ -11,7 +11,7 @@ public:
 
 class Solution {
 public:
-  int maxPoints(vvd(int) & points) {
+  int maxPoints(vvd & points) {
     int n = points.size(), ans = 0;
     if (n <= 2) // 2 or less means points are always collinear
       return n;
@@ -43,7 +43,7 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) points1 = {{1, 1}, {2, 2}, {3, 3}},
+  vvd points1 = {{1, 1}, {2, 2}, {3, 3}},
            points2 = {{1, 1}, {3, 2}, {5, 3}, {4, 1}, {2, 3}, {1, 4}};
   cout << obj.maxPoints(points1) << endl; // expect: 3
   cout << obj.maxPoints(points2) << endl; // expect: 4

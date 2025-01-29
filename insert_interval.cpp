@@ -2,10 +2,10 @@
 
 class Solution {
 public:
-  vvd(int) insert(vvd(int) & intervals, vector<int> &newInterval) {
+  vvd insert(vvd & intervals, vector<int> &newInterval) {
     const int START = 0, END = 1;
     int s = newInterval[START], e = newInterval[END];
-    vvd(int) left, right;
+    vvd left, right;
     for (auto &curr : intervals) {
       if (curr[END] < s)
         left.push_back(curr);
@@ -16,7 +16,7 @@ public:
         e = max(e, curr[END]);
       }
     }
-    vvd(int) ans;
+    vvd ans;
     ans.insert(ans.end(), left.begin(), left.end());
     ans.push_back({s, e});
     ans.insert(ans.end(), right.begin(), right.end());
@@ -26,7 +26,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) intervals1 = {{1, 3}, {6, 9}},
+  vvd intervals1 = {{1, 3}, {6, 9}},
            intervals2 = {{1, 2}, {3, 5}, {6, 7}, {8, 10}, {12, 16}};
   vector<int> newInterval1 = {2, 5}, newInterval2 = {4, 8};
   for (auto i : obj.insert(intervals1, newInterval1))

@@ -35,7 +35,7 @@ public:
 int main() {
   Solution obj;
   vector<int> n1 = {1, 2, 1}, n2 = {2, 3}, n3 = {7, 7, 7, 7, 7, 7};
-  vvd(int) e1 = {{0, 1}, {0, 2}}, e2 = {{0, 1}},
+  vvd e1 = {{0, 1}, {0, 2}}, e2 = {{0, 1}},
            e3 = {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}};
   printf("%lld\n", obj.maximumValueSum(n1, 3, e1)); // expect: 6
   printf("%lld\n", obj.maximumValueSum(n2, 7, e2)); // expect: 9

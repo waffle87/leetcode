@@ -50,7 +50,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) c1 = {{1, 2}, {3, 5}, {2, 2}},
+  vvd c1 = {{1, 2}, {3, 5}, {2, 2}},
            c2 = {{2, 4}, {3, 9}, {4, 5}, {2, 10}};
   printf("%f\n", obj.maxAverageRatio(c1, 2)); // expect: 0.78333
   printf("%f\n", obj.maxAverageRatio(c2, 4)); // expect: 0.53485

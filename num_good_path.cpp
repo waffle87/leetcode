@@ -35,9 +35,9 @@ public:
 
 class Solution {
 public:
-  int numberOfGoodPaths(vector<int> &vals, vvd(int) & edges) {
+  int numberOfGoodPaths(vector<int> &vals, vvd & edges) {
     int n = vals.size(), goodPaths = 0;
-    vvd(int) adj(n);
+    vvd adj(n);
     map<int, vector<int>> sameVal;
     for (int i = 0; i < n; i++)
       sameVal[vals[i]].push_back(i);
@@ -67,7 +67,7 @@ public:
 int main() {
   Solution obj;
   vector<int> vals1 = {1, 3, 2, 1, 3}, vals2 = {1, 1, 2, 2, 3}, vals3 = {1};
-  vvd(int) edges1 = {{0, 1}, {0, 2}, {2, 3}, {2, 4}},
+  vvd edges1 = {{0, 1}, {0, 2}, {2, 3}, {2, 4}},
            edges2 = {{0, 1}, {1, 2}, {2, 3}, {2, 4}}, edges3 = {};
   cout << obj.numberOfGoodPaths(vals1, edges1) << endl; // expect: 6
   cout << obj.numberOfGoodPaths(vals2, edges2) << endl; // expect: 7

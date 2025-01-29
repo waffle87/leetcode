@@ -2,9 +2,9 @@
 
 class Solution {
 public:
-  vvd(int) findFarmland(vvd(int) & land) {
+  vvd findFarmland(vvd & land) {
     int n = land.size(), m = land[0].size();
-    vvd(int) ans;
+    vvd ans;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
         if (land[i][j] == 1) {
@@ -25,14 +25,14 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) l1 = {{1, 0, 0},
+  vvd l1 = {{1, 0, 0},
                  {
                      0,
                      1,
                      1,
                  },
                  {0, 1, 1}};
-  vvd(int) l2 = {{1, 1}, {1, 1}};
+  vvd l2 = {{1, 1}, {1, 1}};
   for (auto i : obj.findFarmland(l1))
     for (auto j : i)
       printf("%d ", j); // expect: [[0,0,0,0],[1,1,2,2]]

@@ -43,8 +43,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{1, 2}, {2, 3}, {5}, {0}, {5}, {}, {}};
-  vvd(int) g2 = {{1, 2, 3, 4}, {1, 2}, {3, 4}, {0, 4}, {}};
+  vvd g1 = {{1, 2}, {2, 3}, {5}, {0}, {5}, {}, {}};
+  vvd g2 = {{1, 2, 3, 4}, {1, 2}, {3, 4}, {0, 4}, {}};
   for (auto i : obj.eventualSafeNodes(g1))
     printf("%d ", i); // expect: 2 4 5 6
   printf("\n");

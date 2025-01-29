@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  int uniquePathsIII(vvd(int) & grid) {
+  int uniquePathsIII(vvd & grid) {
     auto i1 = 0, j1 = 0, t_steps = 0;
     for (auto i = 0; i < grid.size(); ++i)
       for (auto j = 0; j < grid[0].size(); ++j) {
@@ -15,7 +15,7 @@ public:
   }
 
 private:
-  int dfs(vvd(int) & grid, int i, int j, int step, int t_step) {
+  int dfs(vvd & grid, int i, int j, int step, int t_step) {
     if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() ||
         grid[i][j] == -1)
       return 0;
@@ -33,6 +33,6 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) grid = {{1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 2, -1}};
+  vvd grid = {{1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 2, -1}};
   cout << obj.uniquePathsIII(grid); // expect: 2
 }

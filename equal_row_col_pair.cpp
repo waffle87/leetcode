@@ -10,7 +10,7 @@
 
 class Solution {
 public:
-  int equalPairs(vvd(int) & grid) {
+  int equalPairs(vvd & grid) {
     int ans = 0;
     map<vector<int>, int> mv;
     for (int i = 0; i < grid.size(); i++)
@@ -27,8 +27,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{3, 2, 1}, {1, 7, 6}, {2, 7, 7}};
-  vvd(int) g2 = {{3, 1, 2, 2}, {1, 4, 4, 5}, {2, 4, 2, 2}, {2, 4, 2, 2}};
+  vvd g1 = {{3, 2, 1}, {1, 7, 6}, {2, 7, 7}};
+  vvd g2 = {{3, 1, 2, 2}, {1, 4, 4, 5}, {2, 4, 2, 2}, {2, 4, 2, 2}};
   printf("%d\n", obj.equalPairs(g1)); // expect: 1
   printf("%d\n", obj.equalPairs(g2)); // expect: 3
 }

@@ -31,8 +31,8 @@ public:
 
 class Solution {
 public:
-  vector<bool> distanceLimitedPathsExist(int n, vvd(int) & edge_list,
-                                         vvd(int) & queries) {
+  vector<bool> distanceLimitedPathsExist(int n, vvd & edge_list,
+                                         vvd & queries) {
     vector<bool> ans(queries.size());
     for (int i = 0; i < queries.size(); ++i)
       queries[i].push_back(i);
@@ -54,11 +54,11 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) el1 = {{0, 1, 2}, {1, 2, 4}, {2, 0, 8}, {1, 0, 6}};
-  vvd(int) q1 = {{0, 1, 2}, {0, 2, 5}};
+  vvd el1 = {{0, 1, 2}, {1, 2, 4}, {2, 0, 8}, {1, 0, 6}};
+  vvd q1 = {{0, 1, 2}, {0, 2, 5}};
   vector<bool> dlpe1 = obj.distanceLimitedPathsExist(3, el1, q1);
-  vvd(int) el2 = {{0, 1, 10}, {1, 2, 5}, {2, 3, 9}, {3, 4, 13}};
-  vvd(int) q2 = {{0, 4, 14}, {1, 4, 13}};
+  vvd el2 = {{0, 1, 10}, {1, 2, 5}, {2, 3, 9}, {3, 4, 13}};
+  vvd q2 = {{0, 4, 14}, {1, 4, 13}};
   vector<bool> dlpe2 = obj.distanceLimitedPathsExist(5, el2, q2);
   for (int i = 0; i < 2; i++)
     cout << dlpe1[i] << ' '; // expect: 0 1

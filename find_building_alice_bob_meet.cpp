@@ -46,7 +46,7 @@ public:
 int main() {
   Solution obj;
   vector<int> h1 = {6, 4, 8, 5, 2, 7}, h2 = {5, 3, 8, 2, 6, 1, 4, 6};
-  vvd(int) q1 = {{0, 1}, {0, 3}, {2, 4}, {3, 4}, {2, 2}},
+  vvd q1 = {{0, 1}, {0, 3}, {2, 4}, {3, 4}, {2, 2}},
            q2 = {{0, 7}, {3, 5}, {5, 2}, {3, 0}, {1, 6}};
   vector<int> lmbq1 = obj.leftmostBuildingQueries(h1, q1);
   vector<int> lmbq2 = obj.leftmostBuildingQueries(h2, q2);

@@ -79,9 +79,9 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) rc1 = {{1, 2}, {3, 2}}, cc1 = {{2, 1}, {3, 2}};
-  vvd(int) rc2 = {{1, 2}, {2, 3}, {3, 1}, {2, 3}}, cc2 = {{2, 1}};
-  vvd(int) bm1 = obj.buildMatrix(3, rc1, cc1),
+  vvd rc1 = {{1, 2}, {3, 2}}, cc1 = {{2, 1}, {3, 2}};
+  vvd rc2 = {{1, 2}, {2, 3}, {3, 1}, {2, 3}}, cc2 = {{2, 1}};
+  vvd bm1 = obj.buildMatrix(3, rc1, cc1),
            bm2 = obj.buildMatrix(3, rc2, cc2);
   for (int i = 0; i < bm1.size(); i++) {
     for (int j = 0; j < bm1[0].size(); j++)

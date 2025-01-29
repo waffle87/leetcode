@@ -43,7 +43,7 @@ public:
 };
 
 class Solution {
-  int get_mst(const int n, const vvd(int) & edges, int block_edge,
+  int get_mst(const int n, const vvd & edges, int block_edge,
               int pre_edge = -1) {
     UnionFind uf(n);
     int weight = 0;
@@ -67,7 +67,7 @@ class Solution {
   }
 
 public:
-  vvd(int) findCriticalAndPseudoCriticalEdges(int n, vvd(int) & edges) {
+  vvd findCriticalAndPseudoCriticalEdges(int n, vvd & edges) {
     for (int i = 0; i < edges.size(); ++i)
       edges[i].push_back(i);
     sort(
@@ -87,7 +87,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) e1 = {{0, 1, 1}, {1, 2, 1}, {2, 3, 2}, {0, 3, 2},
+  vvd e1 = {{0, 1, 1}, {1, 2, 1}, {2, 3, 2}, {0, 3, 2},
                  {0, 4, 3}, {3, 4, 3}, {1, 4, 6}},
            e2 = {{0, 1, 1}, {1, 2, 1}, {2, 3, 1}, {0, 3, 1}};
   for (auto i : obj.findCriticalAndPseudoCriticalEdges(5, e1))

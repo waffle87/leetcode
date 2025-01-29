@@ -10,7 +10,7 @@ public:
 
 class Solution {
 public:
-  int containsVirus(vvd(int) & isInfected) {
+  int containsVirus(vvd & isInfected) {
     int n = isInfected.size(), m = isInfected[0].size(), ans = 0;
     while (1) {
       vvd(bool) vis(n, vector<bool>(m));
@@ -43,7 +43,7 @@ public:
   }
 
 private:
-  void dfs(vvd(int) & grid, int i, int j, vvd(bool) & vis, Cluster &cl) {
+  void dfs(vvd & grid, int i, int j, vvd(bool) & vis, Cluster &cl) {
     if (i == grid.size() || i < 0 || j < 0 || j == grid[0].size() ||
         vis[i][j] || grid[i][j] == -1)
       return;
@@ -63,12 +63,12 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) isInfected1 = {{0, 1, 0, 0, 0, 0, 0, 1},
+  vvd isInfected1 = {{0, 1, 0, 0, 0, 0, 0, 1},
                           {0, 1, 0, 0, 0, 0, 0, 1},
                           {0, 0, 0, 0, 0, 0, 0, 1},
                           {0, 0, 0, 0, 0, 0, 0, 0}};
-  vvd(int) isInfected2 = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
-  vvd(int) isInfected3 = {{1, 1, 1, 0, 0, 0, 0, 0, 0},
+  vvd isInfected2 = {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+  vvd isInfected3 = {{1, 1, 1, 0, 0, 0, 0, 0, 0},
                           {1, 0, 1, 0, 1, 1, 1, 1, 1},
                           {1, 1, 1, 0, 0, 0, 0, 0, 0}};
   cout << obj.containsVirus(isInfected1) << endl; // expect: 10

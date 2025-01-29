@@ -20,7 +20,7 @@
 
 class Solution {
 public:
-  bool isBipartite(vvd(int) & graph) {
+  bool isBipartite(vvd & graph) {
     int n = graph.size();
     vector<int> colour(n);
     queue<int> q;
@@ -45,8 +45,8 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) g1 = {{1, 2, 3}, {0, 2}, {0, 1, 3}, {0, 2}};
-  vvd(int) g2 = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
+  vvd g1 = {{1, 2, 3}, {0, 2}, {0, 1, 3}, {0, 2}};
+  vvd g2 = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
   printf("%d\n", obj.isBipartite(g1)); // expect: 0
   printf("%d\n", obj.isBipartite(g2)); // expect: 1
 }

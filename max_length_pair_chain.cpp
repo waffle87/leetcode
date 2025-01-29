@@ -13,7 +13,7 @@ class Solution {
   static bool cmp(vector<int> &a, vector<int> &b) { return a[1] < b[1]; }
 
 public:
-  int findLongestChain(vvd(int) & pairs) {
+  int findLongestChain(vvd & pairs) {
     sort(pairs.begin(), pairs.end(), cmp);
     int cnt = 0;
     for (int i = 0, j = 0; j < pairs.size(); j++)
@@ -27,7 +27,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) p1 = {{1, 2}, {2, 3}, {3, 4}}, p2 = {{1, 2}, {7, 8}, {4, 5}};
+  vvd p1 = {{1, 2}, {2, 3}, {3, 4}}, p2 = {{1, 2}, {7, 8}, {4, 5}};
   printf("%d\n", obj.findLongestChain(p1)); // expect: 2
   printf("%d\n", obj.findLongestChain(p2)); // expect: 3
 }

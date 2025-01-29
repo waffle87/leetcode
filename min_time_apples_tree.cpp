@@ -2,7 +2,7 @@
 
 class Solution {
 public:
-  int minTime(int n, vvd(int) & edges, vector<bool> &hasApple) {
+  int minTime(int n, vvd & edges, vector<bool> &hasApple) {
     unordered_map<int, int> um;
     int ans = 0;
     sort(edges.begin(), edges.end());
@@ -29,7 +29,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) edges = {{0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}};
+  vvd edges = {{0, 1}, {0, 2}, {1, 4}, {1, 5}, {2, 3}, {2, 6}};
   vector<bool> hasApple1 = {false, false, true, false, true, true, false},
                hasApple2 = {false, false, true, false, false, true, false},
                hasApple3 = {false, false, false, false, false, false, false};

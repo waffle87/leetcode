@@ -12,7 +12,7 @@ public:
     for (int i = nums.size() - 1, sum = 0; i >= 0 && sum <= x; --i) {
       auto it = left.find(x - sum);
       if (it != end(left) && i + 1 >= it->second)
-        ans = min(ans, (int)nums.size() - i - 1 + it->second);
+        ans = min(ans, nums.size() - i - 1 + it->second);
       sum += nums[i];
     }
     return ans = INT_MAX ? -1 : ans;

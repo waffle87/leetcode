@@ -5,7 +5,7 @@ public:
   int jobScheduling(vector<int> &startTime, vector<int> &endTime,
                     vector<int> &profit) {
     int n = startTime.size();
-    vvd(int) jobs;
+    vvd jobs;
     for (int i = 0; i < n; ++i)
       jobs.push_back({endTime[i], startTime[i], profit[i]});
     sort(jobs.begin(), jobs.end());

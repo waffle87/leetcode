@@ -21,7 +21,7 @@ class Solution {
 public:
   int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid) {
     int m = obstacleGrid.size(), n = obstacleGrid[0].size();
-    vvd(int) dp(m + 1, vector<int>(n + 1, 0));
+    vvd dp(m + 1, vector<int>(n + 1, 0));
     dp[0][1] = 1;
     for (int i = 1; i <= m; ++i)
       for (int j = 1; j <= n; ++j)
@@ -33,7 +33,7 @@ public:
 
 int main() {
   Solution obj;
-  vvd(int) og1 = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, og2 = {{0, 1}, {0, 0}};
+  vvd og1 = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, og2 = {{0, 1}, {0, 0}};
   printf("%d\n", obj.uniquePathsWithObstacles(og1)); // expect: 2
   printf("%d\n", obj.uniquePathsWithObstacles(og2)); // expect: 1
 }

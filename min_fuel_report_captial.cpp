@@ -17,8 +17,8 @@
 
 class Solution {
 public:
-  long long minimumFuelCost(vvd(int) & roads, int seats) {
-    vvd(int) al(roads.size() + 1);
+  long long minimumFuelCost(vvd & roads, int seats) {
+    vvd al(roads.size() + 1);
     for (auto &r : roads) {
       al[r[0]].push_back(r[1]);
       al[r[1]].push_back(r[0]);
@@ -28,7 +28,7 @@ public:
   }
 
 private:
-  long long dfs(int i, int prev, int depth, int seats, vvd(int) & al,
+  long long dfs(int i, int prev, int depth, int seats, vvd & al,
                 long long &ans) {
     long long riders = 1;
     for (int j : al[i])
@@ -43,8 +43,8 @@ private:
 
 int main() {
   Solution obj;
-  vvd(int) roads1 = {{0, 1}, {0, 2}, {0, 3}};
-  vvd(int) roads2 = {{3, 1}, {3, 2}, {1, 0}, {0, 4}, {0, 5}, {4, 6}};
+  vvd roads1 = {{0, 1}, {0, 2}, {0, 3}};
+  vvd roads2 = {{3, 1}, {3, 2}, {1, 0}, {0, 4}, {0, 5}, {4, 6}};
   cout << obj.minimumFuelCost(roads1, 5) << endl; // expect: 3
   cout << obj.minimumFuelCost(roads2, 2) << endl; // expect: 7
 }
