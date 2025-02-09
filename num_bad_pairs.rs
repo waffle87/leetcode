@@ -1,10 +1,11 @@
+// 2364. Count Number of Bad Pairs
 use std::collections::HashMap;
 struct Solution;
 
 /*
- * given: 0-indexed integer array
- * bad pair: (i, j) if
- * i < j && j - i != nums[j] - nums[i]
+ * you are given a 0-indexed integer array 'nums'. a pair of indices '(i, j)' is
+ * a bad pair if 'i < j' and 'j - i != nums[j] - nums[i]'. return the total
+ * number of bad pairs in 'nums'.
  */
 
 impl Solution {
@@ -22,8 +23,8 @@ impl Solution {
 }
 
 fn main() {
-    let nums1 = vec![4,1,3,3];
-    let nums2 = vec![1,2,3,4,5];
-    println!("{}", Solution::count_bad_pairs(nums1)); //expect: 5
-    println!("{}", Solution::count_bad_pairs(nums2)); //expect: 0
+    let n1 = vec![4, 1, 3, 3];
+    let n2 = vec![1, 2, 3, 4, 5];
+    println!("{}", Solution::count_bad_pairs(n1)); //expect: 5
+    println!("{}", Solution::count_bad_pairs(n2)); //expect: 0
 }
