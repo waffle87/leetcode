@@ -1,7 +1,5 @@
 // 1910. Remove All Occurrences of a Substring
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * given two strings 's' and 'part', perform the following operation on 's'
@@ -24,8 +22,8 @@ char *removeOccurrences(char *s, char *part) {
 }
 
 int main() {
-  char s1[] = {"daabcbaabcbc"}, p1[] = {"abc"};
-  char s2[] = {"axxxxyyyyb"}, p2[] = {"xy"};
+  char *s1 = "daabcbaabcbc", *p1 = "abc";
+  char *s2 = "axxxxyyyyb", *p2 = "xy";
   printf("%s\n", removeOccurrences(s1, p1)); // expect: dab
   printf("%s\n", removeOccurrences(s2, p2)); // expect: ab
 }
