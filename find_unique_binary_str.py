@@ -13,17 +13,11 @@ class Solution(object):
         :type nums: List[str]
         :rtype: str
         """
-        s = set([int(i, 2) for i in nums])
-        max_len = len(nums[0])
-        for i in range(pow(2, max_len)):
-            if i not in s:
-                r = bin(i)[2:]
-                return "0" * (max_len - len(r)) + r
-        return "-1"
+        return "".join(["1" if num[i] == "0" else "0" for i, num in enumerate(nums)])
 
 
 if __name__ == "__main__":
     obj = Solution()
-    print(obj.findDifferentBinaryString(["01", "10"]))  # expect: 11
-    print(obj.findDifferentBinaryString(["00", "01"]))  # expect: 11
-    print(obj.findDifferentBinaryString(["111", "011", "001"]))  # expect: 101
+    print(obj.findDifferentBinaryString(nums=["01", "10"]))
+    print(obj.findDifferentBinaryString(nums=["00", "01"]))
+    print(obj.findDifferentBinaryString(nums=["111", "011", "001"]))

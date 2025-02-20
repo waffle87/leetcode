@@ -7,25 +7,22 @@
  * 'nums'. if there are multiple answers, you may return any of them.
  */
 
-// char *findDifferentBinaryString(char **nums, int nums_size) {
-char *findDifferentBinaryString(int nums_size,
-                                char nums[nums_size][nums_size]) {
-  char *ans = malloc(nums_size + 1);
+char *findDifferentBinaryString(char **nums, int numsSize) {
+  char *ans = (char *)malloc((numsSize + 1) * sizeof(char));
   int j = 0;
-  for (int i = 0; i < nums_size; i++) {
-    if (nums[i][i] == '0')
-      ans[j++] = '1';
-    else
-      ans[j++] = '0';
-  }
+  for (int i = 0; i < numsSize; i++)
+    ans[j++] = nums[i][i] == '0' ? '1' : '0';
   ans[j] = '\0';
   return j ? ans : "";
 }
 
 int main() {
-  char n1[2][2] = {{"01"}, {"10"}}, n2[2][2] = {{"00"}, {"01"}},
-       n3[3][3] = {{"111"}, {"011"}, {"001"}};
-  printf("%s\n", findDifferentBinaryString(2, n1)); // expect: 11
-  printf("%s\n", findDifferentBinaryString(2, n2)); // expect: 11
-  printf("%s\n", findDifferentBinaryString(3, n3)); // expect: 101
+  char *n1[] = {"01", "10"}, *n2[] = {"00", "01"},
+       *n3[] = {"111", "011", "001"};
+  printf("%s\n",
+         findDifferentBinaryString((char **)n1, ARRAY_SIZE(n1))); // expect: 11
+  printf("%s\n",
+         findDifferentBinaryString((char **)n2, ARRAY_SIZE(n2))); // expect: 11
+  printf("%s\n",
+         findDifferentBinaryString((char **)n3, ARRAY_SIZE(n3))); // expect: 101
 }
