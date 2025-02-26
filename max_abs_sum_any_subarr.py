@@ -1,4 +1,5 @@
 # 1749. Maximum Absolute Sum of Any Subarray
+from itertools import accumulate
 
 """
 you are given an integer array 'nums'. the absolute sum of a subarray '[nums,
@@ -15,13 +16,7 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        n, ans = len(nums), 0
-        dp = [[0, 0] for _ in range(n)]
-        for i in range(n):
-            dp[i][0] = min(dp[i - 1][0] + nums[i], nums[i])
-            dp[i][1] = max(dp[i - 1][1] + nums[i], nums[i])
-            ans = max(ans, abs(dp[i][0]), dp[i][1])
-        return ans
+        return max(accumulate(nums, initial=0)) - min(accumulate(nums, initial=0))
 
 
 if __name__ == "__main__":

@@ -10,21 +10,13 @@
  */
 
 int maxAbsoluteSum(int *nums, int numsSize) {
-  int max_sum = INT_MIN, min_sum = INT_MAX, curr_sum = 0;
+  int total = 0, min = 0, max = 0;
   for (int i = 0; i < numsSize; i++) {
-    curr_sum += nums[i];
-    max_sum = max_sum > curr_sum ? max_sum : curr_sum;
-    if (curr_sum < 0)
-      curr_sum = 0;
+    total += nums[i];
+    min = fmin(min, total);
+    max = fmax(max, total);
   }
-  curr_sum = 0;
-  for (int i = 0; i < numsSize; i++) {
-    curr_sum += nums[i];
-    min_sum = min_sum < curr_sum ? min_sum : curr_sum;
-    if (curr_sum > 0)
-      curr_sum = 0;
-  }
-  return abs(max_sum) > abs(min_sum) ? abs(max_sum) : abs(min_sum);
+  return max - min;
 }
 
 int main() {
