@@ -1,29 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// 1358. Number of Substrings Containing All Three Characters
+#include "leetcode.h"
 
-int helper(char *s, int k) {
-  int n = strlen(s), type = 0, left = 0, right = 0, res = 0;
-  int *cn = calloc(3, sizeof(int));
-  for (int right = 0; right < n; right++) {
-    cn[s[right] - 'a']++;
-    if (cn[s[right] - 'a'] == 1)
-      type++;
-    while (type > k) {
-      cn[s[left] - 'a']--;
-      if (!cn[s[left] - 'a'])
-        type--;
-      left++;
-    }
-    res += right - left + 1;
+/*
+ * given a string 's' consisting only of characters 'a', 'b', and 'c'. return
+ * the number of substrings containing at least one occurence of all these
+ * characters 'a', 'b', and 'c'.
+ */
+
+int numberOfSubstrings(char *s) {
+  int cnt[3] = {0}, ans = 0, i = 0, n = strlen(s);
+  for (int j = 0; j < n; ++j) {
+    ++cnt[s[j] - 'a'];
+    while (cnt[0] && cnt[1] && cnt[2])
+      --cnt[s[i++] - 'a'];
+    ans += i;
   }
-  return res;
+  return ans;
 }
 
-int numberOfSubstrings(char *s) { return helper(s, 3) - helper(s, 2); }
-
 int main() {
-  char s1[] = {"abcabc"}, s2[] = {"aaacb"}, s3[] = {"abc"};
+  char *s1 = "abcabc", *s2 = "aaacb", *s3 = "abc";
   printf("%d\n", numberOfSubstrings(s1)); // expect: 10
   printf("%d\n", numberOfSubstrings(s2)); // expect: 3
   printf("%d\n", numberOfSubstrings(s3)); // expect: 1
