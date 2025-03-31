@@ -1,6 +1,5 @@
 // 2551. Put Marbles in Bags
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * you have 'k' bags. you are given a 0-indexed integer array 'weights' where
@@ -19,25 +18,24 @@
 
 int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
 
-long long putMarbles(int *weights, int weights_size, int k) {
-  int n = weights_size;
-  if (n == k || k == 1)
+long long putMarbles(int *weights, int weightsSize, int k) {
+  if (weightsSize == k || k == 1)
     return 0;
-  int *data = malloc((n - 1) * sizeof(int));
-  for (int i = 0; i < n - 1; i++)
-    data[i] = weights[i] + weights[i + 1];
-  qsort(data, n - 1, sizeof(int), cmp);
-  long long min = weights[0] + weights[n - 1];
-  long long max = weights[0] + weights[n - 1];
+  int *pairs = (int *)malloc((weightsSize - 1) * sizeof(int));
+  for (int i = 0; i < weightsSize - 1; i++)
+    pairs[i] = weights[i] + weights[i + 1];
+  qsort(pairs, weightsSize - 1, sizeof(int), cmp);
+  long long min, max;
+  min = max = weights[0] + weights[weightsSize - 1];
   for (int i = 0; i < k - 1; i++) {
-    min += data[i];
-    max += data[n - 2 - i];
+    min += pairs[i];
+    max += pairs[weightsSize - 2 - i];
   }
   return max - min;
 }
 
 int main() {
   int w1[] = {1, 3, 5, 1}, w2[] = {1, 3};
-  printf("%lld\n", putMarbles(w1, 4, 2)); // expect: 4
-  printf("%lld\n", putMarbles(w2, 2, 2)); // expect: 0
+  printf("%lld\n", putMarbles(w1, ARRAY_SIZE(w1), 2)); // expect: 4
+  printf("%lld\n", putMarbles(w2, ARRAY_SIZE(w2), 2)); // expect: 0
 }
