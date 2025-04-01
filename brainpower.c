@@ -1,7 +1,5 @@
 // 2140. Solving Questions With Brainpower
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given a 0-indexed 2d integer array 'questions' where 'questions[i] =
@@ -11,15 +9,14 @@
  * will earn you 'pointsi' points, but you will be unable to solve each of the
  * next 'brainpoweri' questions. if you skip question 'i', yo get to make the
  * decision on the next question. return maximum points you can score.
- *
  */
 
-long long mostPoints(int **questions, int questions_size,
-                     int *questions_col_size) {
-  long long *dp = malloc((questions_size + 1) * sizeof(long long));
-  dp[questions_size] = 0;
-  for (int i = questions_size - 1; i >= 0; i--) {
-    int k = fmin(i + questions[i][1] + 1, questions_size);
+long long mostPoints(int **questions, int questionsSize,
+                     int *questionsColSize) {
+  long long *dp = (long long *)malloc((questionsSize + 1) * sizeof(long long));
+  dp[questionsSize] = 0;
+  for (int i = questionsSize - 1; i >= 0; i--) {
+    int k = fmin(i + questions[i][1] + 1, questionsSize);
     dp[i] = fmax(questions[i][0] + dp[k], dp[i + 1]);
   }
   long long ans = dp[0];
@@ -28,8 +25,11 @@ long long mostPoints(int **questions, int questions_size,
 }
 
 int main() {
-  int q1[4][2] = {{3, 2}, {4, 3}, {4, 4}, {2, 5}}, qs1 = 4, qcs1[] = {};
-  int q2[5][2] = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}}, qs2 = 5, qcs2[] = {};
-  printf("%lld\n", mostPoints(q1, qs1, qcs1)); // expect: 5
-  printf("%lld\n", mostPoints(q2, qs2, qcs2)); // expect: 7
+  int q1i[4][2] = {{3, 2}, {4, 3}, {4, 4}, {2, 5}},
+      q2i[5][2] = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
+  struct two_d_arr q1, q2;
+  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  printf("%lld\n", mostPoints(q1.arr, q1.row_size, q1.col_size)); // expect: 5
+  printf("%lld\n", mostPoints(q2.arr, q2.row_size, q2.col_size)); // expect: 7
 }
