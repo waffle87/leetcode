@@ -1,4 +1,6 @@
 # 1863. Sum of All Subset XOR Totals
+from functools import reduce
+from operator import or_
 
 """
 the xor total of an array is defined as the bitwise xor of all its elements
@@ -14,25 +16,7 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-
-        def backtrack(nums, idx, tar, cnt):
-            if idx == len(nums):
-                cnt.append(tar[:])
-                return
-            tar.append(nums[idx])
-            backtrack(nums, idx + 1, tar, cnt)
-            tar.pop()
-            backtrack(nums, idx + 1, tar, cnt)
-
-        cnt = []
-        backtrack(nums, 0, [], cnt)
-        ans = 0
-        for i in cnt:
-            total = 0
-            for n in i:
-                total ^= n
-            ans += total
-        return ans
+        return reduce(or_, nums) << (len(nums) - 1)
 
 
 if __name__ == "__main__":
