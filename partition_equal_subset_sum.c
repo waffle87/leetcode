@@ -7,26 +7,37 @@
  * or false otherwise
  */
 
-bool is_subset_sum(int *nums, int numsSize, int sum) {
-  bool dp[numsSize + 1][numsSize + 1];
-  for (int i = 0; i <= numsSize; i++)
-    dp[i][0] = true;
-  for (int i = 1; i <= sum; i++)
-    dp[0][i] = false;
-  for (int i = 1; i <= numsSize; i++)
-    for (int j = 1; j <= sum; j++)
-      dp[i][j] = nums[i - 1] <= j ? dp[i - 1][j - nums[i - 1]] || dp[i - 1][j]
-                                  : dp[i - 1][j];
-  return dp[numsSize][sum];
+bool memo(int *nums, int **dp, int sum, int idx, int n) {
+  if (!sum)
+    return true;
+  if (idx >= n)
+    return false;
+  if (dp[idx][sum] != -1)
+    return dp[idx][sum];
+  bool pick = false, no_pick = false;
+  if (nums[idx] <= sum)
+    pick = memo(nums, dp, sum - nums[idx], idx + 1, n);
+  no_pick = memo(nums, dp, sum, idx + 1, n);
+  return dp[idx][sum] = (pick || no_pick);
 }
 
 bool canPartition(int *nums, int numsSize) {
   int sum = 0;
   for (int i = 0; i < numsSize; i++)
     sum += nums[i];
-  if ((sum % 2))
+  if (sum & 1)
     return false;
-  return is_subset_sum(nums, numsSize, sum / 2);
+  int **dp = (int **)malloc(numsSize * sizeof(int *));
+  for (int i = 0; i < numsSize; i++) {
+    dp[i] = (int *)malloc(((sum >> 1) + 1) * sizeof(int));
+    for (int j = 0; j < ((sum >> 1) + 1); ++j)
+      dp[i][j] = -1;
+  }
+  bool ans = memo(nums, dp, sum >> 1, 0, numsSize);
+  for (int i = 0; i < numsSize; i++)
+    free(dp[i]);
+  free(dp);
+  return ans;
 }
 
 int main() {
