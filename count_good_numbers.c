@@ -12,17 +12,24 @@
  * contain leading zeros.
  */
 
-const int MOD = 1e9 + 7;
+static int mod = 1e9 + 7;
 
-long long _pow(long long a, long long b) {
-  if (!b)
-    return 1;
-  return b % 2 ? a * _pow(a, b - 1) % MOD : _pow((a * a) % MOD, b / 2);
+long long mod_exp(long long n, long long e) {
+  int res = 1;
+  n %= mod;
+  while (e > 0) {
+    if (e & 1)
+      res = res * n % mod;
+    e >>= 1;
+    n = n * n % mod;
+  }
+  return res;
 }
 
 int countGoodNumbers(long long n) {
-  long long odd = n / 2, even = n - odd;
-  return _pow(20, odd) * ((n % 2) ? 5 : 1) % MOD;
+  long long a = mod_exp(5, (n + 1) / 2);
+  long long b = mod_exp(4, n / 2);
+  return (int)((a * b) % mod);
 }
 
 int main() {

@@ -13,15 +13,26 @@ contain leading zeros.
 
 
 class Solution(object):
+    mod = 10**9 + 7
+
+    def mod_exp(self, n, e):
+        res = 1
+        n %= self.mod
+        while e > 0:
+            if e % 2 == 1:
+                res = (res * n) % self.mod
+            n = (n * n) % self.mod
+            e //= 2
+        return res
+
     def countGoodNumbers(self, n):
         """
         :type n: int
         :rtype: int
         """
-        cnt, x = 5 ** (n % 2), 20
-        for _ in range(n // 2):
-            cnt = cnt * x % (10**9 + 7)
-        return cnt
+        a = self.mod_exp(5, (n + 1) // 2)
+        b = self.mod_exp(4, n // 2)
+        return (a * b) % self.mod
 
 
 if __name__ == "__main__":
