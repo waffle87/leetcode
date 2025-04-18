@@ -1,7 +1,5 @@
 // 38. Count and Say
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * the count-and-say sequence is a sequence of digit strings defined by the
@@ -16,53 +14,33 @@
  * term of the count and say sequence.
  */
 
-char *int_to_char(int n) {
-  char *res = malloc(11);
-  res[10] = '\0';
-  int idx = 9;
-  while (n) {
-    res[idx] = '0' + n % 10;
-    n /= 10;
-    idx--;
-  }
-  return &res[idx + 1];
-}
-
 char *countAndSay(int n) {
-  char *curr = malloc(5000), *post = malloc(5000);
-  curr[0] = '1';
-  curr[1] = '\0';
   if (n == 1)
-    return curr;
-  for (int i = 2; i <= n; i++) {
-    int curr_len = strlen(curr), idx = 0, cnt = 1, pos = 0;
-    char *tmp;
-    for (int j = 1; j < curr_len; j++) {
-      if (curr[j] == curr[j - 1])
-        cnt++;
-      else {
-        tmp = int_to_char(cnt);
-        strncpy(&post[pos], tmp, strlen(tmp));
-        pos += strlen(tmp);
-        post[pos] = curr[j - 1];
-        pos++;
-        cnt = 1;
-      }
+    return "1";
+  char *s = countAndSay(n - 1), curr = *s;
+  char *ans = (char *)malloc(4463 * sizeof(char));
+  int m = strlen(s), idx = 0, cnt = 1;
+  for (int i = 1; i < m; i++) {
+    char c = *(s + i);
+    if (c == curr)
+      cnt++;
+    else {
+      *(ans + idx++) = ('0' + cnt);
+      *(ans + idx++) = curr;
+      curr = c;
+      cnt = 1;
     }
-    tmp = int_to_char(cnt);
-    strncpy(&post[pos], tmp, strlen(tmp));
-    pos += strlen(tmp);
-    post[pos] = curr[curr_len - 1];
-    pos++;
-    post[pos] = '\0';
-    tmp = curr;
-    curr = post;
-    post = tmp;
   }
-  return curr;
+  *(ans + idx++) = ('0' + cnt);
+  *(ans + idx++) = curr;
+  *(ans + idx) = '\0';
+  return ans;
 }
 
 int main() {
-  printf("%s\n", countAndSay(1)); // expect: 1
-  printf("%s\n", countAndSay(4)); // expect: 1211
+  char *cas1 = countAndSay(4), *cas2 = countAndSay(1);
+  printf("%s\n", cas1); // expect: 1211
+  printf("%s\n", cas2); // expect: 1
+  free(cas1);
+  free(cas2);
 }
