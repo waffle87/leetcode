@@ -19,9 +19,8 @@ class Solution(object):
         nums.sort()
         ans = 0
         for i in range(len(nums) - 1, -1, -1):
-            v = nums[i]
-            a = bisect.bisect_left(nums, lower - v, lo=0, hi=i)
-            b = bisect.bisect_right(nums, upper - v, lo=0, hi=i)
+            a = bisect.bisect_left(nums, lower - nums[i], i + 1)
+            b = bisect.bisect_right(nums, upper - nums[i], i + 1)
             ans += b - a
         return ans
 
