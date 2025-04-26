@@ -17,15 +17,15 @@ class Solution(object):
         :type maxK: int
         :rtype: int
         """
-        ans, last_min, last_max, bad = 0, -1, -1, -1
+        ans, prev_min, prev_max, bad = 0, -1, -1, -1
         for i, a in enumerate(nums):
             if not minK <= a <= maxK:
                 bad = i
             if a == minK:
-                last_min = i
+                prev_min = i
             if a == maxK:
-                last_max = i
-            ans += max(0, min(last_min, last_max) - bad)
+                prev_max = i
+            ans += max(0, min(prev_min, prev_max) - bad)
         return ans
 
 

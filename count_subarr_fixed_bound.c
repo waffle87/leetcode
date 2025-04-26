@@ -11,18 +11,15 @@
 
 long long countSubarrays(int *nums, int numsSize, int minK, int maxK) {
   long long ans = 0;
-  int last_min = -1, last_max = -1, start = 0;
-  for (int i = 0; i < numsSize; i++) {
-    if (nums[i] > maxK || nums[i] < minK)
-      start = i + 1;
-    if (nums[i] == maxK)
-      last_max = i;
+  int bad = -1, prev_min = -1, prev_max = -1;
+  for (int i = 0; i < numsSize; ++i) {
+    if (nums[i] < minK || nums[i] > maxK)
+      bad = i;
     if (nums[i] == minK)
-      last_min = i;
-    int pos = fmin(last_max, last_min);
-    if (start > pos)
-      continue;
-    ans += pos - start + 1;
+      prev_min = i;
+    if (nums[i] == maxK)
+      prev_max = i;
+    ans += fmax(0L, fmin(prev_min, prev_max) - bad);
   }
   return ans;
 }
