@@ -15,18 +15,18 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
+        ans, curr, l = 0, 0, 0
         m = max(nums)
-        ans, curr, i = 0, 0, 0
-        for j in range(len(nums)):
-            curr += nums[j] == m
+        for r in range(len(nums)):
+            curr += nums[r] == m
             while curr >= k:
-                curr -= nums[i] == m
-                i += 1
-            ans += i
+                curr -= nums[l] == m
+                l += 1
+            ans += l
         return ans
 
 
 if __name__ == "__main__":
     obj = Solution()
-    print(obj.countSubarrays(nums=[1, 3, 2, 3, 3], k=2))  # expect: 6
-    print(obj.countSubarrays(nums=[1, 4, 2, 1], k=3))  # expect: 0
+    print(obj.countSubarrays(nums=[1, 3, 2, 3, 3], k=2))
+    print(obj.countSubarrays(nums=[1, 4, 2, 1], k=3))

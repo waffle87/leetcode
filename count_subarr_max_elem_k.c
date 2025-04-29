@@ -9,19 +9,15 @@
  */
 
 long long countSubarrays(int *nums, int numsSize, int k) {
-  int max = 0, cnt = 0, idx[numsSize];
+  int max = -1, curr = 0;
   long long ans = 0;
-  for (int i = 0; i < numsSize; i++)
-    max = max > nums[i];
-  for (int i = 0; i < numsSize; i++)
-    if (nums[i] == max)
-      idx[cnt++] = i;
-  for (int i = 0; i <= cnt - k; i++) {
-    long long left = idx[i], right = idx[i + k - 1],
-              bound = i - 1 >= 0 ? idx[i - 1] : -1;
-    if (!i)
-      bound = -1;
-    ans += (left - bound) * (numsSize - right);
+  for (int i = 0; i < numsSize; ++i)
+    max = nums[i] > max ? nums[i] : max;
+  for (int l = 0, r = 0; r < numsSize; r++) {
+    curr += nums[r] == max;
+    while (curr >= k)
+      curr -= nums[l++] == max;
+    ans += l;
   }
   return ans;
 }
