@@ -7,10 +7,10 @@
  */
 
 bool threeConsecutiveOdds(int *arr, int arrSize) {
-  int odds = 0;
-  for (int i = 0; i < arrSize && odds < 3; ++i)
-    odds = arr[i] % 2 ? odds + 1 : 0;
-  return odds == 3;
+  for (int i = 1; i < arrSize - 1; ++i)
+    if (1 & arr[i - 1] & arr[i] & arr[i + 1])
+      return true;
+  return false;
 }
 
 int main() {
