@@ -1,50 +1,46 @@
 // 2359. Find Closest Node to Given Two Nodes
-#include <limits.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
+
+/*
+ * you are given a directed graph of 'n' nodes numbered from 0 to 'n - 1', where
+ * each node has at most one outgoing edge. the graph is represented with a
+ * given 0-indexed array 'edges' of size 'n', indicating that there is a
+ * directed edge from node 'i' to node 'edges[i]'. if there is no outgoing edge
+ * from 'i' then 'edges[i] == -1'. you are also given two integers 'node1' and
+ * 'node2'. return the indes of the node that can be reached from both 'node1'
+ * and 'node2' such that the maximum between the distance from 'node1' to that
+ * node and from 'node2' to that node is minimised
+ */
+
+void dfs(int node, int dist, int *edge, int *n) {
+  while (node != -1 && n[node] == -1) {
+    n[node] = dist++;
+    node = edge[node];
+  }
+}
 
 int closestMeetingNode(int *edges, int edgesSize, int node1, int node2) {
-  int n = edgesSize, *path1 = malloc(n * sizeof(int)),
-      *path2 = malloc(n * sizeof(int));
-  memset(path1, -1, n * sizeof(int));
-  memset(path2, -1, n * sizeof(int));
-  int p = node1, step = 0;
-  while (1) {
-    path1[p] = step;
-    step++;
-    p = edges[p];
-    if (p == -1)
-      break;
-    if (path1[p] != -1)
-      break;
+  int ans = -1, dist = INT_MAX;
+  int *n1 = (int *)malloc(edgesSize * sizeof(int));
+  int *n2 = (int *)malloc(edgesSize * sizeof(int));
+  for (int i = 0; i < edgesSize; i++) {
+    n1[i] = -1;
+    n2[i] = -1;
   }
-  p = node2;
-  step = 0;
-  while (1) {
-    path2[p] = step;
-    step++;
-    p = edges[p];
-    if (p == -1)
-      break;
-    if (path2[p] != -1)
-      break;
-  }
-  int min = INT_MAX, ans = -1;
-  for (int i = 0; i < n; i++)
-    if (path1[i] != -1 && path2[i] != -1)
-      if (fmax(path1[i], path2[i]) < min) {
-        min = fmax(path1[i], path2[i]);
-        ans = i;
-      }
-  free(path1);
-  free(path2);
+  dfs(node1, 0, edges, n1);
+  dfs(node2, 0, edges, n2);
+  for (int i = 0; i < edgesSize; ++i)
+    if (fmin(n1[i], n2[i]) >= 0 && fmax(n1[i], n2[i]) < dist) {
+      dist = fmax(n1[i], n2[i]);
+      ans = i;
+    }
+  free(n1);
+  free(n2);
   return ans;
 }
 
 int main() {
-  int edges1[] = {2, 2, 3, -1}, edges2[] = {1, 2, -1};
-  printf("%d\n", closestMeetingNode(edges1, 3, 0, 2)); // expect: 2
-  printf("%d\n", closestMeetingNode(edges2, 3, 0, 2)); // expect: 2
+  int e1[] = {2, 2, 3, -1}, e2[] = {1, 2, -1};
+  printf("%d\n", closestMeetingNode(e1, ARRAY_SIZE(e1), 0, 1)); // expect: 2
+  printf("%d\n", closestMeetingNode(e2, ARRAY_SIZE(e2), 0, 2)); // expect: 2
 }
