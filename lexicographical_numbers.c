@@ -7,27 +7,22 @@
  * complexity and uses O(1) extra space.
  */
 
-void lex(int *res, int n, int i, int digit, int *k) {
-  if (!digit)
-    return;
-  for (int j = i * 10; j < (i + 1) * 10 && j <= n; j++) {
-    res[(*k)++] = j;
-    lex(res, n, j, digit - 1, k);
-  }
-}
-
 int *lexicalOrder(int n, int *returnSize) {
-  int *ans = (int *)malloc((n + 1) * sizeof(int));
-  int tmp = n, max_digit = 0, k = 0;
-  while (tmp) {
-    tmp /= 10;
-    max_digit++;
+  int *ans = (int *)malloc(n * sizeof(int));
+  int curr = 1, k = 0;
+  for (int i = 0; i < n; i++) {
+    ans[i] = curr;
+    if (((curr << 3) + (curr << 1)) <= n)
+      curr = (curr << 3) + (curr << 1);
+    else {
+      if (curr >= n)
+        curr /= 10;
+      curr++;
+      while (!(curr % 10))
+        curr /= 10;
+    }
   }
-  for (int i = 1; i < 10 && i <= n; i++) {
-    ans[k++] = i;
-    lex(ans, n, i, max_digit, &k);
-  }
-  *returnSize = k;
+  *returnSize = n;
   return ans;
 }
 
