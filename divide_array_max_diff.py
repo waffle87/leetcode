@@ -18,18 +18,12 @@ class Solution(object):
         :type k: int
         :rtype: List[List[int]]
         """
-        size = len(nums)
-        if size % 3 != 0:
-            return []
         nums.sort()
         ans = []
-        group_idx = 0
-        for i in range(0, size, 3):
-            if i + 2 < size and nums[i + 2] - nums[i] <= k:
-                ans.append([nums[i], nums[i + 1], nums[i + 2]])
-                group_idx += 1
-            else:
+        for i in range(2, len(nums), 3):
+            if nums[i] - nums[i - 2] > k:
                 return []
+            ans.append([nums[i - 2], nums[i - 1], nums[i]])
         return ans
 
 
@@ -37,3 +31,8 @@ if __name__ == "__main__":
     obj = Solution()
     print(obj.divideArray(nums=[1, 3, 4, 8, 7, 9, 3, 5, 1], k=2))
     print(obj.divideArray(nums=[1, 3, 3, 2, 7, 3], k=3))
+    print(
+        obj.divideArray(
+            nums=[4, 2, 9, 8, 2, 12, 7, 12, 10, 5, 8, 5, 5, 7, 9, 2, 5, 11], k=14
+        )
+    )
