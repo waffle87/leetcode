@@ -16,15 +16,15 @@ class Solution(object):
         :type folder: List[str]
         :rtype: List[str]
         """
-        folder.sort(key=lambda x: len(x))
-        vis = set()
-        for i in folder:
-            for j in range(2, len(i)):
-                if i[j] == "/" and i[:j] in vis:
-                    break
-            else:
-                vis.add(i)
-        return list(vis)
+        n = len(folder)
+        folder.sort()
+        ans = []
+        ans.append(folder[0])
+        for i in range(1, n):
+            last = ans[-1]
+            if not folder[i].startswith(last + "/"):
+                ans.append(folder[i])
+        return ans
 
 
 if __name__ == "__main__":
