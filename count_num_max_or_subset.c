@@ -2,37 +2,23 @@
 #include "leetcode.h"
 
 /*
- * given an integer array 'nums', find the maximum possible bitwise OR of a
+ * given an integer array 'nums', find the maximum possible bitwise or of a
  * subset of 'nums' and return the number of different non-empty subsets with
- * the maximum bitwise OR. an array 'a' is a subset of an array 'b' if 'a' can
- * be obtained from 'b' by deleting some (possibly 0) elements of 'b'. two
+ * the maximum bitwise or. an array 'a' is a subset of an array 'b' if 'a' can
+ * be obtained from 'b' by deleting some (possibly zero) elements of 'b'. two
  * subsets are considered different if the indices of the elements chosen are
- * different. the bitwose OR of an array 'a' is equal to 'a[0] | a[1] | ... |
- * a[n]' (0-indexed)
+ * different. the bitwise or of an array 'a' is equal to 'a[0] | a[1] | ... |
+ * a[a.length - 1]'
  */
 
-void backtrack(int *nums, int numsSize, int target, int idx, int pos,
-               int *res) {
-  if (pos == numsSize)
-    return;
-  for (int i = pos; i < numsSize; i++) {
-    int tmp = idx | nums[i];
-    if (tmp == target)
-      (*res)++;
-    backtrack(nums, numsSize, target, tmp, i + 1, res);
-  }
-}
-
 int countMaxOrSubsets(int *nums, int numsSize) {
-  int max = 0, ans = 0;
-  for (int i = 0; i < numsSize; i++)
-    max |= nums[i];
+  int max = 0, dp[1 << 17] = {1};
   for (int i = 0; i < numsSize; i++) {
-    if (nums[i] == max)
-      ans++;
-    backtrack(nums, numsSize, max, nums[i], i + 1, &ans);
+    for (int j = max; j >= 0; --j)
+      dp[j | nums[i]] += dp[j];
+    max |= nums[i];
   }
-  return ans;
+  return dp[max];
 }
 
 int main() {
