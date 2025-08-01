@@ -1,19 +1,18 @@
 # 118. Pascal's Triangle
 
 """
-given an integer 'num_rows', return the first numrows of pascal's triangle.
+given an integer 'numRows', return the first numrows of pascal's triangle.
 in pascal's triangle, each number is the sum of the two number direction
 above it as show [gif]
 """
 
 
 class Solution(object):
-    def generate(self, num_rows):
-        ans = [[1 for _ in range(row + 1)] for row in range(num_rows)]
-        for row in range(num_rows):
-            for col in range(1, row):
-                ans[row][col] = ans[row - 1][col] + ans[row - 1][col - 1]
-        return ans
+    def generate(self, numRows):
+        ans = [[1]]
+        for i in range(1, numRows):
+            ans += [map(lambda x, y: x + y, ans[-1] + [0], [0] + ans[-1])]
+        return ans[:numRows]
 
 
 if __name__ == "__main__":
