@@ -1,5 +1,5 @@
 # 2106. Maximum Fruits Harvested After at Most K Steps
-import bisect
+from bisect import bisect_left
 
 """
 fruits are available at some positions on an infinite x-axis. you are given a
@@ -23,42 +23,22 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        amt = {}
-        for a, b in fruits:
-            amt[a] = b
-        pos = [a for a, b in fruits if a != startPos]
-        left, right, n = [], [], len(pos)
-        idx = bisect.insort_right(pos, startPos)
-        curr_f = 0
-        for i in range(idx, n):
-            curr_pos = pos[i]
-            curr_f += amt[curr_pos]
-            right.append([curr_pos - pos, curr_f])
-        curr_f = 0
-        for i in range(idx - 1, -1, -1):
-            curr_pos = pos[i]
-            curr_f += amt[curr_pos]
-            left.append([pos - curr_pos, curr_f])
-        ans = 0
-        for r_dist, r_f in right:
-            if r_dist <= k:
-                curr_f = r_f
-                l_dist = k - 2 * r_dist
-                if l_dist > 0:
-                    idx = bisect.bisect_right(left, [l_dist, float("inf")])
-                    if idx > 0:
-                        curr_f += left[idx - 1][1]
-                ans = max(ans, curr_f)
-        for l_dist, l_f in left:
-            if l_dist <= k:
-                curr_f = l_f
-                r_dist = k - 2 * l_dist
-                if r_dist > 0:
-                    idx = bisect.bisect_right(right, [r_dist, float("inf")])
-                    if idx > 0:
-                        curr_f += right[idx - 1][1]
-                ans = max(ans, curr_f)
-        return ans + amt.get(pos, 0)
+        l = bisect_left([i[0] for i in fruits], startPos + k)
+        amount, total, r = 0, 0, l
+        while r < len(fruits) and fruits[r][0] <= startPos + k:
+            amount += fruits[r][1]
+            while (
+                min(
+                    startPos - 2 * fruits[l][0] + fruits[r][0],
+                    2 * fruits[r][0] - startPos - fruits[l][0],
+                )
+                > k
+            ):
+                amount -= fruits[l][1]
+                l += 1
+            total = max(total, amount)
+            r += 1
+        return total
 
 
 if __name__ == "__main__":
