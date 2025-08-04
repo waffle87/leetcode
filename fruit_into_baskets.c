@@ -1,6 +1,5 @@
 // 904. Fruit Into Baskets
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * you are visiting a farm that has a single row of fruit trees arranged from
@@ -15,29 +14,51 @@
  */
 
 int totalFruit(int *fruits, int fruitsSize) {
-  int n = fruitsSize, type = 0, left = 0, right = 0;
-  int *hash = calloc(n, sizeof(int));
-  while (right < fruitsSize) {
-    if (hash[fruits[right]] == 0)
-      type++;
-    hash[fruits[right]]++;
-    right++;
-    if (type > 2) {
-      if (hash[fruits[left]] == 1)
-        type--;
-      hash[fruits[left]]--;
-      left++;
+  int max = 0, p1 = 0, p2 = 0, f1 = -1, f2 = -1, i, j = 0;
+  for (i = 0; i < fruitsSize; ++i) {
+    if (fruits[i] == f1)
+      ++p1;
+    else if (f1 < 0) {
+      f1 = fruits[i];
+      p1 = 1;
+    } else {
+      f2 = fruits[i];
+      p2 = 1;
+      break;
     }
   }
-  free(hash);
-  return right - left;
+  while (++i < fruitsSize) {
+    if (fruits[i] == f1)
+      ++p1;
+    else if (fruits[i] == f2)
+      ++p2;
+    else {
+      if (i - j > max)
+        max = i - j;
+      while (p1 > 0 && p2 > 0) {
+        if (fruits[j] == f1)
+          --p1;
+        else
+          --p2;
+        ++j;
+      }
+      if (!p1) {
+        f1 = fruits[i];
+        p1 = 1;
+      } else {
+        f2 = fruits[i];
+        p2 = 1;
+      }
+    }
+  }
+  if (fruitsSize - j > max)
+    return fruitsSize - j;
+  return max;
 }
 
 int main() {
-  int fruits1[] = {1, 2, 1}, fs1 = 3;
-  int fruits2[] = {0, 1, 2, 2}, fs2 = 4;
-  int fruits3[] = {1, 2, 3, 2, 2}, fs3 = 5;
-  printf("%d\n", totalFruit(fruits1, fs1)); // expect: 3
-  printf("%d\n", totalFruit(fruits2, fs2)); // expect: 3
-  printf("%d\n", totalFruit(fruits3, fs3)); // expect: 4
+  int f1[] = {1, 2, 1}, f2[] = {0, 1, 2, 2}, f3[] = {1, 2, 3, 2, 2};
+  printf("%d\n", totalFruit(f1, ARRAY_SIZE(f1))); // expect: 3
+  printf("%d\n", totalFruit(f2, ARRAY_SIZE(f2))); // expect: 3
+  printf("%d\n", totalFruit(f3, ARRAY_SIZE(f3))); // expect: 4
 }
