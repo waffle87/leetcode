@@ -7,11 +7,7 @@
  * that 'n == 2^x'
  */
 
-bool isPowerOfTwo(int n) {
-  if (n <= 0)
-    return 0;
-  return !(n & (n - 1));
-}
+bool isPowerOfTwo(int n) { return n > 0 && __builtin_popcount(n) == 1; }
 
 int main() {
   printf("%d\n", isPowerOfTwo(1));  // expect: 1

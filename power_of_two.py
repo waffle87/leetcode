@@ -1,4 +1,5 @@
 # 231. Power of Two
+from math import log2
 
 """
 given an integer 'n', return true if it is a power of two. otherwise, return
@@ -13,10 +14,9 @@ class Solution(object):
         :type n: int
         :rtype: bool
         """
-        if n <= 0:
-            return False
-        return not (n & (n - 1))
-       
+        return n > 0 and (log2(n) % 1 == 0)
+
+
 if __name__ == "__main__":
     obj = Solution()
     print(obj.isPowerOfTwo(1))
