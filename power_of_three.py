@@ -1,5 +1,11 @@
 # 326. Power of Three
 
+"""
+given an integer 'n', return true if it is a power of three. otherwise,
+return false. an integer 'n' is a power of three, if there exists an integer
+'x' such that 'n == 3^x'
+"""
+
 
 class Solution(object):
     def isPowerOfThree(self, n):
@@ -17,4 +23,3 @@ if __name__ == "__main__":
     print(obj.isPowerOfThree(27))
     print(obj.isPowerOfThree(0))
     print(obj.isPowerOfThree(-1))
-    print(obj.isPowerOfThree(6561))
