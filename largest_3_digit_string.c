@@ -1,5 +1,7 @@
 // 2264. Largest 3-Same-Digit Number in String
 #include "leetcode.h"
+#include <stdlib.h>
+#include <string.h>
 
 /*
  * given a string 'num' representing a large integer, an integer is good if it
@@ -8,37 +10,20 @@
  * a string or an empty string "" if no such integer.
  */
 
-char *largestGoodInterger(char *num) {
-  int n = strlen(num), chr = 'a', cnt = 1;
-  for (int i = 1; i < n; i++) {
-    if (num[i] == num[i - 1]) {
-      cnt++;
-      if (i < n - 1)
-        continue;
-    }
-    if (cnt >= 3) {
-      if (chr == 'a')
-        chr = num[i - 1];
-      else
-        chr = fmax(chr, num[i - 1]);
-    }
-    cnt = 1;
-  }
-  if (chr == 'a')
-    return "";
-  else {
-    char *ans = malloc(4);
-    ans[3] = '\0';
-    ans[0] = chr;
-    ans[1] = chr;
-    ans[2] = chr;
-    return ans;
-  }
+char *largestGoodInteger(char *num) {
+  static char *patterns[] = {"999", "888", "777", "666", "555",
+                             "444", "333", "222", "111", "000"};
+  for (int i = 0; i < 10; i++)
+    if (strstr(num, patterns[i]))
+      return patterns[i];
+  return "";
 }
 
 int main() {
-  char *n1 = "6777133339", *n2 = "2300019", *n3 = "42352338";
-  printf("%s\n", largestGoodInterger(n1)); // expect: 777
-  printf("%s\n", largestGoodInterger(n2)); // expect: 000
-  printf("%s\n", largestGoodInterger(n3)); // expect: NULL
+  char *n1 = "6777133339", *lgi1 = largestGoodInteger(n1);
+  char *n2 = "2300019", *lgi2 = largestGoodInteger(n2);
+  char *n3 = "42352338", *lgi3 = largestGoodInteger(n3);
+  printf("%s\n", lgi1); // expect: 777
+  printf("%s\n", lgi2); // expect: 000
+  printf("%s\n", lgi3); // expect: NULL
 }

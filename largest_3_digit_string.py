@@ -14,19 +14,22 @@ class Solution(object):
         :type num: str
         :rtype: str
         """
-        ans = ""
-        empty = ""
-        tmp = 0
-        check = True
-        for i in range(len(num) - 2):
-            if i + 2 < len(num) and num[i] == num[i + 1] == num[i + 2]:
-                tmp = max(tmp, int(num[i]))
-                check = False
-        if not check:
-            ans += str(tmp) * 3
-        else:
-            return empty
-        return ans
+        patterns = [
+            "999",
+            "888",
+            "777",
+            "666",
+            "555",
+            "444",
+            "333",
+            "222",
+            "111",
+            "000",
+        ]
+        for i in patterns:
+            if i in num:
+                return i
+        return ""
 
 
 if __name__ == "__main__":
