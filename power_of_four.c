@@ -1,6 +1,5 @@
 // 342. Power of Four
-#include <stdbool.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * given an integer 'n', return 'true' if it is a power of four, otherwise,
@@ -9,16 +8,7 @@
  */
 
 bool isPowerOfFour(int n) {
-  int ans = 0, pos = 1, ones = 0;
-  while (n) {
-    if (n & 1) { // if 'n' is even...
-      ans++;
-      ones = pos;
-    }
-    n >>= 1; // 'n' / 2
-    pos++;
-  }
-  return ans == 1 && ones & 1;
+  return n > 0 && __builtin_popcount((unsigned)n) == 1 && !((n - 1) % 3);
 }
 
 int main() {

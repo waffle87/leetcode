@@ -9,7 +9,7 @@ return 'false'. an integer 'n' is a power of four if there exists an integer
 
 class Solution(object):
     def isPowerOfFour(self, n):
-        return n != 0 and n & (n - 1) == 0 and n & 1431655765 == n
+        return n > 0 and n.bit_count() == 1 and (n - 1) % 3 == 0
 
 
 if __name__ == "__main__":
