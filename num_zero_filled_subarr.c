@@ -1,17 +1,19 @@
 // 2348. Number of Zero-Filled Subarrays
-#include <stdio.h>
+#include "leetcode.h"
 
 // given integer array 'nums', return number of subarrays filled with zero. a
 // subarray is a contiguous non-empty sequence of elements from within an array
 
-long long zeroFilledSubarray(int *nums, int nums_size) {
-  long long ans = 0;
-  for (int i = 0, j = 0; i < nums_size; ++i) {
-    if (nums[i] != 0)
-      j = i + 1;
-    ans += i - j + 1;
+long long zeroFilledSubarray(int *nums, int numsSize) {
+  long long cnt = 0, streak = 0;
+  for (int i = 0; i < numsSize; i++) {
+    if (!nums[i]) {
+      streak++;
+      cnt += streak;
+    } else
+      streak = 0;
   }
-  return ans;
+  return cnt;
 }
 
 int main() {
