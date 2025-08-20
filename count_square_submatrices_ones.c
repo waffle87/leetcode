@@ -7,24 +7,13 @@
  */
 
 int countSquares(int **matrix, int matrixSize, int *matrixColSize) {
-  if (!matrix || !matrixSize || !matrixColSize || !*matrixColSize)
-    return 0;
-  int rows = matrixSize, cols = *matrixColSize;
-  int dp[rows][cols];
-  for (int i = 0; i < rows; i++)
-    dp[i][0] = matrix[i][0];
-  for (int i = 0; i < cols; i++)
-    dp[0][i] = matrix[0][i];
-  for (int i = 1; i < rows; i++)
-    for (int j = 1; j < rows; j++)
-      dp[i][j] = matrix[i][j] == 1
-                     ? fmin(dp[i - 1][j], fmin(dp[i][j - 1], dp[i - 1][j - 1]))
-                     : 0;
-  int cnt = 0;
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < cols; j++)
-      cnt += dp[i][j];
-  return cnt;
+  int ans = 0;
+  for (int i = 0; i < matrixSize; ++i)
+    for (int j = 0; j < matrixColSize[i]; ans += matrix[i][j++])
+      if (matrix[i][j] && i && j)
+        matrix[i][j] += fmin(matrix[i - 1][j - 1],
+                             fmin(matrix[i - 1][j], matrix[i][j - 1]));
+  return ans;
 }
 
 int main() {
