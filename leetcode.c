@@ -27,6 +27,17 @@ struct ListNode *listnode_create(int val) {
   return new;
 }
 
+struct ListNode *listnode_build(int *vals, int size) {
+  if (!size)
+    return NULL;
+  struct ListNode *head = listnode_create(vals[0]), *curr = head;
+  for (int i = 1; i < size; i++) {
+    curr->next = listnode_create(vals[i]);
+    curr = curr->next;
+  }
+  return head;
+}
+
 void listnode_print(struct ListNode *head) {
   struct ListNode *curr = head;
   while (curr != NULL) {

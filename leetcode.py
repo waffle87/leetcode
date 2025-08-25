@@ -9,7 +9,7 @@ class TreeNode:
 
 
 def treenode_build(vals):
-    if not vals or vals[0] is None:
+    if not vals:
         return None
     root = TreeNode(vals[0])
     q, i = deque([root]), 1
@@ -24,3 +24,20 @@ def treenode_build(vals):
             q.append(curr.right)
         i += 1
     return root
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def listnode_build(vals):
+    if not vals or vals[0] is None:
+        return None
+    head = ListNode(vals[0])
+    curr = head
+    for i in vals[1:]:
+        curr.next = ListNode(i)
+        curr = curr.next
+    return head
