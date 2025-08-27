@@ -110,13 +110,16 @@ int main() {
   int p1[] = {2, 5}, s1i[2][3] = {{3, 0, 5}, {1, 2, 10}}, n1[] = {3, 2};
   int p2[] = {2, 3, 4}, s2i[2][4] = {{1, 1, 0, 4}, {2, 2, 1, 9}},
       n2[] = {1, 2, 1};
-  struct two_d_arr s1, s2;
-  two_d_arr_init(&s1, ARRAY_SIZE(s1i), ARRAY_SIZE(s1i[0]), s1i);
-  two_d_arr_init(&s2, ARRAY_SIZE(s2i), ARRAY_SIZE(s2i[0]), s2i);
-  printf("%d\n", shoppingOffers(p1, ARRAY_SIZE(p1), s1.arr, s1.row_size,
-                                s1.col_size, n1, ARRAY_SIZE(n1))); // expect: 14
-  printf("%d\n", shoppingOffers(p2, ARRAY_SIZE(p2), s2.arr, s2.row_size,
-                                s2.col_size, n2, ARRAY_SIZE(n2))); // expect: 11
-  two_d_arr_free(&s1);
-  two_d_arr_free(&s2);
+  struct two_d_arr *s1 =
+      two_d_arr_init(ARRAY_SIZE(s1i), ARRAY_SIZE(s1i[0]), s1i);
+  struct two_d_arr *s2 =
+      two_d_arr_init(ARRAY_SIZE(s2i), ARRAY_SIZE(s2i[0]), s2i);
+  printf("%d\n",
+         shoppingOffers(p1, ARRAY_SIZE(p1), s1->arr, s1->row_size, s1->col_size,
+                        n1, ARRAY_SIZE(n1))); // expect: 14
+  printf("%d\n",
+         shoppingOffers(p2, ARRAY_SIZE(p2), s2->arr, s2->row_size, s2->col_size,
+                        n2, ARRAY_SIZE(n2))); // expect: 11
+  two_d_arr_free(s1);
+  two_d_arr_free(s2);
 }

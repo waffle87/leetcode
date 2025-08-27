@@ -88,19 +88,21 @@ int **substringXorQueries(char *s, int **queries, int queriesSize,
 int main() {
   char *s1 = "101101", *s2 = "0101", *s3 = "1";
   int q1i[2][2] = {{0, 5}, {1, 2}}, q2i[1][2] = {{12, 8}}, q3i[1][2] = {{4, 5}};
-  struct two_d_arr q1, q2, q3;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  two_d_arr_init(&q3, ARRAY_SIZE(q3i), ARRAY_SIZE(q3i[0]), q3i);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  struct two_d_arr *q3 =
+      two_d_arr_init(ARRAY_SIZE(q3i), ARRAY_SIZE(q3i[0]), q3i);
   int rs1, *rcs1,
-      **sxq1 = substringXorQueries(s1, q1.arr, q1.row_size, q1.col_size, &rs1,
-                                   &rcs1);
+      **sxq1 = substringXorQueries(s1, q1->arr, q1->row_size, q1->col_size,
+                                   &rs1, &rcs1);
   int rs2, *rcs2,
-      **sxq2 = substringXorQueries(s2, q2.arr, q2.row_size, q2.col_size, &rs2,
-                                   &rcs2);
+      **sxq2 = substringXorQueries(s2, q2->arr, q2->row_size, q2->col_size,
+                                   &rs2, &rcs2);
   int rs3, *rcs3,
-      **sxq3 = substringXorQueries(s3, q3.arr, q3.row_size, q3.col_size, &rs3,
-                                   &rcs3);
+      **sxq3 = substringXorQueries(s3, q3->arr, q3->row_size, q3->col_size,
+                                   &rs3, &rcs3);
   for (int i = 0; i < rs1; i++) {
     for (int j = 0; j < rcs1[i]; j++)
       printf("%d ", sxq1[i][j]); // expect: [[0,2],[2,3]]
@@ -131,7 +133,7 @@ int main() {
   free(rcs1);
   free(rcs2);
   free(rcs3);
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
-  two_d_arr_free(&q3);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
+  two_d_arr_free(q3);
 }

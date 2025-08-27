@@ -102,13 +102,14 @@ int *maxPoints(int **grid, int gridSize, int *gridColSize, int *queries,
 int main() {
   int g1i[3][3] = {{1, 2, 3}, {2, 5, 7}, {3, 5, 1}}, q1[] = {5, 6, 2}, rs1;
   int g2i[2][3] = {{5, 2, 1}, {1, 1, 2}}, q2[] = {3}, rs2;
-  struct two_d_arr g1, g2;
-  two_d_arr_init(&g1, ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
-  two_d_arr_init(&g2, ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
   int *mp1 =
-      maxPoints(g1.arr, g1.row_size, g1.col_size, q1, ARRAY_SIZE(q1), &rs1);
+      maxPoints(g1->arr, g1->row_size, g1->col_size, q1, ARRAY_SIZE(q1), &rs1);
   int *mp2 =
-      maxPoints(g2.arr, g2.row_size, g2.col_size, q2, ARRAY_SIZE(q2), &rs2);
+      maxPoints(g2->arr, g2->row_size, g2->col_size, q2, ARRAY_SIZE(q2), &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", mp1[i]); // expect: 5 8 1
   printf("\n");
@@ -117,6 +118,6 @@ int main() {
   printf("\n");
   free(mp1);
   free(mp2);
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
 }

@@ -38,13 +38,12 @@ int calculateMinimumHP(int **dungeon, int dungeonSize, int *dungeonColSize) {
 
 int main() {
   int d1i[3][3] = {{-2, -3, 3}, {-5, -10, 1}, {10, 30, -5}}, d2i[1][1] = {{0}};
-  struct two_d_arr d1, d2;
-  two_d_arr_init(&d1, 3, 3, d1i);
-  two_d_arr_init(&d2, 1, 1, d2i);
+  struct two_d_arr *d1 = two_d_arr_init(3, 3, d1i);
+  struct two_d_arr *d2 = two_d_arr_init(1, 1, d2i);
   printf("%d\n",
-         calculateMinimumHP(d1.arr, d1.row_size, d1.col_size)); // expect: 7
+         calculateMinimumHP(d1->arr, d1->row_size, d1->col_size)); // expect: 7
   printf("%d\n",
-         calculateMinimumHP(d2.arr, d2.row_size, d2.col_size)); // expect: 1
-  two_d_arr_free(&d1);
-  two_d_arr_free(&d2);
+         calculateMinimumHP(d2->arr, d2->row_size, d2->col_size)); // expect: 1
+  two_d_arr_free(d1);
+  two_d_arr_free(d2);
 }

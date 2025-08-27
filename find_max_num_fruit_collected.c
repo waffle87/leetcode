@@ -47,13 +47,14 @@ int main() {
   int f1i[4][4] = {
       {1, 2, 3, 4}, {5, 6, 8, 7}, {9, 10, 11, 12}, {13, 14, 15, 16}};
   int f2i[2][2] = {{1, 1}, {1, 1}};
-  struct two_d_arr f1, f2;
-  two_d_arr_init(&f1, ARRAY_SIZE(f1i), ARRAY_SIZE(f1i[0]), f1i);
-  two_d_arr_init(&f2, ARRAY_SIZE(f2i), ARRAY_SIZE(f2i[0]), f2i);
+  struct two_d_arr *f1 =
+      two_d_arr_init(ARRAY_SIZE(f1i), ARRAY_SIZE(f1i[0]), f1i);
+  struct two_d_arr *f2 =
+      two_d_arr_init(ARRAY_SIZE(f2i), ARRAY_SIZE(f2i[0]), f2i);
+  printf("%d\n", maxCollectedFruits(f1->arr, f1->row_size,
+                                    f1->col_size)); // expect: 100
   printf("%d\n",
-         maxCollectedFruits(f1.arr, f1.row_size, f1.col_size)); // expect: 100
-  printf("%d\n",
-         maxCollectedFruits(f2.arr, f2.row_size, f2.col_size)); // expect: 4
-  two_d_arr_free(&f1);
-  two_d_arr_free(&f2);
+         maxCollectedFruits(f2->arr, f2->row_size, f2->col_size)); // expect: 4
+  two_d_arr_free(f1);
+  two_d_arr_free(f2);
 }

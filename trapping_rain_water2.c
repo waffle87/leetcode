@@ -85,11 +85,15 @@ int main() {
                     {3, 2, 1, 2, 3},
                     {3, 2, 2, 2, 3},
                     {3, 3, 3, 3, 3}};
-  struct two_d_arr hm1, hm2, hm3;
-  two_d_arr_init(&hm1, ARRAY_SIZE(hm1i), ARRAY_SIZE(hm1i[0]), hm1i);
-  two_d_arr_init(&hm2, ARRAY_SIZE(hm2i), ARRAY_SIZE(hm2i[0]), hm2i);
+  struct two_d_arr *hm1 =
+      two_d_arr_init(ARRAY_SIZE(hm1i), ARRAY_SIZE(hm1i[0]), hm1i);
+  struct two_d_arr *hm2 =
+      two_d_arr_init(ARRAY_SIZE(hm2i), ARRAY_SIZE(hm2i[0]), hm2i);
   printf("%d\n",
-         trapRainWater(hm1.arr, hm1.row_size, hm1.col_size)); // expect: 4
+         trapRainWater(hm1->arr, hm1->row_size, hm1->col_size)); // expect: 4
   printf("%d\n",
-         trapRainWater(hm2.arr, hm2.row_size, hm2.col_size)); // expect: 10
+         trapRainWater(hm2->arr, hm2->row_size, hm2->col_size)); // expect: 10
+
+  two_d_arr_free(hm1);
+  two_d_arr_free(hm2);
 }

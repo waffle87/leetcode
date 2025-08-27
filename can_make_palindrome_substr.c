@@ -36,11 +36,12 @@ int main() {
   char *s1 = "abcda", *s2 = "lyb";
   int q1i[5][3] = {{3, 3, 0}, {1, 2, 0}, {0, 3, 1}, {0, 3, 2}, {0, 4, 1}};
   int q2i[2][3] = {{0, 1, 0}, {2, 2, 1}}, rs1, rs2;
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, 5, 3, q1i);
-  two_d_arr_init(&q2, 2, 3, q2i);
-  bool *cmpq1 = canMakePaliQueries(s1, q1.arr, q1.row_size, q1.col_size, &rs1);
-  bool *cmpq2 = canMakePaliQueries(s2, q2.arr, q2.row_size, q2.col_size, &rs2);
+  struct two_d_arr *q1 = two_d_arr_init(5, 3, q1i);
+  struct two_d_arr *q2 = two_d_arr_init(2, 3, q2i);
+  bool *cmpq1 =
+      canMakePaliQueries(s1, q1->arr, q1->row_size, q1->col_size, &rs1);
+  bool *cmpq2 =
+      canMakePaliQueries(s2, q2->arr, q2->row_size, q2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", cmpq1[i]); // expect: 1 0 0 1 1
   printf("\n");
@@ -48,5 +49,6 @@ int main() {
     printf("%d ", cmpq2[i]); // expect: 0 1
   printf("\n");
   free(cmpq1), free(cmpq2);
-  two_d_arr_free(&q1), two_d_arr_free(&q2);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

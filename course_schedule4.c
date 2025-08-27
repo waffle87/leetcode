@@ -46,19 +46,23 @@ int main() {
   int p1i[1][2] = {{1, 0}}, q1i[2][2] = {{0, 1}, {1, 0}}, rs1;
   int p2i[1][0] = {{}}, q2i[2][2] = {{1, 0}, {0, 1}}, rs2;
   int p3i[3][2] = {{1, 2}, {1, 0}, {2, 0}}, q3i[2][2] = {{1, 0}, {1, 2}}, rs3;
-  struct two_d_arr p1, q1, p2, q2, p3, q3;
-  two_d_arr_init(&p1, ARRAY_SIZE(p1i), ARRAY_SIZE(p1i[0]), p1i);
-  two_d_arr_init(&p2, 0, ARRAY_SIZE(p2i[0]), p2i);
-  two_d_arr_init(&p3, ARRAY_SIZE(p3i), ARRAY_SIZE(p3i[0]), p3i);
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  two_d_arr_init(&q3, ARRAY_SIZE(q3i), ARRAY_SIZE(q3i[0]), q3i);
-  bool *cip1 = checkIfPrerequisite(2, p1.arr, p1.row_size, p1.col_size, q1.arr,
-                                   q1.row_size, q1.col_size, &rs1);
-  bool *cip2 = checkIfPrerequisite(2, p2.arr, p2.row_size, p2.col_size, q2.arr,
-                                   q2.row_size, q2.col_size, &rs2);
-  bool *cip3 = checkIfPrerequisite(3, p3.arr, p3.row_size, p3.col_size, q3.arr,
-                                   q3.row_size, q3.col_size, &rs3);
+  struct two_d_arr *p1 =
+      two_d_arr_init(ARRAY_SIZE(p1i), ARRAY_SIZE(p1i[0]), p1i);
+  struct two_d_arr *p2 = two_d_arr_init(0, ARRAY_SIZE(p2i[0]), p2i);
+  struct two_d_arr *p3 =
+      two_d_arr_init(ARRAY_SIZE(p3i), ARRAY_SIZE(p3i[0]), p3i);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  struct two_d_arr *q3 =
+      two_d_arr_init(ARRAY_SIZE(q3i), ARRAY_SIZE(q3i[0]), q3i);
+  bool *cip1 = checkIfPrerequisite(2, p1->arr, p1->row_size, p1->col_size,
+                                   q1->arr, q1->row_size, q1->col_size, &rs1);
+  bool *cip2 = checkIfPrerequisite(2, p2->arr, p2->row_size, p2->col_size,
+                                   q2->arr, q2->row_size, q2->col_size, &rs2);
+  bool *cip3 = checkIfPrerequisite(3, p3->arr, p3->row_size, p3->col_size,
+                                   q3->arr, q3->row_size, q3->col_size, &rs3);
   for (int i = 0; i < rs1; i++)
     printf("%d ", cip1[i]); // expect: 0 1
   printf("\n");
@@ -71,10 +75,10 @@ int main() {
   free(cip1);
   free(cip2);
   free(cip3);
-  two_d_arr_free(&p1);
-  two_d_arr_free(&p2);
-  two_d_arr_free(&p3);
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
-  two_d_arr_free(&q3);
+  two_d_arr_free(p1);
+  two_d_arr_free(p2);
+  two_d_arr_free(p3);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
+  two_d_arr_free(q3);
 }

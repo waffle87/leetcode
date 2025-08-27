@@ -23,13 +23,14 @@ int numEquivDominoPairs(int **dominoes, int dominoesSize,
 int main() {
   int d1i[4][2] = {{1, 2}, {2, 1}, {3, 4}, {5, 6}};
   int d2i[5][2] = {{1, 2}, {1, 2}, {1, 1}, {1, 2}, {2, 2}};
-  struct two_d_arr d1, d2;
-  two_d_arr_init(&d1, ARRAY_SIZE(d1i), ARRAY_SIZE(d1i[0]), d1i);
-  two_d_arr_init(&d2, ARRAY_SIZE(d2i), ARRAY_SIZE(d2i[0]), d2i);
+  struct two_d_arr *d1 =
+      two_d_arr_init(ARRAY_SIZE(d1i), ARRAY_SIZE(d1i[0]), d1i);
+  struct two_d_arr *d2 =
+      two_d_arr_init(ARRAY_SIZE(d2i), ARRAY_SIZE(d2i[0]), d2i);
   printf("%d\n",
-         numEquivDominoPairs(d1.arr, d1.row_size, d1.col_size)); // expect: 1
+         numEquivDominoPairs(d1->arr, d1->row_size, d1->col_size)); // expect: 1
   printf("%d\n",
-         numEquivDominoPairs(d2.arr, d2.row_size, d2.col_size)); // expect: 3
-  two_d_arr_free(&d1);
-  two_d_arr_free(&d2);
+         numEquivDominoPairs(d2->arr, d2->row_size, d2->col_size)); // expect: 3
+  two_d_arr_free(d1);
+  two_d_arr_free(d2);
 }

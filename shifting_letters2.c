@@ -38,11 +38,12 @@ int main() {
   char *s1 = "abc", *s2 = "dztz";
   int s1i[3][3] = {{0, 1, 0}, {1, 2, 1}, {0, 2, 1}},
       s2i[2][3] = {{0, 0, 0}, {1, 1, 1}};
-  struct two_d_arr sh1, sh2;
-  two_d_arr_init(&sh1, 3, 3, s1i);
-  two_d_arr_init(&sh1, 2, 3, s2i);
-  printf("%s\n", shiftingLetters(s1, sh1.arr, sh1.row_size,
-                                 sh1.col_size)); // expect: ace
-  printf("%s\n", shiftingLetters(s2, sh2.arr, sh2.row_size,
-                                 sh2.col_size)); // expect: catz
+  struct two_d_arr *sh1 = two_d_arr_init(3, 3, s1i);
+  struct two_d_arr *sh2 = two_d_arr_init(2, 3, s2i);
+  printf("%s\n", shiftingLetters(s1, sh1->arr, sh1->row_size,
+                                 sh1->col_size)); // expect: ace
+  printf("%s\n", shiftingLetters(s2, sh2->arr, sh2->row_size,
+                                 sh2->col_size)); // expect: catz
+  two_d_arr_free(sh1);
+  two_d_arr_free(sh2);
 }

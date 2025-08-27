@@ -54,13 +54,14 @@ int main() {
   int a1[] = {1, 3, 4, 2}, m1i[2][2] = {{1, 4}, {2, 3}};
   int a2[] = {2, 8, 7, 4, 1, 3, 5, 6, 9},
       m2i[3][3] = {{3, 2, 5}, {1, 4, 6}, {8, 7, 9}};
-  struct two_d_arr m1, m2;
-  two_d_arr_init(&m1, ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
-  two_d_arr_init(&m2, ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
-  printf("%d\n", firstCompleteIndex(a1, ARRAY_SIZE(a1), m1.arr, m1.row_size,
-                                    m1.col_size)); // expect: 2
-  printf("%d\n", firstCompleteIndex(a2, ARRAY_SIZE(a2), m2.arr, m2.row_size,
-                                    m2.col_size)); // expect: 3
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
+  struct two_d_arr *m1 =
+      two_d_arr_init(ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
+  struct two_d_arr *m2 =
+      two_d_arr_init(ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
+  printf("%d\n", firstCompleteIndex(a1, ARRAY_SIZE(a1), m1->arr, m1->row_size,
+                                    m1->col_size)); // expect: 2
+  printf("%d\n", firstCompleteIndex(a2, ARRAY_SIZE(a2), m2->arr, m2->row_size,
+                                    m2->col_size)); // expect: 3
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
 }

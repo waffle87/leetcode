@@ -117,12 +117,12 @@ int minimumObstacles(int **grid, int gridSize, int *gridColSize) {
 int main() {
   int g1i[3][3] = {{0, 1, 1}, {1, 1, 0}, {1, 1, 0}},
       g2i[3][5] = {{0, 1, 0, 0, 0}, {0, 1, 0, 1, 0}, {0, 0, 0, 1, 0}};
-  struct two_d_arr g1, g2;
-  two_d_arr_init(&g1, 3, 3, g1i);
-  two_d_arr_init(&g2, 3, 5, g2i);
+  struct two_d_arr *g1 = two_d_arr_init(3, 3, g1i);
+  struct two_d_arr *g2 = two_d_arr_init(3, 5, g2i);
   printf("%d\n",
-         minimumObstacles(g1.arr, g1.row_size, g1.col_size)); // expect: 2
+         minimumObstacles(g1->arr, g1->row_size, g1->col_size)); // expect: 2
   printf("%d\n",
-         minimumObstacles(g2.arr, g2.row_size, g2.col_size)); // expect: 0
-  two_d_arr_free(&g1), two_d_arr_free(&g2);
+         minimumObstacles(g2->arr, g2->row_size, g2->col_size)); // expect: 0
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
 }

@@ -69,17 +69,19 @@ int minTimeToReach(int **moveTime, int moveTimeSize, int *moveTimeColSize) {
 int main() {
   int mt1i[2][2] = {{0, 4}, {4, 4}}, mt2i[2][3] = {{0, 0, 0}, {0, 0, 0}},
       mt3i[2][2] = {{0, 1}, {1, 2}};
-  struct two_d_arr mt1, mt2, mt3;
-  two_d_arr_init(&mt1, ARRAY_SIZE(mt1i), ARRAY_SIZE(mt1i[0]), mt1i);
-  two_d_arr_init(&mt2, ARRAY_SIZE(mt2i), ARRAY_SIZE(mt2i[0]), mt2i);
-  two_d_arr_init(&mt3, ARRAY_SIZE(mt3i), ARRAY_SIZE(mt3i[0]), mt3i);
+  struct two_d_arr *mt1 =
+      two_d_arr_init(ARRAY_SIZE(mt1i), ARRAY_SIZE(mt1i[0]), mt1i);
+  struct two_d_arr *mt2 =
+      two_d_arr_init(ARRAY_SIZE(mt2i), ARRAY_SIZE(mt2i[0]), mt2i);
+  struct two_d_arr *mt3 =
+      two_d_arr_init(ARRAY_SIZE(mt3i), ARRAY_SIZE(mt3i[0]), mt3i);
   printf("%d\n",
-         minTimeToReach(mt1.arr, mt1.row_size, mt1.col_size)); // expect: 6
+         minTimeToReach(mt1->arr, mt1->row_size, mt1->col_size)); // expect: 6
   printf("%d\n",
-         minTimeToReach(mt2.arr, mt2.row_size, mt2.col_size)); // expect: 3
+         minTimeToReach(mt2->arr, mt2->row_size, mt2->col_size)); // expect: 3
   printf("%d\n",
-         minTimeToReach(mt3.arr, mt3.row_size, mt3.col_size)); // expect: 3
-  two_d_arr_free(&mt1);
-  two_d_arr_free(&mt2);
-  two_d_arr_free(&mt3);
+         minTimeToReach(mt3->arr, mt3->row_size, mt3->col_size)); // expect: 3
+  two_d_arr_free(mt1);
+  two_d_arr_free(mt2);
+  two_d_arr_free(mt3);
 }

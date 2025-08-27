@@ -44,11 +44,12 @@ int *eventualSafeNodes(int **graph, int graphSize, int *graphColSize,
 int main() {
   int g1i[7][2] = {{1, 2}, {2, 3}, {5}, {0}, {5}, {}, {}}, rs1;
   int g2i[5][4] = {{1, 2, 3, 4}, {1, 2}, {3, 4}, {0, 4}, {}}, rs2;
-  struct two_d_arr g1, g2;
-  two_d_arr_init(&g1, ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
-  two_d_arr_init(&g2, ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
-  int *esn1 = eventualSafeNodes(g1.arr, g1.row_size, g1.col_size, &rs1);
-  int *esn2 = eventualSafeNodes(g2.arr, g2.row_size, g2.col_size, &rs2);
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  int *esn1 = eventualSafeNodes(g1->arr, g1->row_size, g1->col_size, &rs1);
+  int *esn2 = eventualSafeNodes(g2->arr, g2->row_size, g2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", esn1[i]); // expect: 2 4 5 6
   printf("\n");
@@ -56,6 +57,6 @@ int main() {
     printf("%d ", esn2[i]); // expect: 4
   printf("\n");
   free(esn2), free(esn2);
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
 }

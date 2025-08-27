@@ -30,13 +30,12 @@ bool *isArraySpecial(int *nums, int numsSize, int **queries, int queriesSize,
 int main() {
   int n1[] = {3, 4, 1, 2, 6}, q1i[1][2] = {{0, 4}}, rs1;
   int n2[] = {4, 3, 1, 6}, q2i[2][2] = {{0, 2}, {2, 3}}, rs2;
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, 1, 2, q1i);
-  two_d_arr_init(&q2, 2, 2, q2i);
-  bool *ias1 = isArraySpecial(n1, ARRAY_SIZE(n1), q1.arr, q1.row_size,
-                              q1.col_size, &rs1);
-  bool *ias2 = isArraySpecial(n2, ARRAY_SIZE(n2), q2.arr, q2.row_size,
-                              q2.col_size, &rs2);
+  struct two_d_arr *q1 = two_d_arr_init(1, 2, q1i);
+  struct two_d_arr *q2 = two_d_arr_init(2, 2, q2i);
+  bool *ias1 = isArraySpecial(n1, ARRAY_SIZE(n1), q1->arr, q1->row_size,
+                              q1->col_size, &rs1);
+  bool *ias2 = isArraySpecial(n2, ARRAY_SIZE(n2), q2->arr, q2->row_size,
+                              q2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", ias1[i]); // expect: 0
   printf("\n");
@@ -44,5 +43,6 @@ int main() {
     printf("%d ", ias2[i]); // expect: 0 1
   printf("\n");
   free(ias1), free(ias2);
-  two_d_arr_free(&q1), two_d_arr_free(&q2);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

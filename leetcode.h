@@ -35,8 +35,8 @@ struct Node {
   struct Node **children;
 };
 
-void two_d_arr_init(struct two_d_arr *obj, int row_size, int col_size,
-                    int arr[row_size][col_size]);
+struct two_d_arr *two_d_arr_init(int row_size, int col_size,
+                                 int arr[row_size][col_size]);
 void two_d_arr_free(struct two_d_arr *obj);
 
 struct ListNode *listnode_create(int val);

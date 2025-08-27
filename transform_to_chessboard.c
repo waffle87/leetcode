@@ -41,17 +41,16 @@ int main() {
   int b1i[4][4] = {{0, 1, 1, 0}, {0, 1, 1, 0}, {1, 0, 0, 1}, {1, 0, 0, 1}};
   int b2i[2][2] = {{0, 1}, {1, 0}};
   int b3i[2][2] = {{1, 0}, {1, 0}};
-  struct two_d_arr b1, b2, b3;
-  two_d_arr_init(&b1, 4, 4, b1i);
-  two_d_arr_init(&b2, 2, 2, b2i);
-  two_d_arr_init(&b3, 2, 2, b3i);
+  struct two_d_arr *b1 = two_d_arr_init(4, 4, b1i);
+  struct two_d_arr *b2 = two_d_arr_init(2, 2, b2i);
+  struct two_d_arr *b3 = two_d_arr_init(2, 2, b3i);
   printf("%d\n",
-         movesToChessboard(b1.arr, b2.row_size, b3.col_size)); // expect: 2
+         movesToChessboard(b1->arr, b2->row_size, b3->col_size)); // expect: 2
   printf("%d\n",
-         movesToChessboard(b2.arr, b2.row_size, b2.col_size)); // expect: 0
+         movesToChessboard(b2->arr, b2->row_size, b2->col_size)); // expect: 0
   printf("%d\n",
-         movesToChessboard(b3.arr, b3.row_size, b3.col_size)); // expect: -1
-  two_d_arr_free(&b1);
-  two_d_arr_free(&b2);
-  two_d_arr_free(&b3);
+         movesToChessboard(b3->arr, b3->row_size, b3->col_size)); // expect: -1
+  two_d_arr_free(b1);
+  two_d_arr_free(b2);
+  two_d_arr_free(b3);
 }

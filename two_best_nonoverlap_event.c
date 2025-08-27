@@ -72,14 +72,16 @@ int main() {
   int e1i[3][3] = {{1, 3, 2}, {4, 5, 2}, {2, 4, 3}},
       e2i[3][3] = {{1, 3, 2}, {4, 5, 2}, {1, 5, 5}},
       e3i[3][3] = {{1, 5, 3}, {1, 5, 1}, {6, 6, 5}};
-  struct two_d_arr e1, e2, e3;
-  two_d_arr_init(&e1, 3, 3, e1i);
-  two_d_arr_init(&e2, 3, 3, e2i);
-  two_d_arr_init(&e3, 3, 3, e3i);
-  printf("%d\n", maxTwoEvents(e1.arr, e1.row_size, e1.col_size)); // expect: 4
-  printf("%d\n", maxTwoEvents(e2.arr, e2.row_size, e2.col_size)); // expect: 5
-  printf("%d\n", maxTwoEvents(e3.arr, e3.row_size, e3.col_size)); // expect: 8
-  two_d_arr_free(&e1);
-  two_d_arr_free(&e2);
-  two_d_arr_free(&e3);
+  struct two_d_arr *e1 = two_d_arr_init(3, 3, e1i);
+  struct two_d_arr *e2 = two_d_arr_init(3, 3, e2i);
+  struct two_d_arr *e3 = two_d_arr_init(3, 3, e3i);
+  printf("%d\n",
+         maxTwoEvents(e1->arr, e1->row_size, e1->col_size)); // expect: 4
+  printf("%d\n",
+         maxTwoEvents(e2->arr, e2->row_size, e2->col_size)); // expect: 5
+  printf("%d\n",
+         maxTwoEvents(e3->arr, e3->row_size, e3->col_size)); // expect: 8
+  two_d_arr_free(e1);
+  two_d_arr_free(e2);
+  two_d_arr_free(e3);
 }

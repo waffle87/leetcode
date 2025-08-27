@@ -131,12 +131,16 @@ int main() {
   int g1i[2][4] = {{0, 1, 1, 0}, {1, 1, 1, 1}},
       g2i[3][3] = {{1, 1, 1}, {1, 1, 1}},
       g3i[3][5] = {{1, 1, 1, 1, 0}, {1, 1, 1, 1, 1}, {1, 1, 1, 1, 1}};
-  struct two_d_arr g1, g2, g3;
-  two_d_arr_init(&g1, 2, 4, g1i);
-  two_d_arr_init(&g2, 3, 3, g2i);
-  two_d_arr_init(&g3, 3, 5, g3i);
-  printf("%d\n", countPyramids(g1.arr, g1.row_size, g1.col_size)); // expect: 2
-  printf("%d\n", countPyramids(g2.arr, g2.row_size, g2.col_size)); // expect: 2
-  printf("%d\n", countPyramids(g3.arr, g3.row_size, g3.col_size)); // expect: 13
-  two_d_arr_free(&g1), two_d_arr_free(&g2), two_d_arr_free(&g3);
+  struct two_d_arr *g1 = two_d_arr_init(2, 4, g1i);
+  struct two_d_arr *g2 = two_d_arr_init(3, 3, g2i);
+  struct two_d_arr *g3 = two_d_arr_init(3, 5, g3i);
+  printf("%d\n",
+         countPyramids(g1->arr, g1->row_size, g1->col_size)); // expect: 2
+  printf("%d\n",
+         countPyramids(g2->arr, g2->row_size, g2->col_size)); // expect: 2
+  printf("%d\n",
+         countPyramids(g3->arr, g3->row_size, g3->col_size)); // expect: 13
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
+  two_d_arr_free(g3);
 }

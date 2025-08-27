@@ -65,16 +65,15 @@ int main() {
                    {3, 8, 1, 30, 4},
                    {4, 10, 0, 10, 3},
                    {5, 1, 1, 15, 1}};
-  struct two_d_arr r1, r2, r3;
-  two_d_arr_init(&r1, 5, 5, r1i);
-  two_d_arr_init(&r2, 5, 5, r2i);
-  two_d_arr_init(&r3, 5, 5, r3i);
-  int rs1, *fr1 = filterRestaurants(r1.arr, r1.row_size, r1.col_size, 1, 50, 10,
-                                    &rs1);
-  int rs2, *fr2 = filterRestaurants(r2.arr, r2.row_size, r2.col_size, 0, 50, 10,
-                                    &rs2);
-  int rs3, *fr3 = filterRestaurants(r3.arr, r3.row_size, r3.col_size, 0, 30, 3,
-                                    &rs3);
+  struct two_d_arr *r1 = two_d_arr_init(5, 5, r1i);
+  struct two_d_arr *r2 = two_d_arr_init(5, 5, r2i);
+  struct two_d_arr *r3 = two_d_arr_init(5, 5, r3i);
+  int rs1, *fr1 = filterRestaurants(r1->arr, r1->row_size, r1->col_size, 1, 50,
+                                    10, &rs1);
+  int rs2, *fr2 = filterRestaurants(r2->arr, r2->row_size, r2->col_size, 0, 50,
+                                    10, &rs2);
+  int rs3, *fr3 = filterRestaurants(r3->arr, r3->row_size, r3->col_size, 0, 30,
+                                    3, &rs3);
   for (int i = 0; i < rs1; i++)
     printf("%d", fr1[i]); // expect: 3 1 5
   printf("\n");
@@ -84,7 +83,7 @@ int main() {
   for (int i = 0; i < rs3; i++)
     printf("%d", fr3[i]); // expect: 4 5
   printf("\n");
-  two_d_arr_free(&r1), free(fr1);
-  two_d_arr_free(&r2), free(fr2);
-  two_d_arr_free(&r3), free(fr3);
+  two_d_arr_free(r1), free(fr1);
+  two_d_arr_free(r2), free(fr2);
+  two_d_arr_free(r3), free(fr3);
 }

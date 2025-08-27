@@ -70,13 +70,14 @@ int main() {
                    {-1, -1, -1, -1, -1, -1}, {-1, 35, -1, -1, 13, -1},
                    {-1, -1, -1, -1, -1, -1}, {-1, 15, -1, -1, -1, -1}};
   int b2i[2][2] = {{-1, -1}, {-1, 3}};
-  struct two_d_arr b1, b2;
-  two_d_arr_init(&b1, ARRAY_SIZE(b1i), ARRAY_SIZE(b1i[0]), b1i);
-  two_d_arr_init(&b2, ARRAY_SIZE(b2i), ARRAY_SIZE(b2i[0]), b2i);
+  struct two_d_arr *b1 =
+      two_d_arr_init(ARRAY_SIZE(b1i), ARRAY_SIZE(b1i[0]), b1i);
+  struct two_d_arr *b2 =
+      two_d_arr_init(ARRAY_SIZE(b2i), ARRAY_SIZE(b2i[0]), b2i);
   printf("%d\n",
-         snakesAndLadders(b1.arr, b1.row_size, b1.col_size)); // expect: 4
+         snakesAndLadders(b1->arr, b1->row_size, b1->col_size)); // expect: 4
   printf("%d\n",
-         snakesAndLadders(b2.arr, b2.row_size, b2.col_size)); // expect: 1
-  two_d_arr_free(&b1);
-  two_d_arr_free(&b2);
+         snakesAndLadders(b2->arr, b2->row_size, b2->col_size)); // expect: 1
+  two_d_arr_free(b1);
+  two_d_arr_free(b2);
 }

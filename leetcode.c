@@ -1,16 +1,17 @@
 #include "leetcode.h"
 
-void two_d_arr_init(struct two_d_arr *obj, int row_size, int col_size,
-                    int arr[row_size][col_size]) {
+struct two_d_arr *two_d_arr_init(int row_size, int col_size,
+                                 int arr[][col_size]) {
+  struct two_d_arr *obj = (struct two_d_arr *)malloc(sizeof(struct two_d_arr));
   obj->row_size = row_size;
   obj->col_size = (int *)malloc(row_size * sizeof(int));
   obj->arr = (int **)malloc(row_size * sizeof(int *));
   for (int i = 0; i < row_size; i++) {
     obj->col_size[i] = col_size;
     obj->arr[i] = (int *)malloc(col_size * sizeof(int));
-    for (int j = 0; j < col_size; j++)
-      obj->arr[i][j] = arr[i][j];
+    memcpy(obj->arr[i], arr[i], col_size * sizeof(int));
   }
+  return obj;
 }
 
 void two_d_arr_free(struct two_d_arr *obj) {

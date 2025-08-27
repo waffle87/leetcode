@@ -25,13 +25,14 @@ int areaOfMaxDiagonal(int **dimensions, int dimensionsSize,
 
 int main() {
   int d1i[2][2] = {{9, 3}, {8, 6}}, d2i[2][2] = {{3, 4}, {4, 3}};
-  struct two_d_arr d1, d2;
-  two_d_arr_init(&d1, ARRAY_SIZE(d1i), ARRAY_SIZE(d1i[0]), d1i);
-  two_d_arr_init(&d2, ARRAY_SIZE(d2i), ARRAY_SIZE(d2i[0]), d2i);
+  struct two_d_arr *d1 =
+      two_d_arr_init(ARRAY_SIZE(d1i), ARRAY_SIZE(d1i[0]), d1i);
+  struct two_d_arr *d2 =
+      two_d_arr_init(ARRAY_SIZE(d2i), ARRAY_SIZE(d2i[0]), d2i);
   printf("%d\n",
-         areaOfMaxDiagonal(d1.arr, d1.row_size, d1.col_size)); // expect: 48
+         areaOfMaxDiagonal(d1->arr, d1->row_size, d1->col_size)); // expect: 48
   printf("%d\n",
-         areaOfMaxDiagonal(d2.arr, d2.row_size, d2.col_size)); // expect: 12
-  two_d_arr_free(&d1);
-  two_d_arr_free(&d2);
+         areaOfMaxDiagonal(d2->arr, d2->row_size, d2->col_size)); // expect: 12
+  two_d_arr_free(d1);
+  two_d_arr_free(d2);
 }

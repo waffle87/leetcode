@@ -91,19 +91,18 @@ int main() {
   int e1i1[3][2] = {{0, 1}, {0, 2}, {0, 3}}, e2i1[1][2] = {{0, 1}};
   int e1i2[7][2] = {{0, 1}, {0, 2}, {0, 3}, {2, 4}, {2, 5}, {3, 6}, {2, 7}},
       e2i2[7][2] = {{0, 1}, {0, 2}, {0, 3}, {2, 4}, {2, 5}, {3, 6}, {2, 7}};
-  struct two_d_arr e11, e21, e12, e22;
-  two_d_arr_init(&e11, 3, 2, e1i1);
-  two_d_arr_init(&e21, 1, 2, e2i1);
-  two_d_arr_init(&e12, 7, 2, e1i2);
-  two_d_arr_init(&e22, 7, 2, e2i2);
-  printf("%d\n",
-         minimumDiameterAfterMerge(e11.arr, e11.row_size, e11.col_size, e21.arr,
-                                   e21.row_size, e21.col_size)); // expect: 3
-  printf("%d\n",
-         minimumDiameterAfterMerge(e12.arr, e12.row_size, e12.col_size, e22.arr,
-                                   e22.row_size, e22.col_size)); // expect: 5
-  two_d_arr_free(&e11);
-  two_d_arr_free(&e21);
-  two_d_arr_free(&e12);
-  two_d_arr_free(&e22);
+  struct two_d_arr *e11 = two_d_arr_init(3, 2, e1i1);
+  struct two_d_arr *e21 = two_d_arr_init(1, 2, e2i1);
+  struct two_d_arr *e12 = two_d_arr_init(7, 2, e1i2);
+  struct two_d_arr *e22 = two_d_arr_init(7, 2, e2i2);
+  printf("%d\n", minimumDiameterAfterMerge(
+                     e11->arr, e11->row_size, e11->col_size, e21->arr,
+                     e21->row_size, e21->col_size)); // expect: 3
+  printf("%d\n", minimumDiameterAfterMerge(
+                     e12->arr, e12->row_size, e12->col_size, e22->arr,
+                     e22->row_size, e22->col_size)); // expect: 5
+  two_d_arr_free(e11);
+  two_d_arr_free(e21);
+  two_d_arr_free(e12);
+  two_d_arr_free(e22);
 }

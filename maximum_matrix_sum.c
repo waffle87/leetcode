@@ -29,12 +29,12 @@ long long maxMatrixSum(int **matrix, int matrixSize, int *matrixColSize) {
 int main() {
   int m1i[2][2] = {{1, -1}, {-1, 1}},
       m2i[3][3] = {{1, 2, 3}, {-1, -2, -3}, {1, 2, 3}};
-  struct two_d_arr m1, m2;
-  two_d_arr_init(&m1, 2, 2, m1i);
-  two_d_arr_init(&m2, 3, 3, m2i);
-  printf("%lld\n", maxMatrixSum(m1.arr, m1.row_size, m1.col_size)); // expect: 4
-  printf("%lld\n", maxMatrixSum(m2.arr, m2.row_size, m2.col_size)); // expect:
-                                                                    // 16
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
+  struct two_d_arr *m1 = two_d_arr_init(2, 2, m1i);
+  struct two_d_arr *m2 = two_d_arr_init(3, 3, m2i);
+  printf("%lld\n",
+         maxMatrixSum(m1->arr, m1->row_size, m1->col_size)); // expect: 4
+  printf("%lld\n",
+         maxMatrixSum(m2->arr, m2->row_size, m2->col_size)); // expect: 16
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
 }

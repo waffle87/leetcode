@@ -41,13 +41,12 @@ int main() {
       {1, 1, 3, 2, 4, 3, 2}, {1, 1, 3, 2, 4, 3, 2}, {1, 1, 3, 2, 4, 3, 2}};
   int m2i[4][5] = {
       {2, 2, 2, 2, 2}, {2, 2, 2, 2, 2}, {2, 2, 2, 2, 2}, {2, 2, 2, 2, 2}};
-  struct two_d_arr m1, m2;
-  two_d_arr_init(&m1, 3, 7, m1i);
-  two_d_arr_init(&m2, 4, 5, m2i);
+  struct two_d_arr *m1 = two_d_arr_init(3, 7, m1i);
+  struct two_d_arr *m2 = two_d_arr_init(4, 5, m2i);
   printf("%d\n",
-         maxSideLength(m1.arr, m1.row_size, m1.col_size, 4)); // expect: 2
+         maxSideLength(m1->arr, m1->row_size, m1->col_size, 4)); // expect: 2
   printf("%d\n",
-         maxSideLength(m2.arr, m2.row_size, m2.col_size, 1)); // expect: 0
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
+         maxSideLength(m2->arr, m2->row_size, m2->col_size, 1)); // expect: 0
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
 }

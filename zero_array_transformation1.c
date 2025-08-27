@@ -33,13 +33,14 @@ bool isZeroArray(int *nums, int numsSize, int **queries, int queriesSize,
 int main() {
   int n1[] = {1, 0, 1}, q1i[1][2] = {{0, 2}};
   int n2[] = {4, 3, 2, 1}, q2i[2][2] = {{1, 3}, {0, 2}};
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  printf("%d\n", isZeroArray(n1, ARRAY_SIZE(n1), q1.arr, q1.row_size,
-                             q1.col_size)); // expect: 1
-  printf("%d\n", isZeroArray(n2, ARRAY_SIZE(n2), q2.arr, q2.row_size,
-                             q2.col_size)); // expect: 0
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  printf("%d\n", isZeroArray(n1, ARRAY_SIZE(n1), q1->arr, q1->row_size,
+                             q1->col_size)); // expect: 1
+  printf("%d\n", isZeroArray(n2, ARRAY_SIZE(n2), q2->arr, q2->row_size,
+                             q2->col_size)); // expect: 0
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

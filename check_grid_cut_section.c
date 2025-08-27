@@ -64,17 +64,19 @@ int main() {
   int r2i[4][4] = {{0, 0, 1, 1}, {2, 0, 3, 4}, {0, 2, 2, 3}, {3, 0, 4, 3}};
   int r3i[5][4] = {
       {0, 2, 2, 4}, {1, 0, 3, 2}, {2, 2, 3, 4}, {3, 0, 4, 2}, {3, 2, 4, 4}};
-  struct two_d_arr r1, r2, r3;
-  two_d_arr_init(&r1, ARRAY_SIZE(r1i), ARRAY_SIZE(r1i[0]), r1i);
-  two_d_arr_init(&r2, ARRAY_SIZE(r2i), ARRAY_SIZE(r2i[0]), r2i);
-  two_d_arr_init(&r3, ARRAY_SIZE(r3i), ARRAY_SIZE(r3i[0]), r3i);
+  struct two_d_arr *r1 =
+      two_d_arr_init(ARRAY_SIZE(r1i), ARRAY_SIZE(r1i[0]), r1i);
+  struct two_d_arr *r2 =
+      two_d_arr_init(ARRAY_SIZE(r2i), ARRAY_SIZE(r2i[0]), r2i);
+  struct two_d_arr *r3 =
+      two_d_arr_init(ARRAY_SIZE(r3i), ARRAY_SIZE(r3i[0]), r3i);
   printf("%d\n",
-         checkValidCuts(5, r1.arr, r1.row_size, r1.col_size)); // expect: 1
+         checkValidCuts(5, r1->arr, r1->row_size, r1->col_size)); // expect: 1
   printf("%d\n",
-         checkValidCuts(4, r2.arr, r2.row_size, r2.col_size)); // expect: 1
+         checkValidCuts(4, r2->arr, r2->row_size, r2->col_size)); // expect: 1
   printf("%d\n",
-         checkValidCuts(4, r3.arr, r3.row_size, r3.col_size)); // expect: 0
-  two_d_arr_free(&r1);
-  two_d_arr_free(&r2);
-  two_d_arr_free(&r3);
+         checkValidCuts(4, r3->arr, r3->row_size, r3->col_size)); // expect: 0
+  two_d_arr_free(r1);
+  two_d_arr_free(r2);
+  two_d_arr_free(r3);
 }

@@ -34,12 +34,13 @@ int **merge(int **intervals, int intervalsSize, int *intervalsColSize,
 int main() {
   int i1i[4][2] = {{1, 3}, {2, 6}, {8, 10}, {15, 18}},
       i2i[2][2] = {{1, 4}, {4, 5}};
-  struct two_d_arr i1, i2;
-  two_d_arr_init(&i1, ARRAY_SIZE(i1i), ARRAY_SIZE(i1i[0]), i1i);
-  two_d_arr_init(&i2, ARRAY_SIZE(i2i), ARRAY_SIZE(i2i[0]), i2i);
+  struct two_d_arr *i1 =
+      two_d_arr_init(ARRAY_SIZE(i1i), ARRAY_SIZE(i1i[0]), i1i);
+  struct two_d_arr *i2 =
+      two_d_arr_init(ARRAY_SIZE(i2i), ARRAY_SIZE(i2i[0]), i2i);
   int rs1, *rcs1, rs2, *rcs2;
-  int **m1 = merge(i1.arr, i1.row_size, i1.col_size, &rs1, &rcs1);
-  int **m2 = merge(i2.arr, i2.row_size, i2.col_size, &rs2, &rcs2);
+  int **m1 = merge(i1->arr, i1->row_size, i1->col_size, &rs1, &rcs1);
+  int **m2 = merge(i2->arr, i2->row_size, i2->col_size, &rs2, &rcs2);
   for (int i = 0; i < rs1; i++) {
     for (int j = 0; j < rcs1[i]; j++)
       printf("%d ", m1[i][j]); // expect: [[1,6],[8,10],[15,18]]
@@ -55,9 +56,9 @@ int main() {
   for (int i = 0; i < rs1; i++)
     free(m1[i]);
   free(m1);
-  two_d_arr_free(&i1);
+  two_d_arr_free(i1);
   for (int i = 0; i < rs2; i++)
     free(m2[i]);
   free(m2);
-  two_d_arr_free(&i2);
+  two_d_arr_free(i2);
 }

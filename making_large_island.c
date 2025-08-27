@@ -84,14 +84,19 @@ int largestIsland(int **grid, int gridSize, int *gridColSize) {
 int main() {
   int g1i[2][2] = {{1, 0}, {0, 1}}, g2i[2][2] = {{1, 1}, {1, 0}},
       g3i[2][2] = {{1, 1}, {1, 1}};
-  struct two_d_arr g1, g2, g3;
-  two_d_arr_init(&g1, ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
-  two_d_arr_init(&g2, ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
-  two_d_arr_init(&g3, ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
-  printf("%d\n", largestIsland(g1.arr, g1.row_size, g1.col_size)); // expect: 3
-  printf("%d\n", largestIsland(g2.arr, g2.row_size, g2.col_size)); // expect: 4
-  printf("%d\n", largestIsland(g3.arr, g3.row_size, g3.col_size)); // expect: 4
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
-  two_d_arr_free(&g3);
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  struct two_d_arr *g3 =
+      two_d_arr_init(ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
+  printf("%d\n",
+         largestIsland(g1->arr, g1->row_size, g1->col_size)); // expect: 3
+  printf("%d\n",
+         largestIsland(g2->arr, g2->row_size, g2->col_size)); // expect: 4
+  printf("%d\n",
+         largestIsland(g3->arr, g3->row_size, g3->col_size)); // expect: 4
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
+  two_d_arr_free(g3);
 }

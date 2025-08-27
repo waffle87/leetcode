@@ -48,13 +48,12 @@ int main() {
                    {2, 2, 2, 0, 1},
                    {2, 2, 2, 2, 2},
                    {2, 1, 2, 2, 2}};
-  struct two_d_arr g1, g2;
-  two_d_arr_init(&g1, 3, 3, g1i);
-  two_d_arr_init(&g2, 5, 2, g2i);
-  printf("%d\n", minimumOperationsToWriteY(g1.arr, g1.row_size,
-                                           g1.col_size)); // expect: 3
-  printf("%d\n", minimumOperationsToWriteY(g2.arr, g2.row_size,
-                                           g2.col_size)); // expect: 12
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
+  struct two_d_arr *g1 = two_d_arr_init(3, 3, g1i);
+  struct two_d_arr *g2 = two_d_arr_init(5, 2, g2i);
+  printf("%d\n", minimumOperationsToWriteY(g1->arr, g1->row_size,
+                                           g1->col_size)); // expect: 3
+  printf("%d\n", minimumOperationsToWriteY(g2->arr, g2->row_size,
+                                           g2->col_size)); // expect: 12
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
 }

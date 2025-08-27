@@ -58,14 +58,17 @@ int main() {
   int e1i[3][3] = {{1, 2, 4}, {3, 4, 3}, {2, 3, 1}};
   int e2i[3][3] = {{1, 2, 4}, {3, 4, 3}, {2, 3, 10}};
   int e3i[4][3] = {{1, 1, 1}, {2, 2, 2}, {3, 3, 3}, {4, 4, 4}};
-  struct two_d_arr e1, e2, e3;
-  two_d_arr_init(&e1, ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
-  two_d_arr_init(&e2, ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
-  two_d_arr_init(&e3, ARRAY_SIZE(e3i), ARRAY_SIZE(e3i[0]), e3i);
-  printf("%d\n", maxValue(e1.arr, e1.row_size, e1.col_size, 2)); // expect: 7
-  printf("%d\n", maxValue(e2.arr, e2.row_size, e2.col_size, 2)); // expect: 10
-  printf("%d\n", maxValue(e3.arr, e3.row_size, e3.col_size, 3)); // expect: 9
-  two_d_arr_free(&e1);
-  two_d_arr_free(&e2);
-  two_d_arr_free(&e3);
+  struct two_d_arr *e1 =
+      two_d_arr_init(ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
+  struct two_d_arr *e2 =
+      two_d_arr_init(ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
+  struct two_d_arr *e3 =
+      two_d_arr_init(ARRAY_SIZE(e3i), ARRAY_SIZE(e3i[0]), e3i);
+  printf("%d\n", maxValue(e1->arr, e1->row_size, e1->col_size, 2)); // expect: 7
+  printf("%d\n",
+         maxValue(e2->arr, e2->row_size, e2->col_size, 2)); // expect: 10
+  printf("%d\n", maxValue(e3->arr, e3->row_size, e3->col_size, 3)); // expect: 9
+  two_d_arr_free(e1);
+  two_d_arr_free(e2);
+  two_d_arr_free(e3);
 }

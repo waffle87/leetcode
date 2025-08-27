@@ -137,11 +137,12 @@ int main() {
     qcs1[i] = ARRAY_SIZE(q1i[i]);
   for (int i = 0; i < ARRAY_SIZE(q2i); i++)
     qcs2[i] = ARRAY_SIZE(q2i[i]);
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  bool *gr1 = getResults(q1.arr, q1.row_size, qcs1, &rs1);
-  bool *gr2 = getResults(q2.arr, q2.row_size, qcs2, &rs2);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  bool *gr1 = getResults(q1->arr, q1->row_size, qcs1, &rs1);
+  bool *gr2 = getResults(q2->arr, q2->row_size, qcs2, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", gr1[i]); // expect: 0 1 1
   printf("\n");
@@ -150,6 +151,6 @@ int main() {
   printf("\n");
   free(gr1);
   free(gr2);
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

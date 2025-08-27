@@ -63,12 +63,13 @@ int main() {
       c2i[2][3] = {{38, 25, 45}, {76, 35, 3}},
       c3i[6][3] = {{7, 11, 17}, {7, 17, 11}, {11, 7, 17},
                    {11, 17, 7}, {17, 7, 11}, {17, 11, 7}};
-  struct two_d_arr c1, c2, c3;
-  two_d_arr_init(&c1, 3, 3, c1i);
-  two_d_arr_init(&c2, 2, 3, c2i);
-  two_d_arr_init(&c3, 6, 3, c3i);
-  printf("%d\n", maxHeight(c1.arr, c1.row_size, c1.col_size)); // expect: 190
-  printf("%d\n", maxHeight(c2.arr, c2.row_size, c2.col_size)); // expect: 76
-  printf("%d\n", maxHeight(c3.arr, c3.row_size, c3.col_size)); // expect: 102
-  two_d_arr_free(&c1), two_d_arr_free(&c2), two_d_arr_free(&c3);
+  struct two_d_arr *c1 = two_d_arr_init(3, 3, c1i);
+  struct two_d_arr *c2 = two_d_arr_init(2, 3, c2i);
+  struct two_d_arr *c3 = two_d_arr_init(6, 3, c3i);
+  printf("%d\n", maxHeight(c1->arr, c1->row_size, c1->col_size)); // expect: 190
+  printf("%d\n", maxHeight(c2->arr, c2->row_size, c2->col_size)); // expect: 76
+  printf("%d\n", maxHeight(c3->arr, c3->row_size, c3->col_size)); // expect: 102
+  two_d_arr_free(c1);
+  two_d_arr_free(c2);
+  two_d_arr_free(c3);
 }

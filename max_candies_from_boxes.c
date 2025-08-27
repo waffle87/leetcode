@@ -66,19 +66,22 @@ int main() {
   int s2[] = {1, 0, 0, 0, 0, 0}, c2[] = {1, 1, 1, 1, 1, 1},
       k2i[6][5] = {{1, 2, 3, 4, 5}, {}, {}, {}, {}, {}},
       cb2i[6][5] = {{1, 2, 3, 4, 5}, {}, {}, {}, {}, {}}, ib2[] = {0};
-  struct two_d_arr k1, k2, cb1, cb2;
-  two_d_arr_init(&k1, ARRAY_SIZE(k1i), ARRAY_SIZE(k1i[0]), k1i);
-  two_d_arr_init(&k2, ARRAY_SIZE(k2i), ARRAY_SIZE(k2i[0]), k2i);
-  two_d_arr_init(&cb1, ARRAY_SIZE(cb1i), ARRAY_SIZE(cb1i[0]), cb1i);
-  two_d_arr_init(&cb2, ARRAY_SIZE(cb2i), ARRAY_SIZE(cb2i[0]), cb2i);
-  printf("%d\n", maxCandies(s1, ARRAY_SIZE(s1), c1, ARRAY_SIZE(c1), k1.arr,
-                            k1.row_size, k1.col_size, cb1.arr, cb1.row_size,
-                            cb1.col_size, ib1, ARRAY_SIZE(ib1))); // expect: 16
-  printf("%d\n", maxCandies(s2, ARRAY_SIZE(s2), c2, ARRAY_SIZE(c2), k2.arr,
-                            k2.row_size, k2.col_size, cb2.arr, cb2.row_size,
-                            cb2.col_size, ib2, ARRAY_SIZE(ib2))); // expect: 6
-  two_d_arr_free(&k1);
-  two_d_arr_free(&k2);
-  two_d_arr_free(&cb1);
-  two_d_arr_free(&cb2);
+  struct two_d_arr *k1 =
+      two_d_arr_init(ARRAY_SIZE(k1i), ARRAY_SIZE(k1i[0]), k1i);
+  struct two_d_arr *k2 =
+      two_d_arr_init(ARRAY_SIZE(k2i), ARRAY_SIZE(k2i[0]), k2i);
+  struct two_d_arr *cb1 =
+      two_d_arr_init(ARRAY_SIZE(cb1i), ARRAY_SIZE(cb1i[0]), cb1i);
+  struct two_d_arr *cb2 =
+      two_d_arr_init(ARRAY_SIZE(cb2i), ARRAY_SIZE(cb2i[0]), cb2i);
+  printf("%d\n", maxCandies(s1, ARRAY_SIZE(s1), c1, ARRAY_SIZE(c1), k1->arr,
+                            k1->row_size, k1->col_size, cb1->arr, cb1->row_size,
+                            cb1->col_size, ib1, ARRAY_SIZE(ib1))); // expect: 16
+  printf("%d\n", maxCandies(s2, ARRAY_SIZE(s2), c2, ARRAY_SIZE(c2), k2->arr,
+                            k2->row_size, k2->col_size, cb2->arr, cb2->row_size,
+                            cb2->col_size, ib2, ARRAY_SIZE(ib2))); // expect: 6
+  two_d_arr_free(k1);
+  two_d_arr_free(k2);
+  two_d_arr_free(cb1);
+  two_d_arr_free(cb2);
 }

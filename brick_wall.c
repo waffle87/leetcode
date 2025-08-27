@@ -75,11 +75,10 @@ int main() {
   int w1i[6][4] = {{1, 2, 2, 1}, {3, 1, 2}, {1, 3, 2},
                    {2, 4},       {3, 1, 2}, {1, 3, 1, 1}},
       w2i[3][1] = {{1}, {1}, {1}};
-  struct two_d_arr w1, w2;
-  two_d_arr_init(&w1, 6, 4, w1i);
-  two_d_arr_init(&w2, 3, 1, w2i);
-  printf("%d\n", leastBricks(w1.arr, w1.row_size, w1.col_size)); // expect: 2
-  printf("%d\n", leastBricks(w2.arr, w2.row_size, w2.col_size)); // expect: 3
-  two_d_arr_free(&w1);
-  two_d_arr_free(&w2);
+  struct two_d_arr *w1 = two_d_arr_init(6, 4, w1i);
+  struct two_d_arr *w2 = two_d_arr_init(3, 1, w2i);
+  printf("%d\n", leastBricks(w1->arr, w1->row_size, w1->col_size)); // expect: 2
+  printf("%d\n", leastBricks(w2->arr, w2->row_size, w2->col_size)); // expect: 3
+  two_d_arr_free(w1);
+  two_d_arr_free(w2);
 }

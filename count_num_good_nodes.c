@@ -64,11 +64,12 @@ int main() {
   int e1i[6][2] = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}, {2, 6}};
   int e2i[8][2] = {{0, 1}, {1, 2}, {2, 3}, {3, 4},
                    {0, 5}, {1, 6}, {2, 7}, {3, 8}};
-  struct two_d_arr e1, e2;
-  two_d_arr_init(&e1, 6, 2, e1i);
-  two_d_arr_init(&e2, 8, 2, e2i);
-  printf("%d\n", countGoodNodes(e1.arr, e1.row_size, e1.col_size)); // expect: 7
-  printf("%d\n", countGoodNodes(e2.arr, e2.row_size, e2.col_size)); // expect: 6
-  two_d_arr_free(&e1);
-  two_d_arr_free(&e2);
+  struct two_d_arr *e1 = two_d_arr_init(6, 2, e1i);
+  struct two_d_arr *e2 = two_d_arr_init(8, 2, e2i);
+  printf("%d\n",
+         countGoodNodes(e1->arr, e1->row_size, e1->col_size)); // expect: 7
+  printf("%d\n",
+         countGoodNodes(e2->arr, e2->row_size, e2->col_size)); // expect: 6
+  two_d_arr_free(e1);
+  two_d_arr_free(e2);
 }

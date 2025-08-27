@@ -101,13 +101,14 @@ int mostProfitablePath(int **edges, int edgesSize, int *edgesColSize, int bob,
 int main() {
   int e1i[4][2] = {{0, 1}, {1, 2}, {1, 3}, {3, 4}}, a1[] = {-2, 4, 2, -4, 6};
   int e2i[1][2] = {{0, 1}}, a2[] = {-7280, 2350};
-  struct two_d_arr e1, e2;
-  two_d_arr_init(&e1, ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
-  two_d_arr_init(&e2, ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
-  printf("%d\n", mostProfitablePath(e1.arr, e1.row_size, e1.col_size, 3, a1,
+  struct two_d_arr *e1 =
+      two_d_arr_init(ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
+  struct two_d_arr *e2 =
+      two_d_arr_init(ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
+  printf("%d\n", mostProfitablePath(e1->arr, e1->row_size, e1->col_size, 3, a1,
                                     ARRAY_SIZE(a1))); // expect: 6
-  printf("%d\n", mostProfitablePath(e2.arr, e2.row_size, e2.col_size, 1, a2,
+  printf("%d\n", mostProfitablePath(e2->arr, e2->row_size, e2->col_size, 1, a2,
                                     ARRAY_SIZE(a2))); // expect: -7280
-  two_d_arr_free(&e1);
-  two_d_arr_free(&e2);
+  two_d_arr_free(e1);
+  two_d_arr_free(e2);
 }

@@ -56,17 +56,20 @@ int *findRedundantConnection(int **edges, int edgesSize, int *edgesColSize,
 int main() {
   int e1i[3][2] = {{1, 2}, {1, 3}, {2, 3}}, rs1;
   int e2i[5][2] = {{1, 2}, {2, 3}, {3, 4}, {1, 4}, {1, 5}}, rs2;
-  struct two_d_arr e1, e2;
-  two_d_arr_init(&e1, ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
-  two_d_arr_init(&e2, ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
-  int *frc1 = findRedundantConnection(e1.arr, e1.row_size, e1.col_size, &rs1);
-  int *frc2 = findRedundantConnection(e2.arr, e2.row_size, e2.col_size, &rs2);
+  struct two_d_arr *e1 =
+      two_d_arr_init(ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
+  struct two_d_arr *e2 =
+      two_d_arr_init(ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
+  int *frc1 =
+      findRedundantConnection(e1->arr, e1->row_size, e1->col_size, &rs1);
+  int *frc2 =
+      findRedundantConnection(e2->arr, e2->row_size, e2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", frc1[i]); // expect: 2 3
   printf("\n");
   for (int i = 0; i < rs2; i++)
     printf("%d ", frc2[i]); // expect: 1 4
   printf("\n");
-  free(frc1), two_d_arr_free(&e1);
-  free(frc2), two_d_arr_free(&e2);
+  free(frc1), two_d_arr_free(e1);
+  free(frc2), two_d_arr_free(e2);
 }

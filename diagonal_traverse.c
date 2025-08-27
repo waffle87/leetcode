@@ -39,11 +39,12 @@ int *findDiagonalOrder(int **mat, int matSize, int *matColSize,
 int main() {
   int m1i[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}},
       m2i[2][2] = {{1, 2}, {3, 4}};
-  struct two_d_arr m1, m2;
-  two_d_arr_init(&m1, ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
-  two_d_arr_init(&m2, ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
-  int rs1, *fdo1 = findDiagonalOrder(m1.arr, m1.row_size, m1.col_size, &rs1);
-  int rs2, *fdo2 = findDiagonalOrder(m2.arr, m2.row_size, m2.col_size, &rs2);
+  struct two_d_arr *m1 =
+      two_d_arr_init(ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
+  struct two_d_arr *m2 =
+      two_d_arr_init(ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
+  int rs1, *fdo1 = findDiagonalOrder(m1->arr, m1->row_size, m1->col_size, &rs1);
+  int rs2, *fdo2 = findDiagonalOrder(m2->arr, m2->row_size, m2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", fdo1[i]); // expect: 1 2 4 7 5 3 6 8 9
   printf("\n");
@@ -52,6 +53,6 @@ int main() {
   printf("\n");
   free(fdo1);
   free(fdo2);
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
 }

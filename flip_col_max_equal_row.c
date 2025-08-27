@@ -39,17 +39,16 @@ int maxEqualRowsAfterFlips(int **matrix, int matrixSize, int *matrixColSize) {
 int main() {
   int m1i[2][2] = {{0, 1}, {1, 1}}, m2i[2][2] = {{0, 1}, {1, 0}},
       m3i[3][3] = {{0, 0, 0}, {0, 0, 1}, {1, 1, 0}};
-  struct two_d_arr m1, m2, m3;
-  two_d_arr_init(&m1, 2, 2, m1i);
-  two_d_arr_init(&m2, 2, 2, m2i);
-  two_d_arr_init(&m3, 3, 3, m3i);
-  printf("%d\n", maxEqualRowsAfterFlips(m1.arr, m1.row_size,
-                                        m1.col_size)); // expect: 1
-  printf("%d\n", maxEqualRowsAfterFlips(m2.arr, m2.row_size,
-                                        m2.col_size)); // expect: 2
-  printf("%d\n", maxEqualRowsAfterFlips(m3.arr, m3.row_size,
-                                        m3.col_size)); // expect: 2
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
-  two_d_arr_free(&m3);
+  struct two_d_arr *m1 = two_d_arr_init(2, 2, m1i);
+  struct two_d_arr *m2 = two_d_arr_init(2, 2, m2i);
+  struct two_d_arr *m3 = two_d_arr_init(3, 3, m3i);
+  printf("%d\n", maxEqualRowsAfterFlips(m1->arr, m1->row_size,
+                                        m1->col_size)); // expect: 1
+  printf("%d\n", maxEqualRowsAfterFlips(m2->arr, m2->row_size,
+                                        m2->col_size)); // expect: 2
+  printf("%d\n", maxEqualRowsAfterFlips(m3->arr, m3->row_size,
+                                        m3->col_size)); // expect: 2
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
+  two_d_arr_free(m3);
 }

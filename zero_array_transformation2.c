@@ -59,13 +59,14 @@ int minZeroArray(int *nums, int numsSize, int **queries, int queriesSize,
 int main() {
   int n1[] = {2, 0, 2}, q1i[3][3] = {{0, 2, 1}, {0, 2, 1}, {1, 1, 3}};
   int n2[] = {4, 3, 2, 1}, q2i[2][3] = {{1, 3, 2}, {0, 2, 1}};
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  printf("%d\n", minZeroArray(n1, ARRAY_SIZE(n1), q1.arr, q1.row_size,
-                              q1.col_size)); // expect: 2
-  printf("%d\n", minZeroArray(n2, ARRAY_SIZE(n2), q2.arr, q2.row_size,
-                              q2.col_size)); // expect: -1
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  printf("%d\n", minZeroArray(n1, ARRAY_SIZE(n1), q1->arr, q1->row_size,
+                              q1->col_size)); // expect: 2
+  printf("%d\n", minZeroArray(n2, ARRAY_SIZE(n2), q2->arr, q2->row_size,
+                              q2->col_size)); // expect: -1
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

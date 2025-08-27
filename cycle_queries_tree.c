@@ -35,11 +35,12 @@ int *cycleLengthQueries(int n, int **queries, int queriesSize,
 int main() {
   int q1i[3][2] = {{5, 3}, {4, 7}, {2, 3}}, rs1;
   int q2i[1][2] = {{1, 2}}, rs2;
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  int *clq1 = cycleLengthQueries(3, q1.arr, q1.row_size, q1.col_size, &rs1);
-  int *clq2 = cycleLengthQueries(2, q2.arr, q2.row_size, q2.col_size, &rs2);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  int *clq1 = cycleLengthQueries(3, q1->arr, q1->row_size, q1->col_size, &rs1);
+  int *clq2 = cycleLengthQueries(2, q2->arr, q2->row_size, q2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", clq1[i]); // expect: 4 5 3
   printf("\n");
@@ -48,6 +49,6 @@ int main() {
   printf("\n");
   free(clq1);
   free(clq2);
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

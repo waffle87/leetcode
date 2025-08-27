@@ -105,11 +105,14 @@ int largestPathValue(char *colors, int **edges, int edgesSize,
 int main() {
   char *c1 = "abaca", *c2 = "a";
   int e1i[4][2] = {{0, 1}, {0, 2}, {2, 3}, {3, 4}}, e2i[1][2] = {{0, 0}};
-  struct two_d_arr e1, e2;
-  two_d_arr_init(&e1, ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
-  two_d_arr_init(&e2, ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
-  printf("%d\n",
-         largestPathValue(c1, e1.arr, e1.row_size, e1.col_size)); // expect: 3
-  printf("%d\n",
-         largestPathValue(c2, e2.arr, e2.row_size, e2.col_size)); // expect: -1
+  struct two_d_arr *e1 =
+      two_d_arr_init(ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
+  struct two_d_arr *e2 =
+      two_d_arr_init(ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
+  printf("%d\n", largestPathValue(c1, e1->arr, e1->row_size,
+                                  e1->col_size)); // expect: 3
+  printf("%d\n", largestPathValue(c2, e2->arr, e2->row_size,
+                                  e2->col_size)); // expect: -1
+  two_d_arr_free(e1);
+  two_d_arr_free(e2);
 }

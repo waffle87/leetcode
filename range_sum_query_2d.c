@@ -45,13 +45,12 @@ int main() {
                             {1, 2, 0, 1, 5},
                             {4, 1, 0, 1, 7},
                             {1, 0, 3, 0, 5}};
-  struct two_d_arr matrix;
-  two_d_arr_init(&matrix, 5, 5, matrix_input);
+  struct two_d_arr *matrix = two_d_arr_init(5, 5, matrix_input);
   NumMatrix *obj =
-      numMatrixCreate(matrix.arr, matrix.row_size, matrix.col_size);
+      numMatrixCreate(matrix->arr, matrix->row_size, matrix->col_size);
   printf("%d\n", numMatrixSumRegion(obj, 2, 1, 4, 3)); // expect: 8
   printf("%d\n", numMatrixSumRegion(obj, 1, 1, 2, 2)); // expect: 11
   printf("%d\n", numMatrixSumRegion(obj, 1, 2, 2, 4)); // expect: 12
   numMatrixFree(obj);
-  two_d_arr_free(&matrix);
+  two_d_arr_free(matrix);
 }

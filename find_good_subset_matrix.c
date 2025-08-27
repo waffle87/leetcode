@@ -64,16 +64,15 @@ int main() {
   int g1i[3][4] = {{0, 1, 1, 0}, {0, 0, 0, 1}, {1, 1, 1, 1}}, rs1;
   int g2i[1][1] = {{0}}, rs2;
   int g3i[2][3] = {{1, 1, 1}, {1, 1, 1}}, rs3;
-  struct two_d_arr g1, g2, g3;
-  two_d_arr_init(&g1, 3, 4, g1i);
-  two_d_arr_init(&g2, 1, 1, g2i);
-  two_d_arr_init(&g3, 2, 3, g3i);
+  struct two_d_arr *g1 = two_d_arr_init(3, 4, g1i);
+  struct two_d_arr *g2 = two_d_arr_init(1, 1, g2i);
+  struct two_d_arr *g3 = two_d_arr_init(2, 3, g3i);
   int *gsobm1 =
-      goodSubsetofBinaryMatrix(g1.arr, g1.row_size, g1.col_size, &rs1);
+      goodSubsetofBinaryMatrix(g1->arr, g1->row_size, g1->col_size, &rs1);
   int *gsobm2 =
-      goodSubsetofBinaryMatrix(g2.arr, g2.row_size, g2.col_size, &rs2);
+      goodSubsetofBinaryMatrix(g2->arr, g2->row_size, g2->col_size, &rs2);
   int *gsobm3 =
-      goodSubsetofBinaryMatrix(g3.arr, g3.row_size, g3.col_size, &rs3);
+      goodSubsetofBinaryMatrix(g3->arr, g3->row_size, g3->col_size, &rs3);
   for (int i = 0; i < rs1; i++)
     printf("%d ", gsobm1[i]); // expect: 0 1
   printf("\n");
@@ -83,7 +82,7 @@ int main() {
   for (int i = 0; i < rs3; i++)
     printf("%d ", gsobm3[i]); // expect: null
   printf("\n");
-  free(gsobm1), two_d_arr_free(&g1);
-  free(gsobm2), two_d_arr_free(&g2);
-  free(gsobm3), two_d_arr_free(&g3);
+  free(gsobm1), two_d_arr_free(g1);
+  free(gsobm2), two_d_arr_free(g2);
+  free(gsobm3), two_d_arr_free(g3);
 }

@@ -75,17 +75,19 @@ int main() {
   int v2[] = {5, 10, 15, 20}, e2i[3][3] = {{0, 1, 10}, {1, 2, 10}, {0, 3, 10}};
   int v3[] = {1, 2, 3, 4},
       e3i[4][3] = {{0, 1, 10}, {1, 2, 11}, {2, 3, 12}, {1, 3, 13}};
-  struct two_d_arr e1, e2, e3;
-  two_d_arr_init(&e1, ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
-  two_d_arr_init(&e2, ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
-  two_d_arr_init(&e3, ARRAY_SIZE(e3i), ARRAY_SIZE(e3i[0]), e3i);
-  printf("%d\n", maximalPathQuality(v1, ARRAY_SIZE(v1), e1.arr, e1.row_size,
-                                    e1.col_size, 49)); // expect: 75
-  printf("%d\n", maximalPathQuality(v1, ARRAY_SIZE(v1), e1.arr, e1.row_size,
-                                    e1.col_size, 30)); // expect: 25
-  printf("%d\n", maximalPathQuality(v1, ARRAY_SIZE(v1), e1.arr, e1.row_size,
-                                    e1.col_size, 50)); // expect: 50
-  two_d_arr_free(&e1);
-  two_d_arr_free(&e2);
-  two_d_arr_free(&e3);
+  struct two_d_arr *e1 =
+      two_d_arr_init(ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
+  struct two_d_arr *e2 =
+      two_d_arr_init(ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
+  struct two_d_arr *e3 =
+      two_d_arr_init(ARRAY_SIZE(e3i), ARRAY_SIZE(e3i[0]), e3i);
+  printf("%d\n", maximalPathQuality(v1, ARRAY_SIZE(v1), e1->arr, e1->row_size,
+                                    e1->col_size, 49)); // expect: 75
+  printf("%d\n", maximalPathQuality(v1, ARRAY_SIZE(v1), e1->arr, e1->row_size,
+                                    e1->col_size, 30)); // expect: 25
+  printf("%d\n", maximalPathQuality(v1, ARRAY_SIZE(v1), e1->arr, e1->row_size,
+                                    e1->col_size, 50)); // expect: 50
+  two_d_arr_free(e1);
+  two_d_arr_free(e2);
+  two_d_arr_free(e3);
 }

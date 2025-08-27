@@ -62,17 +62,19 @@ int main() {
   int c3i[16][2] = {{0, 1}, {6, 8}, {0, 2}, {5, 6}, {0, 4}, {0, 3},
                     {6, 7}, {1, 3}, {4, 7}, {1, 4}, {2, 5}, {2, 6},
                     {3, 4}, {4, 5}, {5, 7}, {6, 9}};
-  struct two_d_arr c1, c2, c3;
-  two_d_arr_init(&c1, ARRAY_SIZE(c1i), ARRAY_SIZE(c1i[0]), c1i);
-  two_d_arr_init(&c2, ARRAY_SIZE(c2i), ARRAY_SIZE(c2i[0]), c2i);
-  two_d_arr_init(&c3, ARRAY_SIZE(c3i), ARRAY_SIZE(c3i[0]), c3i);
+  struct two_d_arr *c1 =
+      two_d_arr_init(ARRAY_SIZE(c1i), ARRAY_SIZE(c1i[0]), c1i);
+  struct two_d_arr *c2 =
+      two_d_arr_init(ARRAY_SIZE(c2i), ARRAY_SIZE(c2i[0]), c2i);
+  struct two_d_arr *c3 =
+      two_d_arr_init(ARRAY_SIZE(c3i), ARRAY_SIZE(c3i[0]), c3i);
   printf("%d\n",
-         videoStitching(c1.arr, c1.row_size, c1.col_size, 3)); // expect: 3
+         videoStitching(c1->arr, c1->row_size, c1->col_size, 3)); // expect: 3
   printf("%d\n",
-         videoStitching(c2.arr, c2.row_size, c2.col_size, 5)); // expect: -1
+         videoStitching(c2->arr, c2->row_size, c2->col_size, 5)); // expect: -1
   printf("%d\n",
-         videoStitching(c3.arr, c3.row_size, c3.col_size, 9)); // expect: 3
-  two_d_arr_free(&c1);
-  two_d_arr_free(&c2);
-  two_d_arr_free(&c3);
+         videoStitching(c3->arr, c3->row_size, c3->col_size, 9)); // expect: 3
+  two_d_arr_free(c1);
+  two_d_arr_free(c2);
+  two_d_arr_free(c3);
 }

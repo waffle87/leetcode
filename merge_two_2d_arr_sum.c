@@ -53,15 +53,18 @@ int main() {
       n21i[3][2] = {{1, 4}, {3, 2}, {4, 1}}, rs1, *rcs1;
   int n12i[3][2] = {{2, 4}, {3, 6}, {5, 5}}, n22i[2][2] = {{1, 3}, {4, 3}}, rs2,
       *rcs2;
-  struct two_d_arr n11, n21, n12, n22;
-  two_d_arr_init(&n11, ARRAY_SIZE(n11i), ARRAY_SIZE(n11i[0]), n11i);
-  two_d_arr_init(&n21, ARRAY_SIZE(n21i), ARRAY_SIZE(n21i[0]), n21i);
-  two_d_arr_init(&n12, ARRAY_SIZE(n12i), ARRAY_SIZE(n12i[0]), n12i);
-  two_d_arr_init(&n22, ARRAY_SIZE(n22i), ARRAY_SIZE(n22i[0]), n22i);
-  int **ma1 = mergeArrays(n11.arr, n11.row_size, n11.col_size, n21.arr,
-                          n21.row_size, n21.col_size, &rs1, &rcs1);
-  int **ma2 = mergeArrays(n12.arr, n12.row_size, n12.col_size, n22.arr,
-                          n22.row_size, n22.col_size, &rs2, &rcs2);
+  struct two_d_arr *n11 =
+      two_d_arr_init(ARRAY_SIZE(n11i), ARRAY_SIZE(n11i[0]), n11i);
+  struct two_d_arr *n21 =
+      two_d_arr_init(ARRAY_SIZE(n21i), ARRAY_SIZE(n21i[0]), n21i);
+  struct two_d_arr *n12 =
+      two_d_arr_init(ARRAY_SIZE(n12i), ARRAY_SIZE(n12i[0]), n12i);
+  struct two_d_arr *n22 =
+      two_d_arr_init(ARRAY_SIZE(n22i), ARRAY_SIZE(n22i[0]), n22i);
+  int **ma1 = mergeArrays(n11->arr, n11->row_size, n11->col_size, n21->arr,
+                          n21->row_size, n21->col_size, &rs1, &rcs1);
+  int **ma2 = mergeArrays(n12->arr, n12->row_size, n12->col_size, n22->arr,
+                          n22->row_size, n22->col_size, &rs2, &rcs2);
   for (int i = 0; i < rs1; i++) {
     for (int j = 0; j < rcs1[i]; j++)
       printf("%d ", ma1[i][j]); // expect: [[1,6],[2,3],[3,2],[4,6]]
@@ -82,8 +85,8 @@ int main() {
     free(ma2[i]);
   free(ma2);
   free(rcs2);
-  two_d_arr_free(&n11);
-  two_d_arr_free(&n21);
-  two_d_arr_free(&n12);
-  two_d_arr_free(&n22);
+  two_d_arr_free(n11);
+  two_d_arr_free(n21);
+  two_d_arr_free(n12);
+  two_d_arr_free(n22);
 }

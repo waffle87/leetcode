@@ -232,14 +232,15 @@ long long minimumTotalDistance(int *robot, int robotSize, int **factory,
 int main() {
   int r1[] = {0, 4, 6}, f1i[2][2] = {{2, 2}, {6, 2}};
   int r2[] = {1, -1}, f2i[2][2] = {{-2, 1}, {2, 1}};
-  struct two_d_arr f1, f2;
-  two_d_arr_init(&f1, 2, 2, f1i);
-  two_d_arr_init(&f2, 2, 2, f2i);
-  printf("%lld\n", minimumTotalDistance(r1, ARRAY_SIZE(r1), f1.arr, f1.row_size,
-                                        f1.col_size)); // expect: 4
+  struct two_d_arr *f1 = two_d_arr_init(2, 2, f1i);
+  struct two_d_arr *f2 = two_d_arr_init(2, 2, f2i);
+  printf("%lld\n",
+         minimumTotalDistance(r1, ARRAY_SIZE(r1), f1->arr, f1->row_size,
+                              f1->col_size)); // expect: 4
 
-  printf("%lld\n", minimumTotalDistance(r2, ARRAY_SIZE(r2), f2.arr, f2.row_size,
-                                        f2.col_size)); // expect: 2
-  two_d_arr_free(&f1);
-  two_d_arr_free(&f2);
+  printf("%lld\n",
+         minimumTotalDistance(r2, ARRAY_SIZE(r2), f2->arr, f2->row_size,
+                              f2->col_size)); // expect: 2
+  two_d_arr_free(f1);
+  two_d_arr_free(f2);
 }

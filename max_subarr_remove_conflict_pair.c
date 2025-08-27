@@ -50,11 +50,14 @@ long long maxSubarrays(int n, int **conflictingPairs, int conflictingPairsSize,
 
 int main() {
   int cp1i[2][2] = {{2, 3}, {1, 4}}, cp2i[3][2] = {{1, 2}, {2, 5}, {3, 5}};
-  struct two_d_arr cp1, cp2;
-  two_d_arr_init(&cp1, ARRAY_SIZE(cp1i), ARRAY_SIZE(cp1i[0]), cp1i);
-  two_d_arr_init(&cp2, ARRAY_SIZE(cp2i), ARRAY_SIZE(cp2i[0]), cp2i);
+  struct two_d_arr *cp1 =
+      two_d_arr_init(ARRAY_SIZE(cp1i), ARRAY_SIZE(cp1i[0]), cp1i);
+  struct two_d_arr *cp2 =
+      two_d_arr_init(ARRAY_SIZE(cp2i), ARRAY_SIZE(cp2i[0]), cp2i);
   printf("%lld\n",
-         maxSubarrays(4, cp1.arr, cp1.row_size, cp1.col_size)); // expect: 9
+         maxSubarrays(4, cp1->arr, cp1->row_size, cp1->col_size)); // expect: 9
   printf("%lld\n",
-         maxSubarrays(5, cp2.arr, cp2.row_size, cp2.col_size)); // expect: 12
+         maxSubarrays(5, cp2->arr, cp2->row_size, cp2->col_size)); // expect: 12
+  two_d_arr_free(cp1);
+  two_d_arr_free(cp2);
 }

@@ -33,17 +33,19 @@ int minOperations(int **grid, int gridSize, int *gridColSize, int x) {
 int main() {
   int g1i[2][2] = {{2, 4}, {6, 8}}, g2i[2][2] = {{1, 5}, {2, 3}},
       g3i[2][2] = {{1, 2}, {3, 4}};
-  struct two_d_arr g1, g2, g3;
-  two_d_arr_init(&g1, ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
-  two_d_arr_init(&g2, ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
-  two_d_arr_init(&g3, ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  struct two_d_arr *g3 =
+      two_d_arr_init(ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
   printf("%d\n",
-         minOperations(g1.arr, g1.row_size, g1.col_size, 2)); // expect: 4
+         minOperations(g1->arr, g1->row_size, g1->col_size, 2)); // expect: 4
   printf("%d\n",
-         minOperations(g2.arr, g2.row_size, g2.col_size, 1)); // expect: 5
+         minOperations(g2->arr, g2->row_size, g2->col_size, 1)); // expect: 5
   printf("%d\n",
-         minOperations(g3.arr, g3.row_size, g3.col_size, 2)); // expect: -1
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
-  two_d_arr_free(&g3);
+         minOperations(g3->arr, g3->row_size, g3->col_size, 2)); // expect: -1
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
+  two_d_arr_free(g3);
 }

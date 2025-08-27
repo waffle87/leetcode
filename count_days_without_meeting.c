@@ -34,14 +34,19 @@ int countDays(int days, int **meetings, int meetingsSize,
 int main() {
   int m1i[3][2] = {{5, 7}, {1, 3}, {9, 10}}, m2i[2][2] = {{2, 4}, {1, 3}},
       m3i[1][2] = {{1, 6}};
-  struct two_d_arr m1, m2, m3;
-  two_d_arr_init(&m1, ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
-  two_d_arr_init(&m2, ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
-  two_d_arr_init(&m3, ARRAY_SIZE(m3i), ARRAY_SIZE(m3i[0]), m3i);
-  printf("%d\n", countDays(10, m1.arr, m1.row_size, m1.col_size)); // expect: 2
-  printf("%d\n", countDays(5, m2.arr, m2.row_size, m2.col_size));  // expect: 1
-  printf("%d\n", countDays(6, m3.arr, m3.row_size, m3.col_size));  // expect: 0
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
-  two_d_arr_free(&m3);
+  struct two_d_arr *m1 =
+      two_d_arr_init(ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
+  struct two_d_arr *m2 =
+      two_d_arr_init(ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
+  struct two_d_arr *m3 =
+      two_d_arr_init(ARRAY_SIZE(m3i), ARRAY_SIZE(m3i[0]), m3i);
+  printf("%d\n",
+         countDays(10, m1->arr, m1->row_size, m1->col_size)); // expect: 2
+  printf("%d\n",
+         countDays(5, m2->arr, m2->row_size, m2->col_size)); // expect: 1
+  printf("%d\n",
+         countDays(6, m3->arr, m3->row_size, m3->col_size)); // expect: 0
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
+  two_d_arr_free(m3);
 }

@@ -72,14 +72,13 @@ int minFlips(int **mat, int matSize, int *matColSize) {
 int main() {
   int m1i[2][2] = {{0, 0}, {0, 1}}, m2i[1][1] = {{0}},
       m3i[2][3] = {{1, 0, 0}, {1, 0, 0}};
-  struct two_d_arr m1, m2, m3;
-  two_d_arr_init(&m1, 2, 2, m1i);
-  two_d_arr_init(&m2, 1, 1, m2i);
-  two_d_arr_init(&m3, 2, 3, m3i);
-  printf("%d\n", minFlips(m1.arr, m1.row_size, m1.col_size)); // expect: 3
-  printf("%d\n", minFlips(m2.arr, m2.row_size, m2.col_size)); // expect: 0
-  printf("%d\n", minFlips(m3.arr, m3.row_size, m3.col_size)); // expect: -1
-  two_d_arr_free(&m1);
-  two_d_arr_free(&m2);
-  two_d_arr_free(&m3);
+  struct two_d_arr *m1 = two_d_arr_init(2, 2, m1i);
+  struct two_d_arr *m2 = two_d_arr_init(1, 1, m2i);
+  struct two_d_arr *m3 = two_d_arr_init(2, 3, m3i);
+  printf("%d\n", minFlips(m1->arr, m1->row_size, m1->col_size)); // expect: 3
+  printf("%d\n", minFlips(m2->arr, m2->row_size, m2->col_size)); // expect: 0
+  printf("%d\n", minFlips(m3->arr, m3->row_size, m3->col_size)); // expect: -1
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
+  two_d_arr_free(m3);
 }

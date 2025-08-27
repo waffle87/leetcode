@@ -39,11 +39,12 @@ int findMaxFish(int **grid, int gridSize, int *gridColSize) {
 int main() {
   int g1i[4][4] = {{0, 2, 1, 0}, {4, 0, 0, 3}, {1, 0, 0, 4}, {0, 3, 2, 0}};
   int g2i[4][4] = {{1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 1}};
-  struct two_d_arr g1, g2;
-  two_d_arr_init(&g1, ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
-  two_d_arr_init(&g2, ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
-  printf("%d\n", findMaxFish(g1.arr, g1.row_size, g1.col_size)); // expect: 7
-  printf("%d\n", findMaxFish(g2.arr, g2.row_size, g2.col_size)); // expect: 1
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  printf("%d\n", findMaxFish(g1->arr, g1->row_size, g1->col_size)); // expect: 7
+  printf("%d\n", findMaxFish(g2->arr, g2->row_size, g2->col_size)); // expect: 1
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
 }

@@ -58,16 +58,15 @@ int main() {
       q1[] = {1, 2, 3, 4, 5, 6}, rs1;
   int i2i[4][2] = {{1, 2}, {1, 2}, {1, 3}, {1, 4}}, q2[] = {1}, rs2;
   int i3i[1][2] = {{10, 1000}}, q3[] = {5}, rs3;
-  struct two_d_arr i1, i2, i3;
-  two_d_arr_init(&i1, 5, 2, i1i);
-  two_d_arr_init(&i2, 4, 2, i2i);
-  two_d_arr_init(&i3, 1, 2, i3i);
-  int *mb1 =
-      maximumBeauty(i1.arr, i1.row_size, i1.col_size, q1, ARRAY_SIZE(q1), &rs1);
-  int *mb2 =
-      maximumBeauty(i2.arr, i2.row_size, i2.col_size, q2, ARRAY_SIZE(q2), &rs2);
-  int *mb3 =
-      maximumBeauty(i3.arr, i3.row_size, i3.col_size, q3, ARRAY_SIZE(q3), &rs3);
+  struct two_d_arr *i1 = two_d_arr_init(5, 2, i1i);
+  struct two_d_arr *i2 = two_d_arr_init(4, 2, i2i);
+  struct two_d_arr *i3 = two_d_arr_init(1, 2, i3i);
+  int *mb1 = maximumBeauty(i1->arr, i1->row_size, i1->col_size, q1,
+                           ARRAY_SIZE(q1), &rs1);
+  int *mb2 = maximumBeauty(i2->arr, i2->row_size, i2->col_size, q2,
+                           ARRAY_SIZE(q2), &rs2);
+  int *mb3 = maximumBeauty(i3->arr, i3->row_size, i3->col_size, q3,
+                           ARRAY_SIZE(q3), &rs3);
   for (int i = 0; i < rs1; i++)
     printf("%d ", mb1[i]); // expect: 2 4 5 5 6 6
   printf("\n");
@@ -78,5 +77,7 @@ int main() {
     printf("%d ", mb3[i]); // expect: 0
   printf("\n");
   free(mb1), free(mb2), free(mb3);
-  two_d_arr_free(&i1), two_d_arr_free(&i2), two_d_arr_free(&i3);
+  two_d_arr_free(i1);
+  two_d_arr_free(i2);
+  two_d_arr_free(i3);
 }

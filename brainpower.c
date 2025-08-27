@@ -27,9 +27,14 @@ long long mostPoints(int **questions, int questionsSize,
 int main() {
   int q1i[4][2] = {{3, 2}, {4, 3}, {4, 4}, {2, 5}},
       q2i[5][2] = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  printf("%lld\n", mostPoints(q1.arr, q1.row_size, q1.col_size)); // expect: 5
-  printf("%lld\n", mostPoints(q2.arr, q2.row_size, q2.col_size)); // expect: 7
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  printf("%lld\n",
+         mostPoints(q1->arr, q1->row_size, q1->col_size)); // expect: 5
+  printf("%lld\n",
+         mostPoints(q2->arr, q2->row_size, q2->col_size)); // expect: 7
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

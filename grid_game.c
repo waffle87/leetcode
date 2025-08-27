@@ -32,14 +32,16 @@ int main() {
   int g1i[2][3] = {{2, 5, 4}, {1, 5, 1}};
   int g2i[2][3] = {{3, 3, 1}, {8, 5, 2}};
   int g3i[2][4] = {{1, 3, 1, 15}, {1, 3, 3, 1}};
-  struct two_d_arr g1, g2, g3;
-  two_d_arr_init(&g1, ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
-  two_d_arr_init(&g2, ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
-  two_d_arr_init(&g3, ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
-  printf("%lld\n", gridGame(g1.arr, g1.row_size, g1.col_size)); // expect: 4
-  printf("%lld\n", gridGame(g2.arr, g2.row_size, g2.col_size)); // expect: 4
-  printf("%lld\n", gridGame(g3.arr, g3.row_size, g3.col_size)); // expect: 7
-  two_d_arr_free(&g1);
-  two_d_arr_free(&g2);
-  two_d_arr_free(&g3);
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  struct two_d_arr *g3 =
+      two_d_arr_init(ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
+  printf("%lld\n", gridGame(g1->arr, g1->row_size, g1->col_size)); // expect: 4
+  printf("%lld\n", gridGame(g2->arr, g2->row_size, g2->col_size)); // expect: 4
+  printf("%lld\n", gridGame(g3->arr, g3->row_size, g3->col_size)); // expect: 7
+  two_d_arr_free(g1);
+  two_d_arr_free(g2);
+  two_d_arr_free(g3);
 }

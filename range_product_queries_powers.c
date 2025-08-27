@@ -61,11 +61,12 @@ int *productQueries(int n, int **queries, int queriesSize, int *queriesColSize,
 
 int main() {
   int q1i[3][2] = {{0, 1}, {2, 2}, {0, 3}}, q2i[1][2] = {{0, 0}};
-  struct two_d_arr q1, q2;
-  two_d_arr_init(&q1, ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
-  two_d_arr_init(&q2, ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
-  int rs1, *pq1 = productQueries(15, q1.arr, q1.row_size, q1.col_size, &rs1);
-  int rs2, *pq2 = productQueries(2, q2.arr, q2.row_size, q2.col_size, &rs2);
+  struct two_d_arr *q1 =
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+  struct two_d_arr *q2 =
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+  int rs1, *pq1 = productQueries(15, q1->arr, q1->row_size, q1->col_size, &rs1);
+  int rs2, *pq2 = productQueries(2, q2->arr, q2->row_size, q2->col_size, &rs2);
   for (int i = 0; i < rs1; i++)
     printf("%d ", pq1[i]); // expect: 2 4 6
   printf("\n");
@@ -74,6 +75,6 @@ int main() {
   printf("\n");
   free(pq1);
   free(pq2);
-  two_d_arr_free(&q1);
-  two_d_arr_free(&q2);
+  two_d_arr_free(q1);
+  two_d_arr_free(q2);
 }

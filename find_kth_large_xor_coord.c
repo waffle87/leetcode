@@ -29,14 +29,16 @@ int kthLargestValue(int **matrix, int matrixSize, int *matrixColSize, int k) {
 
 int main() {
   int matrix_input[2][2] = {{5, 2}, {1, 6}};
-  struct two_d_arr matrix;
-  two_d_arr_init(&matrix, ARRAY_SIZE(matrix_input), ARRAY_SIZE(matrix_input[0]),
-                 matrix_input);
-  printf("%d\n", kthLargestValue(matrix.arr, matrix.row_size, matrix.col_size,
-                                 1)); // expect: 7
-  printf("%d\n", kthLargestValue(matrix.arr, matrix.row_size, matrix.col_size,
-                                 2)); // expect: 5
-  printf("%d\n", kthLargestValue(matrix.arr, matrix.row_size, matrix.col_size,
-                                 3)); // expect: 4
-  two_d_arr_free(&matrix);
+  struct two_d_arr *matrix = two_d_arr_init(
+      ARRAY_SIZE(matrix_input), ARRAY_SIZE(matrix_input[0]), matrix_input);
+  printf("%d\n",
+         kthLargestValue(matrix->arr, matrix->row_size, matrix->col_size,
+                         1)); // expect: 7
+  printf("%d\n",
+         kthLargestValue(matrix->arr, matrix->row_size, matrix->col_size,
+                         2)); // expect: 5
+  printf("%d\n",
+         kthLargestValue(matrix->arr, matrix->row_size, matrix->col_size,
+                         3)); // expect: 4
+  two_d_arr_free(matrix);
 }

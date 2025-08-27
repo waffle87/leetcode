@@ -126,17 +126,19 @@ int main() {
   int f1i[3][2] = {{2, 8}, {6, 3}, {8, 6}},
       f2i[6][2] = {{0, 9}, {4, 1}, {5, 7}, {6, 2}, {7, 4}, {10, 9}},
       f3i[3][2] = {{0, 3}, {6, 4}, {8, 5}};
-  struct two_d_arr f1, f2, f3;
-  two_d_arr_init(&f1, ARRAY_SIZE(f1i), ARRAY_SIZE(f1i[0]), f1i);
-  two_d_arr_init(&f2, ARRAY_SIZE(f2i), ARRAY_SIZE(f2i[0]), f2i);
-  two_d_arr_init(&f3, ARRAY_SIZE(f3i), ARRAY_SIZE(f3i[0]), f3i);
-  printf("%d\n",
-         maxTotalFruits(f1.arr, f1.row_size, f1.col_size, 5, 4)); // expect: 9
-  printf("%d\n",
-         maxTotalFruits(f2.arr, f2.row_size, f2.col_size, 5, 4)); // expect: 14
-  printf("%d\n",
-         maxTotalFruits(f3.arr, f3.row_size, f3.col_size, 3, 2)); // expect: 0
-  two_d_arr_free(&f1);
-  two_d_arr_free(&f2);
-  two_d_arr_free(&f3);
+  struct two_d_arr *f1 =
+      two_d_arr_init(ARRAY_SIZE(f1i), ARRAY_SIZE(f1i[0]), f1i);
+  struct two_d_arr *f2 =
+      two_d_arr_init(ARRAY_SIZE(f2i), ARRAY_SIZE(f2i[0]), f2i);
+  struct two_d_arr *f3 =
+      two_d_arr_init(ARRAY_SIZE(f3i), ARRAY_SIZE(f3i[0]), f3i);
+  printf("%d\n", maxTotalFruits(f1->arr, f1->row_size, f1->col_size, 5,
+                                4)); // expect: 9
+  printf("%d\n", maxTotalFruits(f2->arr, f2->row_size, f2->col_size, 5,
+                                4)); // expect: 14
+  printf("%d\n", maxTotalFruits(f3->arr, f3->row_size, f3->col_size, 3,
+                                2)); // expect: 0
+  two_d_arr_free(f1);
+  two_d_arr_free(f2);
+  two_d_arr_free(f3);
 }

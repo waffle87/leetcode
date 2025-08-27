@@ -54,9 +54,8 @@ int func(int **edges, int edgesSize, int *edgesColSize);
 int main() {
   // edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]
   int edges_input[6][2] = {{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}, {2, 6}};
-  struct two_d_arr edges;
-  two_d_arr_init(&edges, ARRAY_SIZE(edges_input), ARRAY_SIZE(edges_input[0]), edges_input);
+  struct two_d_arr *edges = two_d_arr_init(ARRAY_SIZE(edges_input), ARRAY_SIZE(edges_input[0]), edges_input);
   int res = func(edges.arr, edges.row_size, edges.col_size);
-  two_d_arr_free(&edges);
+  two_d_arr_free(edges);
 }
 ```

@@ -39,12 +39,15 @@ int **floodFill(int **image, int imageSize, int *imageColSize, int sr, int sc,
 int main() {
   int i1i[3][3] = {{1, 1, 1}, {1, 1, 0}, {1, 0, 1}},
       i2i[2][3] = {{0, 0, 0}, {0, 0, 0}};
-  struct two_d_arr i1, i2;
-  two_d_arr_init(&i1, ARRAY_SIZE(i1i), ARRAY_SIZE(i1i[0]), i1i);
-  two_d_arr_init(&i2, ARRAY_SIZE(i2i), ARRAY_SIZE(i2i[0]), i2i);
+  struct two_d_arr *i1 =
+      two_d_arr_init(ARRAY_SIZE(i1i), ARRAY_SIZE(i1i[0]), i1i);
+  struct two_d_arr *i2 =
+      two_d_arr_init(ARRAY_SIZE(i2i), ARRAY_SIZE(i2i[0]), i2i);
   int rs1, rs2, *rcs1, *rcs2;
-  int **ff1 = floodFill(i1.arr, i1.row_size, i1.col_size, 1, 1, 2, &rs1, &rcs1);
-  int **ff2 = floodFill(i2.arr, i2.row_size, i2.col_size, 0, 0, 0, &rs2, &rcs2);
+  int **ff1 =
+      floodFill(i1->arr, i1->row_size, i1->col_size, 1, 1, 2, &rs1, &rcs1);
+  int **ff2 =
+      floodFill(i2->arr, i2->row_size, i2->col_size, 0, 0, 0, &rs2, &rcs2);
   for (int i = 0; i < rs1; i++) {
     for (int j = 0; j < rcs1[i]; j++)
       printf("%d ", ff1[i][j]); // expect: [[2,2,2],[2,2,0],[2,0,1]]
@@ -62,5 +65,8 @@ int main() {
   free(ff1), free(rcs1);
   for (int i = 0; i < rs2; i++)
     free(ff2[i]);
-  free(ff2), free(rcs2);
+  free(ff2);
+  free(rcs2);
+  two_d_arr_free(i1);
+  two_d_arr_free(i2);
 }
