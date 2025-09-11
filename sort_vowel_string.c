@@ -14,54 +14,38 @@
  vowels.
   */
 
-char map[10] = {'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'};
-
-char is_vowel(char c, int *idx) {
-  if (c == 'A' || c == 'a')
+bool is_vowel(char c) {
+  switch (c) {
+  case 'A':
+  case 'E':
+  case 'I':
+  case 'O':
+  case 'U':
+  case 'a':
+  case 'e':
+  case 'i':
+  case 'o':
+  case 'u':
     return true;
-  else if (c == 'E' || c == 'e') {
-    (*idx) = 1;
-    return true;
-  } else if (c == 'I' || c == 'i') {
-    (*idx) = 2;
-    return true;
-  } else if (c == 'O' || c == 'o') {
-    (*idx) = 3;
-    return true;
-  } else if (c == 'U' || c == 'u') {
-    (*idx) = 4;
-    return true;
+  default:
+    return false;
   }
-  return false;
 }
 
+int cmp(const void *a, const void *b) { return (*(char *)a - *(char *)b); }
+
 char *sortVowels(char *s) {
-  int hash[10] = {0}, len = strlen(s);
-  char *ans = (char *)calloc(len + 1, sizeof(char));
-  for (int i = 0; i < len; i++) {
-    int idx = 0;
-    if (is_vowel(s[i], &idx)) {
-      if (isupper(s[i]))
-        hash[idx]++;
-      else
-        hash[idx + 5]++;
-    }
-  }
-  int a_idx = 0, tmp;
-  for (int i = 0; i < len; i++) {
-    if (is_vowel(s[i], &tmp)) {
-      for (int j = 0; j < 10; j++) {
-        if (hash[j]) {
-          ans[a_idx++] = map[j];
-          hash[j]--;
-          break;
-        }
-      }
-    } else {
-      ans[a_idx++] = s[i];
-    }
-  }
-  return ans;
+  int n = strlen(s), cnt = 0;
+  char *vowels = (char *)malloc(n * sizeof(char));
+  for (int i = 0; i < n; ++i)
+    if (is_vowel(s[i]))
+      vowels[cnt++] = s[i];
+  qsort(vowels, cnt, sizeof(char), cmp);
+  for (int i = 0, j = 0; j < n; ++i)
+    if (is_vowel(s[i]))
+      s[i] = vowels[j++];
+  free(vowels);
+  return s;
 }
 
 int main() {
