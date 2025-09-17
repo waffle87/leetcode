@@ -1,4 +1,6 @@
 # 2353. Design a Food Rating System
+from collections import defaultdict
+
 from sortedcontainers import SortedSet
 
 """
@@ -48,3 +50,17 @@ class FoodRatings(object):
         """
         highest_rated = self.cuisine_food_map[cuisine][0]
         return highest_rated[1]
+
+
+if __name__ == "__main__":
+    obj = FoodRatings(
+        foods=["kimchi", "miso", "sushi", "moussaka", "ramen", "bulgogi"],
+        cuisines=["korean", "japanese", "japanese", "greek", "japanese", "korean"],
+        ratings=[9, 12, 8, 15, 14, 7],
+    )
+    print(obj.highestRated("korean"))
+    print(obj.highestRated("japanese"))
+    obj.changeRating("sushi", 16)
+    print(obj.highestRated("japanese"))
+    obj.changeRating("ramen", 16)
+    print(obj.highestRated("japanese"))
