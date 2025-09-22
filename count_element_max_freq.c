@@ -8,18 +8,18 @@
  * that in the array
  */
 
-int maxFrequencyElements(int *nums, int nums_size) {
-  int *u_map = (int *)calloc(101, sizeof(int)), max_freq = 0, cnt = 0;
-  for (int i = 0; i < nums_size; i++)
-    u_map[nums[i]]++;
-  for (int i = 0; i < 101; ++i)
-    if (u_map[i] > max_freq)
-      max_freq = u_map[i];
-  for (int i = 0; i < 101; i++)
-    if (u_map[i] == max_freq)
-      cnt += u_map[i];
-  free(u_map);
-  return cnt;
+int maxFrequencyElements(int *nums, int numsSize) {
+  int freq[101] = {0}, max_freq = 0, m = 0;
+  for (int i = 0; i < numsSize; i++) {
+    int curr = nums[i];
+    freq[curr]++;
+    m += (freq[curr] == max_freq);
+    if (freq[curr] > max_freq) {
+      m = 1;
+      max_freq = freq[curr];
+    }
+  }
+  return m * max_freq;
 }
 
 int main() {

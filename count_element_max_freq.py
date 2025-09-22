@@ -14,16 +14,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        u_map = {}
+        freq = [0] * 101
+        max_freq, ans = 0, 0
         for i in nums:
-            u_map[i] = u_map.get(i, 0) + 1
-        max_i = 0
-        for key, val in u_map.items():
-            max_i = max(max_i, val)
-        ans = 0
-        for key, val in u_map.items():
-            if val == max_i:
-                ans += val
+            freq[i] += 1
+            max_freq = max(max_freq, freq[i])
+        for i in freq:
+            if i == max_freq:
+                ans += i
         return ans
 
 
