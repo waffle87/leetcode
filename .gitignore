@@ -2,3 +2,4 @@ a.out
 .gdb_history
 __pycache__
 .venv
+.DS_Store
