@@ -1,8 +1,5 @@
 // 1039. Minimum Score Triangulation of Polygon
-#include <limits.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given a convex n-sided polygon where each vertex has an integer value. you
@@ -15,36 +12,24 @@
  * triangulation of the polygon
  */
 
-int minScoreTriangulation(int *values, int values_size) {
-  int n = values_size, **dp = malloc(n * sizeof(int *));
-  for (int i = 0; i < n; i++) {
-    dp[i] = malloc(n * sizeof(int));
-    dp[i][i] = 0;
-    if (i + 1 < n)
-      dp[i][i + 1] = 0;
-    for (int j = i + 2; j < n; j++)
-      dp[i][j] = INT_MAX / 3;
-  }
-  for (int len = 3; len <= n; len++) {
-    for (int i = 0; i < n; i++) {
-      int j = i + len - 1;
-      if (j >= n)
-        break;
-      for (int k = i + 1; k < j; k++)
-        dp[i][j] = fmin(dp[i][j], dp[i][k] + values[i] * values[k] * values[j] +
-                                      dp[k][j]);
+int minScoreTriangulation(int *values, int valuesSize) {
+  int dp[50][50] = {0};
+  for (int i = 2; i < valuesSize; i++)
+    for (int j = 0; j + i < valuesSize; j++) {
+      int k = j + i;
+      dp[j][k] = INT_MAX;
+      for (int l = j + 1; l < k; l++) {
+        int score = dp[j][l] + dp[l][k] + values[j] * values[k] * values[l];
+        if (score < dp[j][k])
+          dp[j][k] = score;
+      }
     }
-  }
-  int ans = dp[0][n - 1];
-  for (int i = 0; i < n; i++)
-    free(dp[i]);
-  free(dp);
-  return ans;
+  return dp[0][valuesSize - 1];
 }
 
 int main() {
   int v1[] = {1, 2, 3}, v2[] = {3, 7, 4, 5}, v3[] = {1, 3, 1, 4, 1, 5};
-  printf("%d\n", minScoreTriangulation(v1, 3)); // expect: 6
-  printf("%d\n", minScoreTriangulation(v2, 4)); // expect: 144
-  printf("%d\n", minScoreTriangulation(v3, 6)); // expect: 13
+  printf("%d\n", minScoreTriangulation(v1, ARRAY_SIZE(v1))); // expect: 6
+  printf("%d\n", minScoreTriangulation(v2, ARRAY_SIZE(v2))); // expect: 144
+  printf("%d\n", minScoreTriangulation(v3, ARRAY_SIZE(v3))); // expect: 13
 }
