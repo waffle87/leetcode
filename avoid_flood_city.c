@@ -11,57 +11,95 @@
  * chose to dry an empty lake, nothing happens.
  */
 
+#define HASH_SIZE 200003
+
+struct hash_entry {
+  int key;
+  int val;
+  bool used;
+};
+
+int hash_func(int key) {
+  if (key < 0)
+    key = -key;
+  return key % HASH_SIZE;
+}
+
+int *hash_get(struct hash_entry *obj, int key) {
+  int hash = hash_func(key);
+  while (obj[hash].used) {
+    if (obj[hash].key == key)
+      return &obj[hash].val;
+    hash++;
+    if (hash == HASH_SIZE)
+      hash = 0;
+  }
+  return NULL;
+}
+
+int *hash_put(struct hash_entry *obj, int key, int val) {
+  int hash = hash_func(key);
+  while (obj[hash].used) {
+    if (obj[hash].key == key) {
+      obj[hash].val = val;
+      return &obj[hash].val;
+    }
+    hash++;
+    if (hash == HASH_SIZE)
+      hash = 0;
+  }
+  obj[hash].used = true;
+  obj[hash].key = key;
+  obj[hash].val = val;
+  return &obj[hash].val;
+}
+
+int dry_day(int *dry_days, int dry_cnt, int target) {
+  int low = 0, high = dry_cnt - 1, res = -1;
+  while (low <= high) {
+    int mid = low + (high - low) / 2;
+    if (dry_days[mid] > target) {
+      res = mid;
+      high = mid - 1;
+    } else
+      low = mid + 1;
+  }
+  return res;
+}
+
 int *avoidFlood(int *rains, int rainsSize, int *returnSize) {
   *returnSize = rainsSize;
-  int s_idx = 0, top = 0, n = 2 * rainsSize;
-  int *ans = (int *)calloc(rainsSize, sizeof(int));
-  int *stack = (int *)malloc(rainsSize * sizeof(int));
-  int **hash = (int **)calloc(n, sizeof(int *));
+  int *ans = (int *)malloc(rainsSize * sizeof(int));
+  int *dry = (int *)malloc(rainsSize * sizeof(int));
+  int dry_cnt = 0;
+  struct hash_entry *hash_table =
+      (struct hash_entry *)calloc(HASH_SIZE, sizeof(struct hash_entry));
   for (int i = 0; i < rainsSize; i++) {
     if (!rains[i]) {
-      stack[s_idx] = i;
-      s_idx++;
+      dry[dry_cnt++] = i;
       ans[i] = 1;
     } else {
-      ans[i] = -1;
-      int val = rains[i], d = val;
-      while (1) {
-        if (!hash[d % n]) {
-          hash[d % n] = (int *)malloc(2 * sizeof(int));
-          hash[d % n][0] = val;
-          hash[d % n][1] = i;
-          break;
-        } else if (hash[d % n][0] == val) {
-          if (top == s_idx) {
-            *returnSize = 0;
-            goto exit;
-          }
-          for (int j = top; j < s_idx; i++) {
-            if (stack[j] > hash[d % n][1]) {
-              ans[stack[j]] = val;
-              stack[j] = -1;
-              hash[d % n][1] = i;
-              break;
-            }
-            if (j == s_idx - 1) {
-              *returnSize = 0;
-              goto exit;
-            }
-          }
-          break;
-        } else
-          d++;
+      int *prev = hash_get(hash_table, rains[i]);
+      if (prev) {
+        int idx = dry_day(dry, dry_cnt, *prev);
+        if (idx == -1) {
+          free(ans);
+          free(dry);
+          free(hash_table);
+          *returnSize = 0;
+          return NULL;
+        }
+        int day = dry[idx];
+        ans[day] = rains[i];
+        memmove(dry + idx, dry + idx + 1, (dry_cnt - idx - 1) * sizeof(int));
+        dry_cnt--;
       }
-      while (top < s_idx && stack[top] == -1)
-        top++;
+      hash_put(hash_table, rains[i], i);
+      ans[i] = -1;
     }
   }
-exit:
-  free(stack);
-  for (int i = 0; i < n; i++)
-    if (hash[i])
-      free(hash[i]);
-  free(hash);
+  free(dry);
+  free(hash_table);
   return ans;
 }
 
