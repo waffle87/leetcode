@@ -1,6 +1,5 @@
 // 2300. Successful Pairs of Spells and Potions
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given two positive integer arrays 'spells' and 'potions', of length n and m
@@ -14,45 +13,43 @@
 
 int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
 
-int find_successful(int *potions, int potions_size, double val) {
-  int left = 0, right = potions_size - 1, mid;
-  while (left < right) {
-    mid = (left + right) >> 1;
-    if ((double)potions[mid] >= val)
-      right = mid;
-    else
-      left = mid + 1;
+int lower_bound(int *arr, int arr_size, long long target) {
+  int low = 0, high = arr_size - 1, res = arr_size;
+  while (low <= high) {
+    int mid = low + (high - low) / 2;
+    if (arr[mid] >= target) {
+      res = mid;
+      high = mid - 1;
+    } else
+      low = mid + 1;
   }
-  if ((double)potions[left] >= val)
-    return potions_size - left;
-  else
-    return 0;
+  return res;
 }
 
-int *successfulPairs(int *spells, int spells_size, int *potions,
-                     int potions_size, long long success, int *return_size) {
-  int i, j;
-  qsort(potions, potions_size, sizeof(int), cmp);
-  double *spells_float = malloc(spells_size * sizeof(double));
-  for (i = 0; i < spells_size; i++)
-    spells_float[i] = 1.0 * success / spells[i];
-  *return_size = spells_size;
-  int *ans = malloc(spells_size * sizeof(int));
-  for (i = 0; i < spells_size; i++)
-    ans[i] = find_successful(potions, potions_size, spells_float[i]);
-  free(spells_float);
+int *successfulPairs(int *spells, int spellsSize, int *potions, int potionsSize,
+                     long long success, int *returnSize) {
+  qsort(potions, potionsSize, sizeof(int), cmp);
+  int *ans = (int *)malloc(spellsSize * sizeof(int));
+  *returnSize = spellsSize;
+  for (int i = 0; i < spellsSize; i++) {
+    long long req = (success + spells[i] - 1) / spells[i];
+    ans[i] = potionsSize - lower_bound(potions, potionsSize, req);
+  }
   return ans;
 }
 
 int main() {
   int s1[] = {5, 1, 3}, s2[] = {3, 1, 2};
   int p1[] = {1, 2, 3, 4, 5}, p2[] = {8, 5, 8};
-  int rs1[] = {3}, rs2[] = {3};
-  int *ex1 = successfulPairs(s1, 3, p1, 5, 7, rs1);
-  int *ex2 = successfulPairs(s2, 3, p2, 3, 16, rs2);
-  for (int i = 0; i < 3; i++)
+  int rs1,
+      *ex1 = successfulPairs(s1, ARRAY_SIZE(s1), p1, ARRAY_SIZE(p1), 7, &rs1);
+  int rs2,
+      *ex2 = successfulPairs(s2, ARRAY_SIZE(s2), p2, ARRAY_SIZE(p2), 16, &rs2);
+  for (int i = 0; i < rs1; i++)
     printf("%d ", ex1[i]); // expect: 4 0 3
   printf("\n");
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < rs2; i++)
     printf("%d ", ex2[i]); // expect: 2 0 2
+  free(ex1);
+  free(ex2);
 }
