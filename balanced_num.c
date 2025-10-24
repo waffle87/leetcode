@@ -8,29 +8,34 @@
  * 'n'
  */
 
-bool is_balanced(int n) {
-  int *digit = calloc(10, sizeof(int));
-  while (n) {
-    int d = n % 10;
-    n /= 10;
-    digit[d]++;
-    if (!d || digit[d] > d)
-      return 0;
+bool is_beautiful(int *cnt) {
+  for (int i = 1; i <= 7; i++)
+    if (cnt[i] != 0 && cnt[i] != i)
+      return false;
+  return true;
+}
+
+void generate(long num, int *cnt, int *res, int *res_size) {
+  if (num > 0 && is_beautiful(cnt))
+    res[(*res_size)++] = (int)num;
+  if (num > 1224444)
+    return;
+  for (int i = 1; i <= 7; i++) {
+    if (cnt[i] < i) {
+      cnt[i]++;
+      generate(num * 10 + i, cnt, res, res_size);
+      cnt[i]--;
+    }
   }
-  for (int i = 1; i < 10; i++)
-    if (digit[i] && digit[i] != i)
-      return 0;
-  return 1;
 }
 
 int nextBeautifulNumber(int n) {
-  n += 1;
-  while (1) {
-    if (is_balanced(n))
-      return n;
-    n++;
-  }
-  return -1;
+  int res[2000], res_size = 0, cnt[10] = {0}, ans = -1;
+  generate(0, cnt, res, &res_size);
+  for (int i = 0; i < res_size; i++)
+    if (res[i] > n && (ans == -1 || res[i] < ans))
+      ans = res[i];
+  return ans;
 }
 
 int main() {

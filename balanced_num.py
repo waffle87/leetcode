@@ -1,5 +1,4 @@
 # 2048. Next Greater Numerically Balanced Number
-from collections import Counter
 
 """
 an integer 'x' is numerically balanced if for every digit 'd' in the number
@@ -10,35 +9,35 @@ an integer 'x' is numerically balanced if for every digit 'd' in the number
 
 
 class Solution(object):
+    def is_beautiful(self, cnt):
+        for i in range(1, 8):
+            if cnt[i] != 0 and cnt[i] != i:
+                return False
+        return True
+
+    def generate(self, num, cnt, nums):
+        if num > 0 and self.is_beautiful(cnt):
+            nums.append(num)
+        if num > 1224444:
+            return
+        for i in range(1, 8):
+            if cnt[i] < i:
+                cnt[i] += 1
+                self.generate(num * 10 + i, cnt, nums)
+                cnt[i] -= 1
+
     def nextBeautifulNumber(self, n):
         """
         :type n: int
         :rtype: int
         """
-
-        def backtracking(i, numLen, curNum, counter):
-            if i == numLen:
-                isBalanceNumber = True
-                for d, freq in counter.items():
-                    if freq != 0 and d != freq:
-                        isBalanceNumber = False
-                if isBalanceNumber:
-                    yield curNum
-                return
-
-            for d in range(1, numLen + 1):
-                if counter[d] >= d:
-                    continue
-                if counter[d] + (numLen - i) < d:
-                    continue
-                counter[d] += 1
-                yield from backtracking(i + 1, numLen, curNum * 10 + d, counter)
-                counter[d] -= 1
-
-        for numLen in range(len(str(n)), len(str(n)) + 2):
-            for num in backtracking(0, numLen, 0, Counter()):
-                if num > n:
-                    return num
+        nums = []
+        self.generate(0, [0] * 10, nums)
+        nums.sort()
+        for i in nums:
+            if i > n:
+                return i
+        return -1
 
 
 if __name__ == "__main__":
