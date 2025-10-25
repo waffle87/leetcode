@@ -10,20 +10,11 @@
  * at the end of the n'th day.
  */
 
+int prog(int next, int prev, int terms) { return (next + prev) * terms / 2; }
+
 int totalMoney(int n) {
-  int begin = 1, end = 7;
-  int sum = 28, total = 0;
-  while (n - 7) {
-    total += sum;
-    sum -= begin++;
-    sum += ++end;
-    n -= 7;
-  }
-  for (int i = 0; i < n; ++i) {
-    total += begin;
-    ++begin;
-  }
-  return total;
+  int q = n / 7, r = n % 7;
+  return prog(28, 28 + (q - 1) * 7, q) + prog(q + 1, q + r, r);
 }
 
 int main() {

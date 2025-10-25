@@ -11,21 +11,16 @@ at the end of the n'th day.
 
 
 class Solution(object):
+    def prog(self, next, prev, terms):
+        return (next + prev) * terms // 2
+
     def totalMoney(self, n):
         """
         :type n: int
         :rtype: int
         """
-        week = 0
-        day = 1
-        balance = 0
-        for i in range(1, n + 1):
-            balance += week + day
-            day += 1
-            if i % 7 == 0:
-                week += 1
-                day = 1
-        return balance
+        q, r = divmod(n, 7)
+        return self.prog(28, 28 + (q - 1) * 7, q) + self.prog(q + 1, q + r, r)
 
 
 if __name__ == "__main__":
