@@ -19,17 +19,11 @@ class Solution(object):
         :type bank: List[str]
         :rtype: int
         """
-        pre, tot = 0, 0
-        for row in bank:
-            curr = self.calc(row)
-            if curr == 0:
-                continue
-            tot += curr * pre
-            pre = curr
-        return tot
-
-    def calc(self, s):
-        return sum(int(c) for c in s)
+        return (
+            (dev := [row.count("1") for row in bank if row.count("1")])
+            and sum(x * y for x, y in zip(dev[1:], dev[:-1]))
+            or 0
+        )
 
 
 if __name__ == "__main__":

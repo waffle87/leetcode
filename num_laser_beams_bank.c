@@ -13,9 +13,9 @@
  * the total number of laser beams in the bank.
  */
 
-int numberOfBeams(char **bank, int bank_size) {
+int numberOfBeams(char **bank, int bankSize) {
   int ans = 0, start = 0;
-  for (int i = 0; i < bank_size; i++) {
+  for (int i = 0; i < bankSize; i++) {
     int n = 0;
     for (int j = 0;; j++) {
       if (!bank[i][j])
@@ -33,8 +33,8 @@ int numberOfBeams(char **bank, int bank_size) {
 }
 
 int main() {
-  char **b1 = {"011001", "000000", "010100", "001000"};
-  char **b2 = {"000", "111", "000"};
-  printf("%d\n", numberOfBeams(b1, 4)); // expect: 8
-  printf("%d\n", numberOfBeams(b2, 3)); // expect: 0
+  char *b1[] = {"011001", "000000", "010100", "001000"};
+  char *b2[] = {"000", "111", "000"};
+  printf("%d\n", numberOfBeams(b1, ARRAY_SIZE(b1))); // expect: 8
+  printf("%d\n", numberOfBeams(b2, ARRAY_SIZE(b2))); // expect: 0
 }
