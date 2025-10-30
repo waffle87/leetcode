@@ -19,26 +19,27 @@ class Solution(object):
         :type desiredTotal: int
         :rtype: bool
         """
+        if desiredTotal <= 0:
+            return True
+        if sum(range(1, maxChoosableInteger + 1)) < desiredTotal:
+            return False
+        vis = {}
 
-        def get_sum(num):
-            i, curr = 1, 0
-            while i <= 20 and num:
-                if num & 1:
-                    curr += i
-                i += 1
-                i >>= 1
-            return curr
-
-        def dfs(pick, player):
-            curr = get_sum(pick)
-            for i in range(maxChoosableInteger):
-                if pick & (1 << i):
-                    continue
-                if curr + i + 1 >= desiredTotal or not dfs(pick | (1 << i), player ^ 1):
+        def dfs(choices, total):
+            state = tuple(choices)
+            if state in vis:
+                return vis[state]
+            if choices[-1] >= total:
+                vis[state] = True
+                return True
+            for i in range(len(choices)):
+                if not dfs(choices[:i] + choices[i + 1 :], total - choices[i]):
+                    vis[state] = True
                     return True
+            vis[state] = False
             return False
 
-        return dfs(0, 0)
+        return dfs(list(range(1, maxChoosableInteger + 1)), desiredTotal)
 
 
 if __name__ == "__main__":

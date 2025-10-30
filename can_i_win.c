@@ -12,33 +12,39 @@
  * both players play optimally.
  */
 
-static int mem[1 << 20] = {};
-
-bool dfs(int maxChoosableInteger, int desiredTotal, int k) {
-  if (mem[k])
-    return mem[k] > 0;
-  if (desiredTotal <= 0)
+bool dfs(int *vis, int state, long long sum, int maxChoosableInteger,
+         int desiredTotal) {
+  if (vis[state] == 2)
+    return true;
+  if (vis[state] == 1)
     return false;
-  for (int i = 0; i < maxChoosableInteger; ++i)
-    if (!(k & (1 << i)) &
-        !dfs(maxChoosableInteger, desiredTotal - i - 1, k | (1 << i))) {
-      mem[k] = 1;
+  for (int i = 1; i <= maxChoosableInteger; i++) {
+    if ((state >> i) & 1)
+      continue;
+    if ((sum + 1) >= desiredTotal) {
+      vis[state] = 2;
       return true;
     }
-  mem[k] = -1;
+    if (!dfs(vis, state + (1 << i), sum + i, maxChoosableInteger,
+             desiredTotal)) {
+      vis[state] = 2;
+      return true;
+    }
+  }
+  vis[state] = 1;
   return false;
 }
 
 bool canIWin(int maxChoosableInteger, int desiredTotal) {
-  int sum = maxChoosableInteger * (maxChoosableInteger + 1) / 2;
-  if (desiredTotal < 2)
+  if (maxChoosableInteger >= desiredTotal)
     return true;
-  else if (sum < desiredTotal)
+  if (maxChoosableInteger * (maxChoosableInteger + 1) / 2 < desiredTotal)
     return false;
-  else if (sum == desiredTotal)
-    return maxChoosableInteger % 2;
-  else
-    return dfs(maxChoosableInteger, desiredTotal, 0);
+  int *vis = (int *)calloc(pow(2, 21), sizeof(int)), state = 0;
+  long long sum = 0;
+  bool ans = dfs(vis, state, sum, maxChoosableInteger, desiredTotal);
+  free(vis);
+  return ans;
 }
 
 int main() {
