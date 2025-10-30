@@ -9,21 +9,23 @@ either 'n + 1' or 'n - 1'. return the minimum number of operations needed for
 
 
 class Solution(object):
+    def helper(self, x, y=0):
+        if x == 1:
+            return y
+        if x % 2 == 0:
+            return self.helper(x >> 1, y + 1)
+        else:
+            if x == 3 or not ((x >> 1) & 1):
+                return self.helper(x - 1, y + 1)
+            else:
+                return self.helper(x + 1, y + 1)
+
     def integerReplacement(self, n):
         """
         :type n: int
         :rtype: int
         """
-        ans = 0
-        while n > 1:
-            ans += 1
-            if n % 2 == 0:
-                n //= 2
-            elif n % 4 == 1 or n == 3:
-                n -= 1
-            else:
-                n += 1
-        return ans
+        return self.helper(n)
 
 
 if __name__ == "__main__":
