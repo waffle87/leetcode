@@ -21,35 +21,37 @@ class Solution(object):
         :type walls: List[List[int]]
         :rtype: int
         """
-        vis = [[0] * n for _ in range(m)]
-        for val in walls:
-            vis[val[0]][val[1]] = 2
-        for val in guards:
-            vis[val[0]][val[1]] = 3
-        for val in guards:
-            row, col = val[0], val[1]
-            for i in range(row + 1, m):
-                if vis[i][col] in (2, 3):
+        vis = [[0 for _ in range(n)] for _ in range(m)]
+        for i in guards:
+            vis[i[0]][i[1]] = 2
+        for i in walls:
+            vis[i[0]][i[1]] = 3
+        for i in range(len(guards)):
+            r = guards[i][0]
+            c = guards[i][1]
+            left, right = c - 1, c + 1
+            up, down = r - 1, r + 1
+            while left >= 0:
+                if vis[r][left] == 3 or vis[r][left] == 2:
                     break
-                vis[i][col] = 1
-            for i in range(row - 1, -1, -1):
-                if vis[i][col] in (2, 3):
+                vis[r][left] = 1
+                left -= 1
+            while right < n:
+                if vis[r][right] == 3 or vis[r][right] == 2:
                     break
-                vis[i][col] = 1
-            for i in range(col + 1, n):
-                if vis[row][i] in (2, 3):
+                vis[r][right] = 1
+                right += 1
+            while up >= 0:
+                if vis[up][c] == 3 or vis[up][c] == 2:
                     break
-                vis[row][i] = 1
-            for i in range(col - 1, -1, -1):
-                if vis[row][i] in (2, 3):
+                vis[up][c] = 1
+                up -= 1
+            while down < m:
+                if vis[down][c] == 3 or vis[down][c] == 2:
                     break
-                vis[row][i] = 1
-        unguarded = 0
-        for i in range(m):
-            for j in range(n):
-                if vis[i][j] == 0:
-                    unguarded += 1
-        return unguarded
+                vis[down][c] = 1
+                down += 1
+        return sum(1 for i in range(m) for j in range(n) if vis[i][j] == 0)
 
 
 if __name__ == "__main__":

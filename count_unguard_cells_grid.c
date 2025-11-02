@@ -1,6 +1,5 @@
 // 2257. Count Unguarded Cells in the Grid
 #include "leetcode.h"
-#include <stdio.h>
 
 /*
  * you are given two integers 'm' and 'n' representing a 0-indexed 'm x n' grid.
@@ -16,53 +15,58 @@
 int countUnguarded(int m, int n, int **guards, int guardsSize,
                    int *guardsColSize, int **walls, int wallsSize,
                    int *wallsColSize) {
-  int unguarded = m * n;
-  char *grid = (char *)calloc(unguarded, sizeof(char));
-  for (int i = 0; i < guardsSize; i++) {
-    grid[guards[i][0] * n + guards[i][1]] = 1;
-    unguarded--;
+  int **vis = (int **)malloc(m * sizeof(int *));
+  for (int i = 0; i < m; i++)
+    vis[i] = (int *)malloc(n * sizeof(int));
+  for (int i = 0; i < guardsSize; ++i) {
+    int r = guards[i][0];
+    int c = guards[i][1];
+    vis[r][c] = 2;
   }
-  for (int i = 0; i < wallsSize; i++) {
-    grid[walls[i][0] * n + walls[i][1]] = 2;
-    unguarded--;
+  for (int i = 0; i < wallsSize; ++i) {
+    int r = walls[i][0];
+    int c = walls[i][1];
+    vis[r][c] = 3;
   }
-  for (int i = 0; i < guardsSize; i++) {
-    int row = guards[i][0], col = guards[i][1];
-    for (int c = col + 1; c < n; c++) {
-      if (grid[row * n + c] == 1 || grid[row * n + c] == 2)
+  for (int i = 0; i < guardsSize; ++i) {
+    int r = guards[i][0];
+    int c = guards[i][1];
+    int left = c - 1, right = c + 1;
+    int up = r - 1, down = r + 1;
+    while (left >= 0) {
+      if (vis[r][left] == 3 || vis[r][left] == 2)
         break;
-      if (!grid[row * n + c]) {
-        grid[row * n + c] = 3;
-        unguarded--;
-      }
+      vis[r][left] = 1;
+      left--;
     }
-    for (int c = col - 1; c >= 0; c--) {
-      if (grid[row * n + c] == 1 || grid[row * n + c] == 2)
+    while (right < n) {
+      if (vis[r][right] == 3 || vis[r][right] == 2)
         break;
-      if (!grid[row * n + c]) {
-        grid[row * n + c] = 3;
-        unguarded--;
-      }
+      vis[r][right] = 1;
+      right++;
     }
-    for (int r = row + 1; r < m; r++) {
-      if (grid[r * n + col] == 1 || grid[r * n + col] == 2)
+    while (up >= 0) {
+      if (vis[up][c] == 3 || vis[up][c] == 2)
         break;
-      if (!grid[r * n + col]) {
-        grid[r * n + col] = 3;
-        unguarded--;
-      }
+      vis[up][c] = 1;
+      up--;
     }
-    for (int r = row - 1; r >= 0; r--) {
-      if (grid[r * n + col] == 1 || grid[r * n + col] == 2)
+    while (down < m) {
+      if (vis[down][c] == 3 || vis[down][c] == 2)
         break;
-      if (!grid[r * n + col]) {
-        grid[r * n + col] = 3;
-        unguarded--;
-      }
+      vis[down][c] = 1;
+      down++;
     }
   }
-  free(grid);
-  return unguarded;
+  int ans = 0;
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < n; ++j)
+      if (!vis[i][j])
+        ans++;
+  for (int i = 0; i < m; i++)
+    free(vis[i]);
+  free(vis);
+  return ans;
 }
 
 int main() {
