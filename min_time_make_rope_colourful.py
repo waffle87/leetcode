@@ -19,23 +19,23 @@ class Solution(object):
         :type neededTime: List[int]
         :rtype: int
         """
-        cost = 0
-        i = 0
-        j = 0
-        while i < len(neededTime) and j < len(neededTime):
-            curr_cost = 0
-            curr_max = 0
-            while j < len(neededTime) and colors[i] == colors[j]:
-                curr_cost += neededTime[j]
-                curr_max = max(curr_max, neededTime[j])
-                j += 1
-            cost += curr_cost - curr_max
-            i = j
-        return cost
+        n, i, ans = len(colors), 1, 0
+        while i < n:
+            max_i = 0
+            while i < n and colors[i] == colors[i - 1]:
+                ans += neededTime[i - 1]
+                max_i = max(max_i, neededTime[i - 1])
+                i += 1
+            ans = neededTime[i - 1]
+            max_i = max(max_i, neededTime[i - 1])
+            if max_i != 0:
+                ans -= max_i
+            i += 1
+        return ans
 
 
 if __name__ == "__main__":
     obj = Solution()
-    print(obj.minCost("abaac", [1, 2, 3, 4, 5]))  # expect: 3
-    print(obj.minCost("abc", [1, 2, 3]))  # expect: 0
-    print(obj.minCost("aabaa", [1, 2, 3, 4, 1]))  # expect: 2
+    print(obj.minCost("abaac", [1, 2, 3, 4, 5]))
+    print(obj.minCost("abc", [1, 2, 3]))
+    print(obj.minCost("aabaa", [1, 2, 3, 4, 1]))
