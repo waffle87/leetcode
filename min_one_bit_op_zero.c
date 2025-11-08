@@ -10,20 +10,20 @@
  */
 
 int minimumOneBitOperations(int n) {
-  int tmp = n, sign = 1, cnt = 0, pos = 0;
-  while (tmp) {
-    if (tmp & (1 << pos)) {
-      cnt += sign * ((1 << (pos + 1)) - 1);
-      tmp &= ~(1 << pos);
-      sign *= -1;
+  if (!n)
+    return 0;
+  int acc = 0, sign = 1;
+  int highest = 31 - __builtin_clz(n);
+  for (int i = highest; i >= 0; --i) {
+    if ((n >> i) & 1) {
+      acc += sign * ((1 << (i + 1)) - 1);
+      sign = -sign;
     }
-    pos--;
   }
-  return cnt;
+  return acc;
 }
 
 int main() {
-  printf("%d\n", minimumOneBitOperations(3));    // expect: 2
-  printf("%d\n", minimumOneBitOperations(6));    // expect: 4
-  printf("%d\n", minimumOneBitOperations(8174)); // expect: N/A
+  printf("%d\n", minimumOneBitOperations(3)); // expect: 2
+  printf("%d\n", minimumOneBitOperations(6)); // expect: 4
 }
