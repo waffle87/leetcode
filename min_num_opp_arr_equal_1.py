@@ -17,17 +17,19 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        ones_cnt = nums.count(1)
-        if ones_cnt:
-            return len(nums) - ones_cnt
-        diff = float("inf")
-        for i in range(len(nums)):
-            g = nums[i]
-            for j in range(i + 1, len(nums)):
-                g = gcd(g, nums[j])
-                if g == 1:
-                    diff = min(diff, j - i)
-        return -1 if diff == float("inf") else diff + len(nums) - 1
+        n, ones = len(nums), nums.count(1)
+        if ones:
+            return n - ones
+        ans = float("inf")
+        for i in range(n):
+            curr = nums[i]
+            for j in range(i + 1, n):
+                curr = gcd(curr, nums[j])
+                if curr == 1:
+                    ans = min(ans, j - i)
+        if ans == float("inf"):
+            return -1
+        return ans + n - 1
 
 
 if __name__ == "__main__":

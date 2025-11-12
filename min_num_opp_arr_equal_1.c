@@ -11,34 +11,39 @@
  */
 
 int gcd(int a, int b) {
-  int rem = a % b;
-  if (!rem)
-    return b;
-  return gcd(b, rem);
+  while (b != 0) {
+    int tmp = b;
+    b = a % b;
+    a = tmp;
+  }
+  return a;
 }
 
 int minOperations(int *nums, int numsSize) {
-  int one_cnt = 0;
-  for (int i = 0; i < numsSize; i++)
-    if (nums[i] == 1)
-      one_cnt++;
-  if (one_cnt >= 1)
-    return numsSize - one_cnt;
-  int min_subarr_len = numsSize + 1;
+  int n = 0, g = 0;
   for (int i = 0; i < numsSize; i++) {
     int curr = nums[i];
-    for (int j = i + 1; j < numsSize; j++) {
+    if (curr == 1)
+      n++;
+    g = gcd(g, curr);
+  }
+  if (n > 0)
+    return numsSize - n;
+  if (g > 1)
+    return -1;
+  int min = numsSize;
+  for (int i = 0; i < numsSize; i++) {
+    int curr = 0;
+    for (int j = i; j < numsSize; j++) {
       curr = gcd(curr, nums[j]);
       if (curr == 1) {
-        int curr_n = (j + 1) - i;
-        if (curr_n < min_subarr_len)
-          min_subarr_len = curr_n;
+        if (j - i + 1 < min)
+          min = j - i + 1;
+        break;
       }
-      break;
     }
   }
-  return min_subarr_len <= numsSize ? (min_subarr_len - 1) + (numsSize - 1)
-                                    : -1;
+  return min + numsSize - 2;
 }
 
 int main() {
