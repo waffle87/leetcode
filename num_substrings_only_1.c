@@ -7,21 +7,10 @@
  */
 
 int numSub(char *s) {
-  int n = strlen(s), mod = 1e9 + 7, ans = 0, one_cnt = 0;
+  int ans = 0, cnt = 0, mod = 1e9 + 7, n = strlen(s);
   for (int i = 0; i < n; i++) {
-    if (s[i] == '1')
-      one_cnt++;
-    else {
-      if (one_cnt) {
-        long long val = (long long)(one_cnt + 1) * one_cnt / 2;
-        ans = (ans + val % mod) % mod;
-      }
-      one_cnt = 0;
-    }
-  }
-  if (one_cnt) {
-    long long val = (long long)(one_cnt + 1) * one_cnt / 2;
-    ans = (ans + val % mod) % mod;
+    cnt = s[i] == '1' ? cnt + 1 : 0;
+    ans = (ans + cnt) % mod;
   }
   return ans;
 }
