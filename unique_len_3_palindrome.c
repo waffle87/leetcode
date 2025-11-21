@@ -12,24 +12,26 @@
  */
 
 int countPalindromicSubsequence(char *s) {
-  int n = strlen(s), ans = 0;
-  bool *alpha = calloc(26, sizeof(bool));
-  bool *tmp;
+  int n = strlen(s), first[26], last[26];
+  memset(first, n, sizeof(first));
+  memset(last, -1, sizeof(last));
   for (int i = 0; i < n; i++) {
-    if (alpha[s[i] - 'a'])
+    int c = s[i] - 'a';
+    if (i < first[c])
+      first[c] = i;
+    last[c] = i;
+  }
+  int ans = 0;
+  for (int c = 0; c < 26; c++) {
+    int l = first[c], r = last[c];
+    if (r - l < 2)
       continue;
-    alpha[s[i] - 'a'] = 1;
-    char c = s[i];
-    for (int j = n - 1; j > i + 1; j--) {
-      if (s[j] == s[i]) {
-        tmp = calloc(26, sizeof(char));
-        for (int k = i + 1; k < j; k++) {
-          if (!tmp[s[k] - 'a']) {
-            tmp[s[k] - 'a'] = 1;
-            ans++;
-          }
-        }
-        break;
+    bool memo[26] = {false};
+    for (int i = l + 1; i < r; i++) {
+      int idx = s[i] - 'a';
+      if (!memo[idx]) {
+        memo[idx] = true;
+        ans++;
       }
     }
   }
@@ -37,7 +39,7 @@ int countPalindromicSubsequence(char *s) {
 }
 
 int main() {
-  char s1[] = {"aabca"}, s2[] = {"adc"}, s3[] = {"bbcbaba"};
+  char *s1 = "aabca", *s2 = "adc", *s3 = "bbcbaba";
   printf("%d\n", countPalindromicSubsequence(s1)); // expect: 3
   printf("%d\n", countPalindromicSubsequence(s2)); // expect: 0
   printf("%d\n", countPalindromicSubsequence(s3)); // expect: 4
