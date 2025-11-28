@@ -14,47 +14,78 @@
  * components in any valid split
  */
 
-struct vec {
-  int *arr;
-  int size;
+struct node {
+  int val;
+  struct node *next;
 };
 
-void push(struct vec *a, int val) {
-  a->arr = (int *)realloc(a->arr, (a->size + 1) * sizeof(int));
-  a->arr[a->size] = val;
-  ++a->size;
+struct tree {
+  struct node **adj;
+  int *vals;
+  int n;
+  int ans;
+};
+
+struct node *node_init(int val) {
+  struct node *obj = (struct node *)malloc(sizeof(struct node));
+  obj->val = val;
+  obj->next = NULL;
+  return obj;
 }
 
-int dfs(int node, int parent, struct vec *adj, int *vals, int k, int *matches,
-        int n) {
-  int sum = 0, neighbour = adj[node].size;
-  for (int i = 0; i < neighbour; ++i) {
-    int n_node = adj[node].arr[i];
-    if (n_node == parent)
-      continue;
-    sum += dfs(n_node, node, adj, vals, k, matches, n);
+void add_edge(struct tree *obj, int u, int v) {
+  struct node *n1 = node_init(v), *n2 = node_init(u);
+  n1->next = obj->adj[u];
+  obj->adj[u] = n1;
+  n2->next = obj->adj[v];
+  obj->adj[v] = n2;
+}
+
+long long dfs(int node, int *vals, bool *vis, struct tree *t, int k) {
+  if (vis[node])
+    return 0;
+  vis[node] = true;
+  long long sum = vals[node];
+  struct node *neighbour = t->adj[node];
+  while (neighbour) {
+    sum += dfs(neighbour->val, vals, vis, t, k);
+    neighbour = neighbour->next;
   }
-  sum += vals[node];
-  sum %= k;
-  if (!sum)
-    ++(*matches);
+  if (!(sum % k)) {
+    t->ans++;
+    return 0;
+  }
   return sum;
 }
 
 int maxKDivisibleComponents(int n, int **edges, int edgesSize,
                             int *edgesColSize, int *values, int valuesSize,
                             int k) {
-  struct vec *adj = (struct vec *)malloc(n * sizeof(struct vec));
-  for (int i = 0; i < n; ++i)
-    adj[i] = (struct vec){(int *)malloc(0 * sizeof(int)), 0};
-  for (; edgesSize; ++edges, --edgesSize) {
-    int first = (*edges)[0], second = (*edges)[1];
-    push(adj + first, second);
-    push(adj + second, first);
+  struct tree t;
+  t.n = n;
+  t.vals = values;
+  t.ans = 0;
+  t.adj = (struct node **)malloc(n * sizeof(struct node *));
+  for (int i = 0; i < n; i++)
+    t.adj[i] = NULL;
+  // memset(t.adj, NULL, n * sizeof(struct node));
+  for (int i = 0; i < edgesSize; i++) {
+    int u = edges[i][0], v = edges[i][1];
+    add_edge(&t, u, v);
   }
-  int matches = 0;
-  dfs(0, -1, adj, values, k, &matches, n);
-  return matches;
+  bool *vis = (bool *)calloc(n, sizeof(bool));
+  dfs(0, values, vis, &t, k);
+  free(vis);
+  for (int i = 0; i < n; i++) {
+    struct node *tmp = t.adj[i];
+    while (tmp) {
+      struct node *del = tmp;
+      tmp = tmp->next;
+      free(del);
+    }
+  }
+  free(t.adj);
+  return t.ans;
 }
 
 int main() {

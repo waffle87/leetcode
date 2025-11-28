@@ -1,5 +1,4 @@
 # 2872. Maximum Number of K-Divisible Components
-from collections import defaultdict, deque
 
 """
 there is an undirected tree with 'n' nodes labeled from 0 to 'n - 1'. you are
@@ -24,32 +23,30 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        if n < 2:
-            return 1
-        graph, degree = defaultdict(list), [0] * n
-        for a, b in edges:
-            graph[a].append(b)
-            graph[b].append(a)
-            degree[a] += 1
-            degree[b] += 1
-        node_values, cnt = values[:], 0
-        leaf = deque([i for i in range(n) if degree[i] == 1])
-        while leaf:
-            curr = leaf.popleft()
-            degree[curr] -= 1
-            carry = 0
-            if node_values[curr] % k == 0:
-                cnt += 1
-            else:
-                carry = node_values[curr]
-            for n in graph[curr]:
-                if degree[n] == 0:
-                    continue
-                degree[n] -= 1
-                node_values[n] += carry
-                if degree[n] == 1:
-                    leaf.append(n)
-        return cnt
+        adj, ans, m = [], 0, len(edges)
+        for i in range(m + 1):
+            adj.append([])
+        for i in range(m):
+            u, v = edges[i][0], edges[i][1]
+            adj[u].append(v)
+            adj[v].append(u)
+        vis = [False for _ in range(n)]
+
+        def dfs(node):
+            nonlocal ans
+            if vis[node]:
+                return 0
+            vis[node] = True
+            s = values[node]
+            for i in adj[node]:
+                s += dfs(i)
+            if s % k == 0:
+                ans += 1
+                return 0
+            return s
+
+        dfs(0)
+        return ans
 
 
 if __name__ == "__main__":
