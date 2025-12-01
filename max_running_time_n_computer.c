@@ -1,7 +1,5 @@
 // 2141. Maximum Running Time of N Computers
-#include <math.h>
-#include <stdbool.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * you have 'n' computers. you are given the integer 'n' and a 0-indexed integer
@@ -17,30 +15,25 @@
  * simultaneously.
  */
 
-bool check(int n, int *batteries, int batteries_size, long long time) {
-  long long total = time * n, sum = 0;
-  for (int i = 0; i < batteries_size; i++) {
-    sum += fmin(time, batteries[i]);
-    if (sum >= total)
-      return true;
-  }
-  return false;
-}
+int cmp(const void *a, const void *b) { return (*(int *)a) - (*(int *)b); }
 
-long long maxRunTime(int n, int *batteries, int batteries_size) {
-  long long left = 0, right = 1e14;
-  while (left < right) {
-    long long mid = right - (right - left) / 2;
-    if (check(n, batteries, batteries_size, mid))
-      left = mid;
-    else
-      right = mid - 1;
+long long maxRunTime(int n, int *batteries, int batteriesSize) {
+  long long total = 0;
+  for (int i = 0; i < batteriesSize; i++)
+    total += batteries[i];
+  qsort(batteries, batteriesSize, sizeof(int), cmp);
+  for (int i = batteriesSize - 1; i >= 0; i--) {
+    if (batteries[i] > total / n) {
+      total -= batteries[i];
+      n--;
+    } else
+      break;
   }
-  return left;
+  return total / n;
 }
 
 int main() {
   int b1[] = {3, 3, 3}, b2[] = {1, 1, 1, 1};
-  printf("%lld\n", maxRunTime(2, b1, 3)); // expect: 4
-  printf("%lld\n", maxRunTime(2, b2, 4)); // expect: 2
+  printf("%lld\n", maxRunTime(2, b1, ARRAY_SIZE(b1))); // expect: 4
+  printf("%lld\n", maxRunTime(2, b2, ARRAY_SIZE(b2))); // expect: 2
 }
