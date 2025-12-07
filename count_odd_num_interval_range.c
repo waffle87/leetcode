@@ -1,19 +1,10 @@
 // 1523. Count Odd Numbers in an Interval Range
-#include <math.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 // given two non-negative integers 'low' and 'high' return the
 // count of odd numbers  * between 'low' and 'high' (incusively)
 
-int countOdds(int low, int high) {
-  int ans = 0;
-  if (low % 2) {
-    ans += (high - low) / 2;
-    ans++;
-  } else
-    ans += (double)ceil((high - low) / 2.0);
-  return ans;
-}
+int countOdds(int low, int high) { return (high - (low & ~1) + 1) >> 1; }
 
 int main() {
   printf("%d\n", countOdds(3, 7));  // expect: 3
