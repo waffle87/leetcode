@@ -16,11 +16,14 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        dp = [1] * len(prices)
+        ans, dp = 1, 1
         for i in range(1, len(prices)):
             if prices[i] == prices[i - 1] - 1:
-                dp[i] += dp[i - 1]
-        return sum(dp)
+                dp += 1
+            else:
+                dp = 1
+            ans += dp
+        return ans
 
 
 if __name__ == "__main__":

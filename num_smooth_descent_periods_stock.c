@@ -11,14 +11,12 @@
  */
 
 long long getDescentPeriods(int *prices, int pricesSize) {
-  int *dp = (int *)malloc(pricesSize * sizeof(int));
-  dp[0] = 1;
+  int dp = 1;
   long long ans = 1;
   for (int i = 1; i < pricesSize; i++) {
-    dp[i] = prices[i] == prices[i - 1] - 1 ? dp[i - 1] + 1 : 1;
-    ans += dp[i];
+    dp = prices[i] == prices[i - 1] - 1 ? dp + 1 : 1;
+    ans += dp;
   }
-  free(dp);
   return ans;
 }
 
