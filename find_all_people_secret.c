@@ -13,117 +13,76 @@
  * 'time_i' then they will share the secret with person 'y_i' and vice versa
  */
 
-int cmp(const void **a, const void **b) {
-  if ((*(int **)a)[2] == (*(int **)b)[2])
-    return (*(int **)a)[0] - (*(int **)b)[0];
-  return (*(int **)a)[2] - (*(int **)b)[2];
+int find(int *groups, int idx) {
+  while (idx != groups[idx])
+    idx = groups[idx];
+  return idx;
 }
 
-void check(int *list, int a, int b, int i, int *returnSize, int *ans, int *time,
-           int *timecount) {
-  if (list[a] - list[b] == 1) {
-    list[b]++;
-    ans[*returnSize] = b;
-    *returnSize += 1;
-  } else if (list[b] - list[a] == 1) {
-    list[a]++;
-    ans[*returnSize] = a;
-    *returnSize += 1;
-  } else if (list[b] == 0 && list[a] == 0) {
-    time[*timecount] = i;
-    *timecount += 1;
-  }
-}
-
-void sametime(int **meetings, int *ans, int *returnSize, int *time,
-              int timecount, int *list) {
-  int count = 1, newtimecount;
-  while (count) {
-    int copy = *returnSize;
-    newtimecount = 0;
-    for (int i = 0; i < timecount; i++) {
-      check(list, meetings[time[i]][0], meetings[time[i]][1], time[i],
-            returnSize, ans, time, &newtimecount);
-    }
-    count = *returnSize - copy;
-    if (count == 0) {
-      break;
-    }
-    copy = *returnSize;
-    timecount = newtimecount;
-    newtimecount = 0;
-    for (int i = timecount - 1; i >= 0; i--) {
-      check(list, meetings[time[i]][0], meetings[time[i]][1], time[i],
-            returnSize, ans, time, &newtimecount);
-    }
-    count = *returnSize - copy;
-    timecount = newtimecount;
-  }
+int cmp(const void *a, const void *b) {
+  const int *aa = *(const int **)a;
+  const int *bb = *(const int **)b;
+  return aa[2] - bb[2];
 }
 
 int *findAllPeople(int n, int **meetings, int meetingsSize,
                    int *meetingsColSize, int firstPerson, int *returnSize) {
-  int *list = calloc(n, sizeof(int));
-  int *ans = malloc(sizeof(int) * n);
-  int *time = malloc(sizeof(int) * n);
-  int timecount = 0;
-  *returnSize = 2;
-  for (int i = 0; i < meetingsSize; i++) {
-    if (meetings[i][0] > meetings[i][1]) {
-      int a = meetings[i][1];
-      meetings[i][1] = meetings[i][0];
-      meetings[i][0] = a;
-    }
-  }
-  qsort(meetings, meetingsSize, sizeof(int *), cmp);
-  list[0]++;
-  list[firstPerson]++;
-  ans[0] = 0;
-  ans[1] = firstPerson;
-  for (int i = 0; i < meetingsSize; i++) {
-    if (list[meetings[i][0]] - list[meetings[i][1]] == 1) {
-      list[meetings[i][1]]++;
-      ans[*returnSize] = meetings[i][1];
-      *returnSize += 1;
-    } else if (list[meetings[i][1]] - list[meetings[i][0]] == 1) {
-      list[meetings[i][0]]++;
-      ans[*returnSize] = meetings[i][0];
-      *returnSize += 1;
-    } else if (i + 1 < meetingsSize && meetings[i][2] == meetings[i + 1][2]) {
-      timecount = 0;
-      check(list, meetings[i][0], meetings[i][1], i, returnSize, ans, time,
-            &timecount);
+  int *groups = (int *)malloc(n * sizeof(int));
+  int *ans = (int *)malloc(n * sizeof(int));
+  for (int i = 0; i < n; i++)
+    groups[i] = i;
+  groups[firstPerson] = 0;
+  qsort(meetings, meetingsSize, sizeof(meetings[0]), cmp);
+  int *tmp = (int *)malloc(2 * n * sizeof(int));
+  int ans_cnt = 0, i = 0;
+  while (i < meetingsSize) {
+    int curr_time = meetings[i][2], tmp_cnt = 0;
+    while (i < meetingsSize && meetings[i][2] == curr_time) {
+      int g1 = find(groups, meetings[i][0]), g2 = find(groups, meetings[i][1]);
+      groups[g1 > g2 ? g1 : g2] = g1 < g2 ? g1 : g2;
+      tmp[tmp_cnt++] = meetings[i][0];
+      tmp[tmp_cnt++] = meetings[i][1];
       i++;
-      while (i + 1 < meetingsSize && meetings[i][2] == meetings[i + 1][2]) {
-        check(list, meetings[i][0], meetings[i][1], i, returnSize, ans, time,
-              &timecount);
-        i++;
-      }
-      check(list, meetings[i][0], meetings[i][1], i, returnSize, ans, time,
-            &timecount);
-      sametime(meetings, ans, returnSize, time, timecount, list);
     }
+    for (int j = 0; j < tmp_cnt; j++)
+      if (find(groups, tmp[j]))
+        groups[tmp[j]] = tmp[j];
   }
-  free(list);
-  free(time);
+  for (int j = 0; j < n; j++)
+    if (!find(groups, j))
+      ans[ans_cnt++] = j;
+  free(tmp);
+  free(groups);
+  *returnSize = ans_cnt;
   return ans;
 }
 
 int main() {
-  int m1[3][3] = {{1, 2, 5}, {2, 3, 8}, {1, 5, 10}},
-      m2[3][3] = {{3, 1, 3}, {1, 2, 2}, {0, 3, 3}},
-      m3[3][3] = {{3, 4, 2}, {1, 2, 1}, {2, 3, 1}};
-  int *mcs1, *mcs2, *mcs3, *rs1, *rs2, *rs3;
-  int *fap1 = findAllPeople(6, (int **)m1, 3, mcs1, 1, rs1);
-  int *fap2 = findAllPeople(4, (int **)m2, 3, mcs2, 1, rs2);
-  int *fap3 = findAllPeople(5, (int **)m3, 3, mcs3, 1, rs3);
+  int m1i[3][3] = {{1, 2, 5}, {2, 3, 8}, {1, 5, 10}}, rs1;
+  int m2i[3][3] = {{3, 1, 3}, {1, 2, 2}, {0, 3, 3}}, rs2;
+  int m3i[3][3] = {{3, 4, 2}, {1, 2, 1}, {2, 3, 1}}, rs3;
+  struct two_d_arr *m1 =
+      two_d_arr_init(ARRAY_SIZE(m1i), ARRAY_SIZE(m1i[0]), m1i);
+  struct two_d_arr *m2 =
+      two_d_arr_init(ARRAY_SIZE(m2i), ARRAY_SIZE(m2i[0]), m2i);
+  struct two_d_arr *m3 =
+      two_d_arr_init(ARRAY_SIZE(m3i), ARRAY_SIZE(m3i[0]), m3i);
+  int *fap1 = findAllPeople(6, m1->arr, m1->row_size, m1->col_size, 1, &rs1);
+  int *fap2 = findAllPeople(4, m2->arr, m2->row_size, m2->col_size, 3, &rs2);
+  int *fap3 = findAllPeople(5, m3->arr, m3->row_size, m3->col_size, 1, &rs3);
   for (int i = 0; i < 5; i++)
-    printf("%d ", fap1[i]);
+    printf("%d ", fap1[i]); // expect: 0 1 2 3 5
   printf("\n");
   for (int i = 0; i < 3; i++)
-    printf("%d ", fap2[i]);
+    printf("%d ", fap2[i]); // expect: 0 1 3
   printf("\n");
   for (int i = 0; i < 5; i++)
-    printf("%d ", fap3[i]);
+    printf("%d ", fap3[i]); // expect: 0 1 2 3 4
   printf("\n");
+  free(fap1);
+  free(fap2);
+  free(fap3);
+  two_d_arr_free(m1);
+  two_d_arr_free(m2);
+  two_d_arr_free(m3);
 }

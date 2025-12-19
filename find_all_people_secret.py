@@ -1,5 +1,4 @@
 # 2092. Find All People With Secret
-from collections import defaultdict
 
 """
 given an integer 'n' indicating there are 'n' people numbered from 0 to 'n -
@@ -15,6 +14,11 @@ that has the secret. more formall, for every meeting 'x_i', has secret at
 
 
 class Solution(object):
+    def find(self, groups, idx):
+        while idx != groups[idx]:
+            idx = groups[idx]
+        return idx
+
     def findAllPeople(self, n, meetings, firstPerson):
         """
         :type n: int
@@ -22,56 +26,26 @@ class Solution(object):
         :type firstPerson: int
         :rtype: List[int]
         """
-
-        class UnionFind:
-            def __init__(self):
-                self.parents = {}
-                self.ranks = {}
-
-            def insert(self, x):
-                if x not in self.parents:
-                    self.parents[x] = x
-                    self.ranks[x] = 0
-
-            def find_parent(self, x):
-                if self.parents[x] != x:
-                    self.parents[x] = self.find_parent(self.parents[x])
-                return self.parents[x]
-
-            def union(self, x, y):
-                self.insert(x)
-                self.insert(y)
-                x, y = self.find_parent(x), self.find_parent(y)
-                if x == y:
-                    return
-                if self.ranks[x] > self.ranks[y]:
-                    self.parents[y] = x
-                else:
-                    self.parents[x] = y
-                    if self.ranks[x] == self.ranks[y]:
-                        self.ranks[y] += 1
-
-        time2meets = defaultdict(list)
-        for x, y, t in meetings:
-            time2meets[t].append((x, y))
-        time2meets = sorted(time2meets.items())
-
-        curr_know = set([0, firstPerson])
-
-        for time, meets in time2meets:
-            uf = UnionFind()
-            for x, y in meets:
-                uf.union(x, y)
-
-            groups = defaultdict(set)
-            for idx in uf.parents:
-                groups[uf.find_parent(idx)].add(idx)
-
-            for group in groups.values():
-                if group & curr_know:
-                    curr_know.update(group)
-
-        return list(curr_know)
+        groups = [i for i in range(n)]
+        groups[firstPerson] = 0
+        meetings.sort(key=lambda x: x[2])
+        size, i = len(meetings), 0
+        while i < size:
+            curr_time, tmp = meetings[i][2], []
+            while i < size and meetings[i][2] == curr_time:
+                g1 = self.find(groups, meetings[i][0])
+                g2 = self.find(groups, meetings[i][1])
+                groups[max(g1, g2)] = min(g1, g2)
+                tmp.extend([meetings[i][0], meetings[i][1]])
+                i += 1
+            for j in tmp:
+                if self.find(groups, j) != 0:
+                    groups[j] = j
+        ans = []
+        for j in range(n):
+            if self.find(groups, j) == 0:
+                ans.append(j)
+        return ans
 
 
 if __name__ == "__main__":
