@@ -15,11 +15,11 @@
 int cmp(const void *a, const void *b) { return *(int *)b - *(int *)a; }
 
 long long maximumHappinessSum(int *happiness, int happinessSize, int k) {
-  long long ans = 0, sub = 0;
   qsort(happiness, happinessSize, sizeof(int), cmp);
-  for (int i = 0; i < happinessSize && k; i++, k--) {
-    ans += happiness[i] - sub < 0 ? 0 : happiness[i] - sub;
-    sub++;
+  long long ans = 0, i = 0;
+  while (k--) {
+    happiness[i] = fmax(happiness[i] - i, 0);
+    ans += happiness[i++];
   }
   return ans;
 }

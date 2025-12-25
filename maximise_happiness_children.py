@@ -21,7 +21,7 @@ class Solution(object):
         """
         happiness.sort(reverse=True)
         i, ans = 0, 0
-        while k:
+        while k > 0:
             happiness[i] = max(happiness[i] - i, 0)
             ans += happiness[i]
             i += 1
