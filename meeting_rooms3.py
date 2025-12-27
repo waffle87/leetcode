@@ -24,22 +24,34 @@ class Solution(object):
         :type meetings: List[List[int]]
         :rtype: int
         """
-        ready = [r for r in range(n)]
-        rooms = []
-        heapify(ready)
-        ans = [0] * n
-        for s, e in sorted(meetings):
-            while rooms and rooms[0][0] <= s:
-                t, r = heappop(rooms)
-                heappush(ready, r)
-            if ready:
-                r = heappop(ready)
-                heappush(rooms, [e, r])
+        meetings.sort()
+        cnt = [0] * n
+        timer = [0] * n
+        i = 0
+        while i < len(meetings):
+            start, end = meetings[i]
+            duration, earliest = end - start, float("inf")
+            room, earliest_room = -1, -1
+            for j in range(n):
+                if timer[j] < earliest:
+                    earliest = timer[j]
+                    earliest_room = j
+                if timer[j] <= start:
+                    room = j
+                    break
+            if room != -1:
+                timer[room] = end
+                cnt[room] += 1
             else:
-                t, r = heappop(rooms)
-                heappush(rooms, [t + e - s, r])
-            ans[r] += 1
-        return ans.index(max(ans))
+                timer[earliest_room] += duration
+                cnt[earliest_room] += 1
+            i += 1
+        mx, idx = 0, 0
+        for j in range(n):
+            if cnt[j] > mx:
+                mx = cnt[j]
+                idx = j
+        return idx
 
 
 if __name__ == "__main__":
