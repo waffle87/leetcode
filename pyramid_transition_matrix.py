@@ -1,6 +1,5 @@
 # 756. Pyramid Transition Matrix
 from collections import defaultdict
-from itertools import product
 
 """
 you are stacking blocks to form a pyramid. each block has a colour which is
@@ -25,17 +24,32 @@ class Solution(object):
         :type allowed: List[str]
         :rtype: bool
         """
-        f = defaultdict(lambda: defaultdict(list))
-        for a, b, c in allowed:
-            f[a][b].append(c)
+        dp, vis = defaultdict(set), set()
+        for u, v, w in allowed:
+            dp[u, v].add(w)
 
-        def helper(bottom):
-            return len(bottom) == 1 or any(
-                helper(i)
-                for i in product(*(f[a][b] for a, b in zip(bottom, bottom[1:])))
-            )
+        def add_neighbour(node):
+            res = [""]
+            for i in range(1, len(node)):
+                curr = dp[(node[i - 1], node[i])]
+                if curr:
+                    res = [i + j for j in curr for i in res]
+                else:
+                    return []
+            return res
 
-        return helper(bottom)
+        def dfs(node):
+            if len(node) == 1:
+                return True
+            if node in vis:
+                return False
+            for i in add_neighbour(node):
+                if dfs(i):
+                    return True
+            vis.add(node)
+            return False
+
+        return dfs(bottom)
 
 
 if __name__ == "__main__":

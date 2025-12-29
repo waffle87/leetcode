@@ -16,113 +16,30 @@
  * 'allowed', or false otherwise.
  */
 
-struct map_ent {
-  char key[3];
-  char *vals;
-  int cnt;
-  int capacity;
-};
-
-struct hashmap {
-  struct map_ent *entries;
-  int size;
-  int capacity;
-};
-
-struct hashmap *hashmap_init(int capacity) {
-  struct hashmap *obj = (struct hashmap *)malloc(sizeof(struct hashmap));
-  obj->entries = (struct map_ent *)calloc(capacity, sizeof(struct map_ent));
-  obj->size = 0;
-  obj->capacity = capacity;
-  return obj;
-}
-
-void hashmap_free(struct hashmap *obj) {
-  for (int i = 0; i < obj->size; i++)
-    if (obj->entries[i].vals)
-      free(obj->entries[i].vals);
-  free(obj->entries);
-  free(obj);
-}
-
-void hashmap_push(struct hashmap *obj, const char *key, char val) {
-  for (int i = 0; i < obj->size; i++)
-    if (!strcmp(obj->entries[i].key, key)) {
-      if (obj->entries[i].cnt >= obj->entries[i].capacity) {
-        obj->entries[i].capacity =
-            !obj->entries[i].capacity ? 4 : obj->entries[i].capacity * 2;
-        obj->entries[i].vals = (char *)realloc(
-            obj->entries[i].vals, obj->entries[i].capacity * sizeof(char));
-      }
-      obj->entries[i].vals[obj->entries[i].cnt++] = val;
-      return;
-    }
-  if (obj->size >= obj->capacity) {
-    obj->capacity *= 2;
-    obj->entries = (struct map_ent *)realloc(
-        obj->entries, obj->capacity * sizeof(struct map_ent));
-  }
-  struct map_ent *entry = &obj->entries[obj->size];
-  strcpy(entry->key, key);
-  entry->vals = NULL;
-  entry->cnt = 0;
-  entry->capacity = 0;
-  if (!entry->capacity) {
-    entry->capacity = 4;
-    entry->vals = (char *)malloc(entry->capacity * sizeof(char));
-  }
-  entry->vals[entry->cnt++] = val;
-  obj->size++;
-}
-
-char *hashmap_get(struct hashmap *obj, const char *key, int *cnt) {
-  for (int i = 0; i < obj->size; i++)
-    if (!strcmp(obj->entries[i].key, key)) {
-      *cnt = obj->entries[i].cnt;
-      return obj->entries[i].vals;
-    }
-  *cnt = 0;
-  return NULL;
-}
-
-bool helper(char *bottom, struct hashmap *m, int start, char *next, int n) {
-  if (strlen(bottom) == 1)
-    return true;
-  if (start == (int)strlen(bottom) - 1) {
-    next[n] = '\0';
-    return helper(next, m, 0, (char *)malloc(strlen(next) + 1), 0);
-  }
-  char key[3];
-  key[0] = bottom[start];
-  key[1] = bottom[start + 1];
-  key[2] = '\0';
-  int cnt;
-  char *vals = hashmap_get(m, key, &cnt);
-  if (!vals)
-    return false;
-  for (int i = 0; i < cnt; i++) {
-    next[n] = vals[i];
-    if (helper(bottom, m, start + 1, next, n + 1))
-      return true;
-  }
-  return false;
-}
-
 bool pyramidTransition(char *bottom, char **allowed, int allowedSize) {
-  struct hashmap *m = hashmap_init(100);
+  int dp[128][128], n = strlen(bottom);
+  memset(dp, 0, sizeof(dp));
   for (int i = 0; i < allowedSize; i++) {
-    char key[3];
-    key[0] = allowed[i][0];
-    key[1] = allowed[i][1];
-    key[2] = '\0';
-    char val = allowed[i][2];
-    hashmap_push(m, key, val);
+    char *triple = allowed[i];
+    int u = 1 << (triple[0] - 'A');
+    int v = 1 << (triple[1] - 'A');
+    int w = 1 << (triple[2] - 'A');
+    for (int j = 0; j < 128; j++)
+      if (u & j)
+        for (int k = 0; k < 128; k++)
+          if (v & k)
+            dp[j][k] |= w;
   }
-  int n = strlen(bottom);
-  char *next = (char *)malloc(n);
-  bool ans = helper(bottom, m, 0, next, 0);
-  free(next);
-  hashmap_free(m);
+  int *state = (int *)malloc(n * sizeof(int));
+  for (int i = 0; i < n; i++)
+    state[i] = 1 << (bottom[i] - 'A');
+  while (n > 1) {
+    for (int i = 0; i < n - 1; i++)
+      state[i] = dp[state[i]][state[i + 1]];
+    n--;
+  }
+  bool ans = (bool)state[0];
+  free(state);
   return ans;
 }
 
