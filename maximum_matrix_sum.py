@@ -16,14 +16,16 @@ class Solution(object):
         :type matrix: List[List[int]]
         :rtype: int
         """
-        ans, mult, val = 0, 0, float("inf")
-        for i in range(len(matrix)):
-            for j in range(len(matrix)):
-                ans += abs(matrix[i][j])
-                val = min(val, abs(matrix[i][j]))
-                if matrix[i][j] < 0:
-                    mult ^= 1
-        return ans - 2 * mult * val
+        min_abs, neg_cnt, total = float("inf"), 0, 0
+        for i in matrix:
+            for j in i:
+                total += abs(j)
+                if j < 0:
+                    neg_cnt += 1
+                min_abs = min(min_abs, abs(j))
+        if neg_cnt % 2 != 0:
+            total -= 2 * min_abs
+        return total
 
 
 if __name__ == "__main__":

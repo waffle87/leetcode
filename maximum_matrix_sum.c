@@ -11,19 +11,19 @@
  */
 
 long long maxMatrixSum(int **matrix, int matrixSize, int *matrixColSize) {
-  long long sum = 0;
-  int neg_cnt = 0, min = INT_MAX;
+  long long total = 0;
+  int min_abs = INT_MAX, neg_cnt = 0;
   for (int i = 0; i < matrixSize; i++)
-    for (int j = 0; j < matrixSize; j++) {
-      if (matrix[i][j] < 0)
+    for (int j = 0; j < matrixColSize[i]; j++) {
+      int curr = matrix[i][j];
+      total += abs(curr);
+      if (curr < 0)
         neg_cnt++;
-      if (abs(matrix[i][j]) < min)
-        min = abs(matrix[i][j]);
-      sum += abs(matrix[i][j]);
+      min_abs = fmin(min_abs, abs(curr));
     }
-  if (!(neg_cnt % 2))
-    return sum;
-  return sum - (2 * min);
+  if (neg_cnt % 2)
+    total -= 2 * min_abs;
+  return total;
 }
 
 int main() {
