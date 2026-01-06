@@ -1,6 +1,5 @@
 // 1161. Maximum Level Sum of a Binary Tree
-#include <limits.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given the 'root' of a binary tree, the level of its root is 1, the level of
@@ -8,57 +7,40 @@
  * of all the values of nodes at level 'x' is maximal.
  */
 
-struct TreeNode {
-  int val;
-  struct TreeNode *left;
-  struct TreeNode *right;
-};
-
 int maxLevelSum(struct TreeNode *root) {
-  struct TreeNode **even = malloc(5000 * sizeof(struct TreeNode *));
-  struct TreeNode **odd = malloc(5000 * sizeof(struct TreeNode *));
-  int even_idx = 0, odd_idx = 0;
-  even[0] = root, even_idx = 1;
-  int max_sum = INT_MIN, max_id = -1, level = 1;
-  while (even_idx || odd_idx) {
-    int sum = 0;
-    if (even_idx) {
-      for (int i = 0; i < even_idx; i++) {
-        sum += even[i]->val;
-        if (even[i]->left) {
-          odd[odd_idx] = even[i]->left;
-          odd_idx++;
-        }
-        if (even[i]->right) {
-          odd[odd_idx] = even[i]->right;
-          odd_idx++;
-        }
-      }
-      if (sum > max_sum) {
-        max_sum = sum;
-        max_id = level;
-      }
-      even_idx = 0;
-      level++;
-    } else {
-      for (int i = 0; i < odd_idx; i++) {
-        sum += odd[i]->val;
-        if (odd[i]->left) {
-          even[even_idx] = odd[i]->left;
-          even_idx++;
-        }
-        if (odd[i]->right) {
-          even[even_idx] = odd[i]->right;
-          even_idx++;
-        }
-      }
-      if (sum > max_sum) {
-        max_sum = sum;
-        max_id = level;
-      }
-      odd_idx = 0;
-      level++;
+  struct TreeNode **q =
+      (struct TreeNode **)malloc(10001 * sizeof(struct TreeNode *));
+  int head = 0, tail = 0;
+  q[tail++] = root;
+  long long max_sum = LLONG_MIN;
+  int max_level = 1, curr_level = 1;
+  while (head < tail) {
+    long long curr_sum = 0;
+    for (int i = 0; i < tail - head; i++) {
+      struct TreeNode *curr_node = q[head++];
+      curr_sum += curr_node->val;
+      if (curr_node->left)
+        q[tail++] = curr_node->left;
+      if (curr_node->right)
+        q[tail++] = curr_node->right;
     }
+    if (curr_sum > max_sum) {
+      max_sum = curr_sum;
+      max_level = curr_level;
+    }
+    curr_level++;
   }
-  return max_id;
+  free(q);
+  return max_level;
+}
+
+int main() {
+  int r1i[] = {1, 7, 0, 7, -8, -1, -1};
+  int r2i[] = {989, -1, 10250, 98693, -89388, -1, -1, -1, -32127};
+  struct TreeNode *r1 = treenode_build(r1i, ARRAY_SIZE(r1i));
+  struct TreeNode *r2 = treenode_build(r2i, ARRAY_SIZE(r2i));
+  printf("%d\n", maxLevelSum(r1)); // expect: 2
+  printf("%d\n", maxLevelSum(r2)); // expect: 2
+  treenode_free(r1);
+  treenode_free(r2);
 }
