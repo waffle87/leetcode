@@ -1,6 +1,5 @@
 // 1458. Max Dot Product of Two Subsequences
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * given two arrays 'nums1, nums2'. return the maximum dot product between
@@ -10,27 +9,36 @@
  * positions of the remaining characters.
  */
 
-int maxDotProduct(int *nums1, int num1_size, int *nums2, int nums2_size) {
-  int n = A.size(), m = B.size();
-  vector<vector<int>> dp(n, vector<int>(m));
-  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < m; ++j) {
-      dp[i][j] = A[i] * B[j];
+int maxDotProduct(int *nums1, int nums1Size, int *nums2, int nums2Size) {
+  int **dp = (int **)malloc(nums1Size * sizeof(int *));
+  for (int i = 0; i < nums1Size; i++)
+    dp[i] = (int *)malloc(nums2Size * sizeof(int));
+  for (int i = 0; i < nums1Size; ++i) {
+    for (int j = 0; j < nums2Size; ++j) {
+      dp[i][j] = nums1[i] * nums2[j];
       if (i && j)
-        dp[i][j] += max(dp[i - 1][j - 1], 0);
+        dp[i][j] += fmax(dp[i - 1][j - 1], 0);
       if (i)
-        dp[i][j] = max(dp[i][j], dp[i - 1][j]);
+        dp[i][j] = fmax(dp[i][j], dp[i - 1][j]);
       if (j)
-        dp[i][j] = max(dp[i][j], dp[i][j - 1]);
+        dp[i][j] = fmax(dp[i][j], dp[i][j - 1]);
     }
   }
-  return dp[n - 1][m - 1];
+  int ans = dp[nums1Size - 1][nums2Size - 1];
+  for (int i = 0; i < nums1Size; i++)
+    free(dp[i]);
+  free(dp);
+  return ans;
 }
+
 int main() {
   int n11[] = {2, 1, -2, 5}, n21[] = {3, 0, -6};
   int n12[] = {3, -2}, n22[] = {2, -6, 7};
   int n13[] = {-1, -1}, n23[] = {1, 1};
-  printf("%d\n", maxDotProduct(n11, 4, n21, 3)); // expect: 18
-  printf("%d\n", maxDotProduct(n12, 2, n22, 3)); // expect: 21
-  printf("%d\n", maxDotProduct(n13, 2, n23, 2)); // expect: -1
+  printf("%d\n", maxDotProduct(n11, ARRAY_SIZE(n11), n21,
+                               ARRAY_SIZE(n21))); // expect: 18
+  printf("%d\n", maxDotProduct(n12, ARRAY_SIZE(n12), n22,
+                               ARRAY_SIZE(n22))); // expect: 21
+  printf("%d\n", maxDotProduct(n13, ARRAY_SIZE(n13), n23,
+                               ARRAY_SIZE(n23))); // expect: -1
 }
