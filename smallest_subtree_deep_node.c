@@ -10,47 +10,44 @@
  * descendants of that node
  */
 
-int tree_height(struct TreeNode *root) {
-  if (root) {
-    int l = tree_height(root->left), r = tree_height(root->right);
-    return l >= r ? l + 1 : r + 1;
-  }
-  return 0;
-}
+struct pair {
+  int depth;
+  struct TreeNode *node;
+};
 
-bool tree_lca(struct TreeNode *root, int tree_height, int curr,
-              struct TreeNode **lca) {
-  if (root) {
-    bool l = tree_lca(root->left, tree_height, curr + 1, lca);
-    bool r = tree_lca(root->right, tree_height, curr + 1, lca);
-    if (curr == tree_height) {
-      *lca = root;
-      return true;
-    }
-    if (l && r)
-      *lca = root;
-    return l || r;
-  }
-  return false;
+struct pair dfs(struct TreeNode *root) {
+  if (!root)
+    return (struct pair){0, NULL};
+  struct pair l = dfs(root->left);
+  struct pair r = dfs(root->right);
+  if (l.depth > r.depth)
+    return (struct pair){l.depth + 1, l.node};
+  if (r.depth > l.depth)
+    return (struct pair){r.depth + 1, r.node};
+  return (struct pair){l.depth + 1, root};
 }
 
 struct TreeNode *subtreeWithAllDeepest(struct TreeNode *root) {
-  int height = tree_height(root);
-  struct TreeNode *lca = NULL;
-  tree_lca(root, height, 1, &lca);
-  return lca;
+  return dfs(root).node;
 }
 
 int main() {
-  struct TreeNode *root = treenode_create(3);
-  root->left = treenode_create(5);
-  root->left->left = treenode_create(6);
-  root->left->right = treenode_create(2);
-  root->left->right->left = treenode_create(7);
-  root->left->right->right = treenode_create(4);
-  root->right = treenode_create(1);
-  root->right->left = treenode_create(0);
-  root->right->right = treenode_create(8);
-  struct TreeNode *res = subtreeWithAllDeepest(root);
-  treenode_print(res); // expect: 7 2 4
+  int r1i[] = {3, 5, 1, 6, 2, 0, 8, -1, -1, 7, 4};
+  int r2i[] = {1};
+  int r3i[] = {0, 1, 3, -1, 2};
+  struct TreeNode *r1 = treenode_build(r1i, ARRAY_SIZE(r1i));
+  struct TreeNode *r2 = treenode_build(r2i, ARRAY_SIZE(r2i));
+  struct TreeNode *r3 = treenode_build(r3i, ARRAY_SIZE(r3i));
+  struct TreeNode *stwad1 = subtreeWithAllDeepest(r1);
+  struct TreeNode *stwad2 = subtreeWithAllDeepest(r1);
+  struct TreeNode *stwad3 = subtreeWithAllDeepest(r1);
+  treenode_print(stwad1); // expect: 2 7 4
+  treenode_print(stwad2); // expect: 1
+  treenode_print(stwad3); // expect: 2
+  treenode_free(r1);
+  treenode_free(r2);
+  treenode_free(r3);
+  treenode_free(stwad1);
+  treenode_free(stwad2);
+  treenode_free(stwad3);
 }
