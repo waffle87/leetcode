@@ -10,17 +10,13 @@
  * elements.
  */
 
-int cmp(const void *a, const void *b) {
-  return *(const int *)a - *(const int *)b;
-}
+int cmp(const void *a, const void *b) { return *(int *)a < *(int *)b; }
 
-int minPairSum(int *nums, int nums_size) {
-  qsort(nums, nums_size, sizeof(int), cmp);
-  int start = 0, end = nums_size - 1, ans = 0;
-  while (start < end) {
-    int tmp = nums[start++] + nums[end--];
-    ans = tmp > ans ? tmp : ans;
-  }
+int minPairSum(int *nums, int numsSize) {
+  qsort(nums, numsSize, sizeof(int), cmp);
+  int ans = 0, left = 0, right = numsSize - 1;
+  while (left < right)
+    ans = fmax(ans, nums[left++] + nums[right--]);
   return ans;
 }
 
