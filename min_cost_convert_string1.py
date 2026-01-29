@@ -1,6 +1,6 @@
 # 2976. Minimum Cost to Convert String I
-from collections import defaultdict
 import heapq
+from collections import defaultdict
 
 """
 you are given two 0 indexed strings 'source' and 'target', both of length 'n'
