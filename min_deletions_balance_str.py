@@ -15,14 +15,13 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        a, b, cnt = s.count("a"), 0, len(s)
-        for c in s:
-            if c == "b":
-                cnt = min(cnt, a + b)
-                b += 1
+        cnt, rem = 0, 0
+        for i in s:
+            if i == "a":
+                rem = min(rem + 1, cnt)
             else:
-                a -= 1
-        return min(cnt, b)
+                cnt += 1
+        return rem
 
 
 if __name__ == "__main__":

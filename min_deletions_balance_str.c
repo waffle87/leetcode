@@ -10,20 +10,23 @@
  */
 
 int minimumDeletions(char *s) {
-  int cnt = 0, ans = 0;
-  for (int i = 0; s[i] != '\0'; i++) {
-    if (s[i] == 'b') {
+  int cnt = 0, del = 0;
+  while (*s) {
+    if (*s == 'a')
+      del = fmin(++del, cnt);
+    else
       cnt++;
-    } else if (cnt) {
-      ans++;
-      cnt--;
-    }
+    *s++;
   }
-  return ans;
+  return del;
 }
 
 int main() {
   char *s1 = "aababbab", *s2 = "bbaaaaabb";
-  printf("%d\n", minimumDeletions(s1)); // expect: 2
-  printf("%d\n", minimumDeletions(s2)); // expect: 2
+  int r1 = minimumDeletions(s1);
+  int r2 = minimumDeletions(s2);
+  printf("%d\n", r1); // expect: 2
+  assert(r1 == 2);
+  printf("%d\n", r1); // expect: 2
+  assert(r2 == 2);
 }
