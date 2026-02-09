@@ -1,10 +1,11 @@
-## Leetcode
+# Leetcode
 
 This repository contains my Leetcode solutions for [user 0x6A73](https://leetcode.com/u/0x6A73). Generally, the daily challenge is solved in both C and Python3.
 
-### Notes
+## Notes
 
-The [`leetcode.h`](leetcode.h) header file contains various includes, standard Leetcode structs (`ListNode`, `TreeNode`), and some helpful macros, like calculating the size of a C array using `builtin` functions.
+### C Utilities
+The [`leetcode.h`](leetcode.h) header file contains various includes, standard Leetcode structs (`ListNode`, `TreeNode`), and some helpful macros, like calculating the size of a array using `builtin` functions.
 ```c
 #define IS_ARRAY(value)                                                        \
   (!__builtin_types_compatible_p(typeof((value)), typeof(&(value)[0])))
@@ -29,6 +30,7 @@ int main() {
     int input[] = {0, 3, 1, 0, 4, 5, 2, 0};
     struct ListNode *head = listnode_build(input, ARRAY_SIZE(input));
     listnode_print(head);
+    listnode_free(head);
 }
 ```
 
@@ -43,6 +45,7 @@ int main() {
     // this value, use treenode_create() to individually create each node
     struct TreeNode *root = treenode_build(input, ARRAY_SIZE(input));
     treenode_print(root);
+    treenode_free(root);
 }
 ```
 
@@ -58,4 +61,29 @@ int main() {
   int res = func(edges.arr, edges.row_size, edges.col_size);
   two_d_arr_free(edges);
 }
+```
+
+### Python Utilities
+
+Similar to the above, [`leetcode.py`](leetcode.py) contains helpers to work with Leetcode data structures.
+
+#### `ListNode` data type
+
+```python
+from leetcode import ListNode, listnode_build, listnode_print
+
+if __name__ == "__main__":
+    head = listnode_build(vals=[0, 3, 1, 0, 4, 5, 2, 0])
+    listnode_print(head)
+```
+
+#### `TreeNode` data type
+
+```python
+from leetcode import TreeNode, treenode_build, treenode_print
+
+if __name__ == "__main__":
+    root = treenode_build(vals=[3, 9, 20, None, None, 15, 7])
+    # note: None denotes a 'null' leaf
+    treenode_print(root)
 ```

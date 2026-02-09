@@ -26,6 +26,23 @@ def treenode_build(vals):
     return root
 
 
+def treenode_print(root):
+    if not root:
+        return
+    q, res = deque([root]), []
+    while q:
+        curr = q.popleft()
+        if curr:
+            res.append(str(curr.val))
+            q.append(curr.left)
+            q.append(curr.right)
+        else:
+            res.append("null")
+    while res and res[-1] == "null":
+        res.pop()
+    print(res)
+
+
 class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -41,3 +58,13 @@ def listnode_build(vals):
         curr.next = ListNode(i)
         curr = curr.next
     return head
+
+
+def listnode_print(head):
+    if not head:
+        return
+    res, curr = [], head
+    while curr:
+        res.append(str(curr.val))
+        curr = curr.next
+    print(res)
