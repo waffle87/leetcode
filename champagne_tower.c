@@ -1,5 +1,5 @@
 // 799. Champagne Tower
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * we stack glasses in a pyramid, where the first row has 1 glass, the second
@@ -18,24 +18,28 @@
  */
 
 double champagneTower(int poured, int query_row, int query_glass) {
-  double rem[query_row + 1][query_row + 1];
-  for (int i = 0; i < query_row; i++)
-    for (int j = 0; j < query_row; j++)
-      rem[i][j] = 0;
-  rem[0][0] = poured;
-  for (int i = 1; i <= query_row; i++) {
-    rem[i][0] = (rem[i - 1][0] >= 1) ? ((rem[i - 1][0] - 1) * 0.5) : 0;
-    rem[i][i] = (rem[i - 1][i - 1] >= 1) ? ((rem[i - 1][i - 1] - 1) * 0.5) : 0;
-    for (int j = 1; j < i; j++)
-      rem[i][j] =
-          ((rem[i - 1][j - 1] >= 1) ? ((rem[i - 1][j - 1] - 1) * 0.5) : 0) +
-          ((rem[i - 1][j] >= 1) ? ((rem[i - 1][j] - 1) * 0.5) : 0);
+  double flow[102][102] = {0.0};
+  flow[0][0] = (double)poured;
+  for (int r = 0; r <= query_row; ++r) {
+    for (int c = 0; c <= r; ++c) {
+      double q = (flow[r][c] - 1.0) / 2.0;
+      if (q > 0) {
+        flow[r + 1][c] += q;
+        flow[r + 1][c + 1] += q;
+      }
+    }
   }
-  return (rem[query_row][query_glass] > 1) ? 1 : rem[query_row][query_glass];
+  return fmin(1.0, flow[query_row][query_glass]);
 }
 
 int main() {
-  printf("%f\n", champagneTower(1, 1, 1));           // expect: 0.00000
-  printf("%f\n", champagneTower(2, 1, 1));           // expect: 0.50000
-  printf("%f\n", champagneTower(100000009, 33, 17)); // expect: 1.00000
+  double r1 = champagneTower(1, 1, 1);
+  double r2 = champagneTower(2, 1, 1);
+  double r3 = champagneTower(100000009, 33, 17);
+  printf("%f\n", r1); // expect: 0.00000
+  assert(r1 == 0.00000);
+  printf("%f\n", r2); // expect: 0.50000
+  assert(r2 == 0.50000);
+  printf("%f\n", r3); // expect: 1.00000
+  assert(r3 == 1.00000);
 }

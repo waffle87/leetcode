@@ -19,15 +19,17 @@ i'th row is.
 
 class Solution(object):
     def champagneTower(self, poured, query_row, query_glass):
-        tower = [[0] * (i + 1) for i in range(query_row + 1)]
-        tower[0][0] = poured
-        for row in range(query_row):
-            for glass in range(len(tower[row])):
-                execess = (tower[row][glass] - 1) / 2.0
-                if execess > 0:
-                    tower[row + 1][glass] += execess
-                    tower[row + 1][glass + 1] += execess
-        return min(1.0, tower[query_row][query_glass])
+        """
+        :type poured: int
+        :type query_row: int
+        :type query_glass: int
+        :rtype: float
+        """
+        flow = [poured] + [0] * query_row
+        for r in range(1, query_row + 1):
+            for c in range(r, -1, -1):
+                flow[c] = max(flow[c] - 1, 0) / 2.0 + max(flow[c - 1] - 1, 0) / 2.0
+        return min(flow[query_glass], 1.0)
 
 
 if __name__ == "__main__":
