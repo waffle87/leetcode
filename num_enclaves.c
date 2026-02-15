@@ -1,6 +1,5 @@
 // 1020. Number of Enclaves
-#include <stdbool.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * given an 'm * n' binary matrix grid, where 0 represents a sea
@@ -11,55 +10,49 @@
  * boundary of the grid in any number of moves.
  */
 
-int u_find(int *u, int val) {
-  if (u[val] == val)
-    return val;
-  return u_find(u, u[val]);
-}
-
-bool u_set(int *u, int a, int b) {
-  int find_a = u_find(u, a), find_b = u_find(u, b);
-  if (find_a == find_b)
-    return false;
-  u[find_a] = u[find_b];
-  return true;
-}
-
-void bfs(int **grid, int row, int col, int i, int j) {
-  if (i < 0 || i >= row || j < 0 || j >= col)
+void dfs(int **grid, int r, int c, int n, int m) {
+  if (r < 0 || c < 0 || r > n - 1 || c > m - 1 || !grid[r][c] ||
+      grid[r][c] == -1)
     return;
-  if (!grid[i][j])
-    return;
-  grid[i][j] = 0;
-  bfs(grid, row, col, i - 1, j);
-  bfs(grid, row, col, i + 1, j);
-  bfs(grid, row, col, i, j - 1);
-  bfs(grid, row, col, i, j + 1);
+  grid[r][c] = -1;
+  dfs(grid, r + 1, c, n, m);
+  dfs(grid, r - 1, c, n, m);
+  dfs(grid, r, c + 1, n, m);
+  dfs(grid, r, c - 1, n, m);
 }
 
-int numEnclaves(int **grid, int grid_size, int *grid_col_size) {
-  int row = grid_size, col = *grid_col_size;
-  for (int i = 0; i < col; i++)
-    bfs(grid, row, col, 0, i);
-  for (int i = 0; i < col; i++)
-    bfs(grid, row, col, row - 1, i);
-  for (int i = 0; i < row; i++)
-    bfs(grid, row, col, i, 0);
-  for (int i = 0; i < row; i++)
-    bfs(grid, row, col, i, col - 1);
-  int ans = 0;
-  for (int i = 0; i < row; i++)
-    for (int j = 0; j < col; j++)
-      if (grid[i][j])
+int numEnclaves(int **grid, int gridSize, int *gridColSize) {
+  int n = gridSize, m = gridColSize[0], ans = 0;
+  for (int c = 0; c < m; c++) {
+    if (grid[0][c] == 1)
+      dfs(grid, 0, c, n, m);
+    if (grid[n - 1][c] == 1)
+      dfs(grid, n - 1, c, n, m);
+  }
+  for (int r = 1; r < n - 1; r++) {
+    if (grid[r][0] == 1)
+      dfs(grid, r, 0, n, m);
+    if (grid[r][m - 1] == 1)
+      dfs(grid, r, m - 1, n, m);
+  }
+  for (int r = 0; r < n; r++)
+    for (int c = 0; c < m; c++)
+      if (grid[r][c] == 1)
         ans++;
   return ans;
 }
 
 int main() {
-  int g1[4][4] = {{0, 0, 0, 0}, {1, 0, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}};
-  int g2[4][4] = {{0, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}};
-  int grid_size = 4;
-  int grid_col_size[] = {4, 4, 4, 4};
-  printf("%d\n", numEnclaves(g1, grid_size, grid_col_size)); // expect: 3
-  printf("%d\n", numEnclaves(g2, grid_size, grid_col_size)); // expect: 3
+  int g1i[4][4] = {{0, 0, 0, 0}, {1, 0, 1, 0}, {0, 1, 1, 0}, {0, 0, 0, 0}};
+  int g2i[4][4] = {{0, 1, 1, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}};
+  struct two_d_arr *g1 =
+      two_d_arr_init(ARRAY_SIZE(g1i), ARRAY_SIZE(g1i[0]), g1i);
+  struct two_d_arr *g2 =
+      two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
+  int r1 = numEnclaves(g1->arr, g1->row_size, g1->col_size);
+  int r2 = numEnclaves(g2->arr, g2->row_size, g2->col_size);
+  printf("%d\n", r1); // expect: 3
+  assert(r1 == 3);
+  printf("%d\n", r2); // expect: 0
+  assert(r2 == 0);
 }
