@@ -11,17 +11,16 @@
  */
 
 char **readBinaryWatch(int turnedOn, int *returnSize) {
-  char **ans = (char **)malloc(190 * sizeof(char *));
+  char **ans = (char **)malloc(12 * 60 * sizeof(char *));
   *returnSize = 0;
-  for (int h = 0; h < 12; h++)
-    for (int m = 0; m < 60; m++) {
-      int total = __builtin_popcount(h) + __builtin_popcount(m);
-      if (total == turnedOn) {
-        ans[*returnSize] = (char *)malloc(8 * sizeof(char));
-        snprintf(ans[*returnSize], 8, "%d:%02d", h, m);
-        (*returnSize)++;
-      }
+  for (int i = 0; i < 1024; ++i) {
+    int h = i >> 6, m = i & 63;
+    if (h < 12 && m < 60 && __builtin_popcount(i) == turnedOn) {
+      char *tmp = (char *)malloc(6 * sizeof(char));
+      sprintf(tmp, "%d:%02d", h, m);
+      ans[(*returnSize)++] = tmp;
     }
+  }
   return ans;
 }
 
@@ -29,13 +28,18 @@ int main() {
   int rs1, rs2;
   char **rbw1 = readBinaryWatch(1, &rs1);
   char **rbw2 = readBinaryWatch(9, &rs2);
-  for (int i = 0; i < rs1; i++)
-    printf(
-        "%s ",
-        rbw1[i]); // expect: 0:01,0:02,0:04,0:08,0:16,0:32,1:00,2:00,4:00,8:00
+  char *r1[] = {"0:01", "0:02", "0:04", "0:08", "0:16",
+                "0:32", "1:00", "2:00", "4:00", "8:00"};
+  char *r2[] = {};
+  for (int i = 0; i < rs1; i++) {
+    printf("%s ", rbw1[i]);
+    assert(!strcmp(r1[i], rbw1[i]));
+  }
   printf("\n");
-  for (int i = 0; i < rs2; i++)
-    printf("%s ", rbw2[i]); // expect: null
+  for (int i = 0; i < rs2; i++) {
+    printf("%s ", rbw2[i]);
+    assert(!strcmp(r2[i], rbw2[i]));
+  }
   printf("\n");
   for (int i = 0; i < rs1; i++)
     free(rbw1[i]);

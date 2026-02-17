@@ -16,12 +16,12 @@ class Solution(object):
         :type turnedOn: int
         :rtype: List[str]
         """
-        return [
-            "%d:%02d" % (h, m)
-            for h in range(12)
-            for m in range(60)
-            if (bin(h) + bin(m)).count("1") == turnedOn
-        ]
+        ans = list()
+        for i in range(1024):
+            h, m = i >> 6, i & 0x3F
+            if h < 12 and m < 60 and bin(i).count("1") == turnedOn:
+                ans.append(f"{h}:{m:02d}")
+        return ans
 
 
 if __name__ == "__main__":
