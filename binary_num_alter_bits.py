@@ -12,8 +12,8 @@ class Solution(object):
         :type n: int
         :rtype: bool
         """
-        x = n ^ (n >> 1)
-        return (x & (x + 1)) == 0
+        n ^= n >> 1
+        return (n & n + 1) == 0
 
 
 if __name__ == "__main__":
