@@ -10,20 +10,29 @@
  */
 
 int binaryGap(int n) {
-  int ans = 0, prev = -1;
-  for (int i = 0; n > 0; i++) {
+  if (__builtin_popcount(n) == 1)
+    return 0;
+  n >>= __builtin_ctz(n);
+  int max_gap = 0, gap = 0;
+  while (n) {
     if (n & 1) {
-      if (prev != -1)
-        ans = fmax(ans, i - prev);
-      prev = i;
-    }
+      max_gap = fmax(max_gap, gap);
+      gap = 0;
+    } else
+      gap++;
     n >>= 1;
   }
-  return ans;
+  return max_gap + 1;
 }
 
 int main() {
-  printf("%d\n", binaryGap(22)); // expect: 2
-  printf("%d\n", binaryGap(8));  // expect: 0
-  printf("%d\n", binaryGap(5));  // expect: 2
+  int r1 = binaryGap(22);
+  int r2 = binaryGap(8);
+  int r3 = binaryGap(5);
+  printf("%d\n", r1); // expect: 2
+  assert(r1 == 2);
+  printf("%d\n", r2); // expect: 0
+  assert(r2 == 0);
+  printf("%d\n", r3); // expect: 2
+  assert(r3 == 2);
 }
