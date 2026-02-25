@@ -1,4 +1,5 @@
 # 1356. Sort Integers by The Number of 1 Bits
+from typing import List
 
 """
 given an integer array 'arr', sort the integers in the array in ascending
@@ -8,23 +9,17 @@ ascending order. return the array after sorting it.
 """
 
 
-class Solution(object):
-    def sortByBits(self, arr):
-        n = len(arr)
-        ans = [0] * n
-        for i in range(n):
-            ans[i] = self.count_bit(arr[i]) * 10001 + arr[i]
-        ans.sort()
-        for i in range(n):
-            ans[i] %= 10001
-        return ans
+class Solution:
+    def sortByBits(self, arr: List[int]) -> List[int]:
+        def weight(n):
+            w = 0
+            while n:
+                w += 1
+                n &= n - 1
+            return w
 
-    def count_bit(self, n):
-        res = 0
-        while n != 0:
-            res += n & 1
-            n >>= 1
-        return res
+        arr.sort(key=lambda x: (weight(x), x))
+        return arr
 
 
 if __name__ == "__main__":
