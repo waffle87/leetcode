@@ -9,24 +9,21 @@ test cases.
 """
 
 
-class Solution(object):
-    def numSteps(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        ans, carry, n = 0, 0, len(s)
+class Solution:
+    def numSteps(self, s: str) -> int:
+        n, ops, carry = len(s), 0, 0
         for i in range(n - 1, 0, -1):
-            if int(s[i]) + carry == 1:
+            digit = int(s[i]) + carry
+            if digit % 2 == 1:
+                ops += 2
                 carry = 1
-                ans += 2
             else:
-                ans += 1
-        return ans + carry
+                ops += 1
+        return ops + carry
 
 
 if __name__ == "__main__":
     obj = Solution()
-    print(obj.numSteps("1101"))
-    print(obj.numSteps("10"))
-    print(obj.numSteps("1"))
+    print(obj.numSteps(s="1101"))
+    print(obj.numSteps(s="10"))
+    print(obj.numSteps(s="1"))

@@ -10,38 +10,26 @@
  */
 
 int numSteps(char *s) {
-  int n = strlen(s), k = n / 2;
-  char *tmp = (char *)malloc((n + k + 1) * sizeof(char));
-  for (int i = 0; i < k; i++)
-    tmp[i] = '0';
-  strncpy(&tmp[k], s, n + 1);
-  int l = k, r = n + k - 1, step = 0;
-  while (l != r) {
-    if (tmp[r] == '0')
-      r--;
-    else if (tmp[r] == '1') {
-      tmp[r] = '0';
-      int m = r - 1;
-      while (1) {
-        if (tmp[m] == '0') {
-          tmp[m] = '1';
-          if (m < l)
-            l = m;
-          break;
-        } else {
-          tmp[m] = '0';
-        }
-        m--;
-      }
-    }
-    step++;
+  int n = strlen(s), ops = 0, carry = 0;
+  for (int i = n - 1; i > 0; i--) {
+    if (((s[i] - '0') + carry) % 2) {
+      ops += 2;
+      carry = 1;
+    } else
+      ops++;
   }
-  return step;
+  return ops + carry;
 }
 
 int main() {
   char *s1 = "1101", *s2 = "10", *s3 = "1";
-  printf("%d\n", numSteps(s1)); // expect: 6
-  printf("%d\n", numSteps(s2)); // expect: 1
-  printf("%d\n", numSteps(s3)); // expect: 0
+  int r1 = numSteps(s1);
+  int r2 = numSteps(s2);
+  int r3 = numSteps(s3);
+  printf("%d\n", r1); // expect: 6
+  assert(r1 == 6);
+  printf("%d\n", r2); // expect: 1
+  assert(r2 == 1);
+  printf("%d\n", r3); // expect: 0
+  assert(r3 == 0);
 }
