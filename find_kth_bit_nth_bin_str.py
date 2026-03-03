@@ -9,23 +9,9 @@ k'th bit in 's_n'. it is guaranteed that 'k' is valid for the given 'n'.
 """
 
 
-class Solution(object):
-    def findKthBit(self, n, k):
-        """
-        :type n: int
-        :type k: int
-        :rtype: str
-        """
-        flip = 0
-        inv = 2**n - 1
-        while k > 1:
-            if k == inv / 2 + 1:
-                return str(1 ^ flip)
-            if k > inv / 2:
-                k = inv + 1 - k
-                flip = 1 - flip
-            inv /= 2
-        return str(flip)
+class Solution:
+    def findKthBit(self, n: int, k: int) -> str:
+        return str(k // (k & -k) >> 1 & 1 ^ k & 1 ^ 1)
 
 
 if __name__ == "__main__":

@@ -9,22 +9,21 @@
  * k'th bit in 's_n'. it is guaranteed that 'k' is valid for the given 'n'.
  */
 
-int max_bit(int n) {
-  while ((n & (n - 1)))
-    n &= n - 1;
-  return n;
-}
-
 char findKthBit(int n, int k) {
-  int inv = 0;
-  while (k & (k - 1)) {
-    k = -k & (max_bit(k) - 1);
-    inv ^= 1;
-  }
-  return ((k > 1) ^ inv) + '0';
+  if (k == 1)
+    return '0';
+  int m = 32 - __builtin_clz(k);
+  int x = (1 << m) - k;
+  if (x == k)
+    return '1';
+  return findKthBit(n, x) == '0' ? '1' : '0';
 }
 
 int main() {
-  printf("%c\n", findKthBit(3, 1));  // expect: 0
-  printf("%c\n", findKthBit(4, 11)); // expect: 1
+  char r1 = findKthBit(3, 1);
+  char r2 = findKthBit(4, 11);
+  printf("%c\n", r1); // expect: 0
+  assert(r1 == '0');
+  printf("%c\n", r2); // expect: 1
+  assert(r2 == '1');
 }
