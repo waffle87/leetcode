@@ -9,27 +9,11 @@ number of operations needed to make 's' alternating.
 """
 
 
-class Solution(object):
-    def count(self, s, pre):
-        cnt = 0
-        for i in range(1, len(s)):
-            curr = s[i]
-            if curr == pre:
-                cnt += 1
-                pre = "0" if pre == "1" else "1"
-            else:
-                pre = curr
-        return cnt
-
-    def minOperations(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        c0 = s[0]
-        cnt1 = self.count(s, c0)
-        cnt2 = self.count(s, "0" if c0 == "1" else "1") + 1
-        return min(cnt1, cnt2)
+class Solution:
+    def minOperations(self, s: str) -> int:
+        return min(
+            cnt := sum((i & 1) == (ord(j) & 1) for i, j in enumerate(s)), len(s) - cnt
+        )
 
 
 if __name__ == "__main__":

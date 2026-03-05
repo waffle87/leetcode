@@ -1,5 +1,7 @@
 // 1758. Minimum Changes To Make Alternating Binary String
 #include "leetcode.h"
+#include <math.h>
+#include <string.h>
 
 /*
  * given a string 's' consisting only of the characters '0' and '1', in one
@@ -10,19 +12,21 @@
  */
 
 int minOperations(char *s) {
-  int n = strlen(s), cnt = 0;
-  for (int i = 0; i < n; i++) {
-    if (!(i % 2) && s[i] == '1')
-      cnt++;
-    else if (i % 2 && s[i] == '0')
-      cnt++;
-  }
+  int cnt = 0, n = strlen(s);
+  for (int i = 0; i < n; i++)
+    cnt += (s[i] ^ i) & 1;
   return fmin(cnt, n - cnt);
 }
 
 int main() {
   char *s1 = "0100", *s2 = "10", *s3 = "1111";
-  printf("%d\n", minOperations(s1)); // expect: 1
-  printf("%d\n", minOperations(s2)); // expect: 0
-  printf("%d\n", minOperations(s3)); // expect: 2
+  int r1 = minOperations(s1);
+  int r2 = minOperations(s1);
+  int r3 = minOperations(s1);
+  printf("%d\n", r1); // expect: 1
+  assert(r1 == 1);
+  printf("%d\n", r2); // expect: 0
+  assert(r2 == 1);
+  printf("%d\n", r3); // expect: 2
+  assert(r3 == 1);
 }
