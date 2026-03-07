@@ -1,9 +1,5 @@
 // 1888. Minimum Number of Flips to Make the Binary String Alternating
-#include <limits.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * you are given a binary string 's'. you are allowed to perform two types of
@@ -17,37 +13,29 @@
  */
 
 int minFlips(char *s) {
-  int n = strlen(s), idx = 0, min_ops = INT_MAX, diff1 = 0, diff2 = 0, left = 0,
-      right = 0;
-  char *g_str = calloc(1, 2 * n + 1);
-  char *z_tar = calloc(1, 2 * n + 1);
-  char *o_tar = calloc(1, 2 * n + 1);
-  strcat(g_str, s);
-  strcat(g_str, s);
-  for (int i = 0; i < 2 * n; i++) {
-    z_tar[idx] = i % 2 ? '1' : '0';
-    o_tar[idx++] = i % 2 ? '0' : '1';
-  }
-  while (right < 2 * n) {
-    diff1 += g_str[right] != z_tar[right];
-    diff2 += g_str[right] != o_tar[right];
-    if (right - left + 1 > n) {
-      if (g_str[left] != z_tar[left])
-        diff1--;
-      if (g_str[left] != o_tar[left])
-        diff2--;
-      left++;
+  int n = 0, k = 0;
+  for (char c = *s; c; c = s[++n])
+    k += (n ^ c) & 1;
+  int m = fmin(k, n - k);
+  if (n & 1) {
+    int i = 0;
+    for (char c = *s; c; c = s[++i]) {
+      k += ((i ^ c ^ 1) & 1) - ((i ^ c) & 1);
+      m = fmin(m, fmin(k, n - k));
     }
-    if (right - left + 1 == n)
-      min_ops = fmin(min_ops, fmin(diff1, diff2));
-    right++;
   }
-  return min_ops;
+  return m;
 }
 
 int main() {
-  char s1[] = {"111000"}, s2[] = {"010"}, s3[] = {"1110"};
-  printf("%d\n", minFlips(s1)); // expect: 2
-  printf("%d\n", minFlips(s2)); // expect: 0
-  printf("%d\n", minFlips(s3)); // expect: 1
+  char *s1 = "111000", *s2 = "010", *s3 = "1110";
+  int r1 = minFlips(s1);
+  int r2 = minFlips(s2);
+  int r3 = minFlips(s3);
+  printf("%d\n", r1); // expect: 2
+  assert(r1 == 2);
+  printf("%d\n", r2); // expect: 0
+  assert(r2 == 0);
+  printf("%d\n", r3); // expect: 1
+  assert(r3 == 1);
 }

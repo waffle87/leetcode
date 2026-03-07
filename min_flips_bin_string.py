@@ -12,35 +12,17 @@ alternating, while the string "0110" is not.
 """
 
 
-class Solution(object):
-    def minFlips(self, s):
+class Solution:
+    def minFlips(self, s: str) -> int:
         n = len(s)
-        k = len(s)
-        s = s if k % 2 == 0 else s + s
-        arr1, arr2 = [], []
-        for i in range(n):
-            arr1.append("0" if i % 2 == 0 else "1")
-            arr2.append("1" if i % 2 == 0 else "0")
-        alt1 = "".join(arr1)
-        alt2 = "".join(arr2)
-        diff1, diff2 = 0, 0
-        i, j = 0, 0
-        while j < n:
-            if s[j] != alt1[j]:
-                diff1 += 1
-            if s[j] != alt2[j]:
-                diff2 += 1
-            if j - i + 1 < k:
-                j += 1
-            else:
-                n = min(n, diff1, diff2)
-                if s[i] != alt1[i]:
-                    diff1 -= 1
-                if s[i] != alt2[i]:
-                    diff2 -= 1
-                i += 1
-                j += 1
-        return n
+        e, o = (n + 1) // 2, n // 2
+        x = s[::2].count("1") - s[1::2].count("1")
+        m = min(e - x, o + x)
+        if n & 1:
+            for c in s:
+                x = 2 * (ord(c) & 1) - x
+                m = min(m, e - x, o + x)
+        return m
 
 
 if __name__ == "__main__":
