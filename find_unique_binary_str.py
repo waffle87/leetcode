@@ -1,4 +1,5 @@
 # 1980. Find Unique Binary String
+from typing import List
 
 """
 given an array of strings 'nums' containing 'n' unique binary strings each of
@@ -7,13 +8,9 @@ length 'n', return a binary string of length 'n' that does not appear in
 """
 
 
-class Solution(object):
-    def findDifferentBinaryString(self, nums):
-        """
-        :type nums: List[str]
-        :rtype: str
-        """
-        return "".join(["1" if num[i] == "0" else "0" for i, num in enumerate(nums)])
+class Solution:
+    def findDifferentBinaryString(self, nums: List[str]) -> str:
+        return "".join(["1" if n[i] == "0" else "0" for i, n in enumerate(nums)])
 
 
 if __name__ == "__main__":
