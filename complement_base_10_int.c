@@ -8,14 +8,22 @@
  */
 
 int bitwiseComplement(int n) {
-  int c = 1;
-  while (c < n)
-    c = (c << 1) + 1;
-  return n ^ c;
+  if (!n)
+    return 1;
+  unsigned int mask = ~0;
+  while (mask & n)
+    mask <<= 1;
+  return ~n ^ mask;
 }
 
 int main() {
-  printf("%d\n", bitwiseComplement(5));  // expect: 2
-  printf("%d\n", bitwiseComplement(7));  // expect: 0
-  printf("%d\n", bitwiseComplement(10)); // expect: 5
+  int r1 = bitwiseComplement(5);
+  int r2 = bitwiseComplement(7);
+  int r3 = bitwiseComplement(10);
+  printf("%d\n", r1); // expect: 2
+  assert(r1 == 2);
+  printf("%d\n", r2); // expect: 0
+  assert(r2 == 0);
+  printf("%d\n", r3); // expect: 5
+  assert(r3 == 5);
 }

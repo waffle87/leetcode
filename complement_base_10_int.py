@@ -13,10 +13,7 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        c = 1
-        while n > c:
-            c = c * 2 + 1
-        return c - n
+        return (1 << len(bin(n)) >> 2) - n - 1
 
 
 if __name__ == "__main__":
