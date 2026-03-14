@@ -1,4 +1,5 @@
 # 1415. The k-th Lexicographical String of All Happy Strings of Length n
+from collections import deque
 
 """
 a happy string is a string that consists only of letters of the set '[a, b,
@@ -9,29 +10,24 @@ return an empty string if there are less than 'k' strings of length 'n'.
 """
 
 
-class Solution(object):
-    def getHappyString(self, n, k):
+class Solution:
+    def getHappyString(self, n: int, k: int) -> str:
         """
         :type n: int
         :type k: int
         :rtype: str
         """
-        m = n
-
-        def dfs(prefix, n, k):
-            if n == 0:
-                return prefix
-            for c in "abc":
-                if prefix and c == prefix[-1]:
-                    continue
-                cnt = 2 ** (m - len(prefix) - 1)
-                if cnt >= k:
-                    return dfs(prefix + c, n - 1, k)
-                else:
-                    k -= cnt
-            return ""
-
-        return dfs("", n, k)
+        q = deque(["a", "b", "c"])
+        s = []
+        while q:
+            curr = q.popleft()
+            if len(curr) == n:
+                s.append(curr)
+                continue
+            for i in "abc":
+                if curr[-1] != i:
+                    q.append(curr + i)
+        return "" if k > len(s) else s[k - 1]
 
 
 if __name__ == "__main__":
