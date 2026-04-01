@@ -1,4 +1,5 @@
 # 2751. Robot Collisions
+from typing import List
 
 """
 there are 'n' 1 idxexed robots, each having a position on a line, health, and
@@ -13,32 +14,35 @@ further collisions can occur
 """
 
 
-class Solution(object):
-    def survivedRobotsHealths(self, positions, healths, directions):
-        """
-        :type positions: List[int]
-        :type healths: List[int]
-        :type directions: str
-        :rtype: List[int]
-        """
+class Solution:
+    def survivedRobotsHealths(
+        self, positions: List[int], healths: List[int], directions: str
+    ) -> List[int]:
         n = len(positions)
-        idx = sorted(range(n), key=positions.__getitem__)
+        robots = [[positions[i], healths[i], directions[i], i] for i in range(n)]
+        robots.sort()
         stack = []
-        for i in idx:
-            if directions[i] == "R":
-                stack.append(i)
+        for robot in robots:
+            if robot[2] == "R" or not stack or stack[-1][2] == "L":
+                stack.append(robot)
                 continue
-            while stack and healths[i] > 0:
-                if healths[stack[-1]] < healths[i]:
-                    healths[stack.pop()] = 0
-                    healths[i] -= 1
-                elif healths[stack[-1]] > healths[i]:
-                    healths[stack[-1]] -= 1
-                    healths[i] = 0
-                else:
-                    healths[stack.pop()] = 0
-                    healths[i] = 0
-        return [v for v in healths if v > 0]
+            if robot[2] == "L":
+                add = True
+                while stack and stack[-1][2] == "R" and add:
+                    last_health = stack[-1][1]
+                    if robot[1] > last_health:
+                        stack.pop()
+                        robot[1] -= 1
+                    elif robot[1] < last_health:
+                        stack[-1][1] -= 1
+                        add = False
+                    else:
+                        stack.pop()
+                        add = False
+                if add:
+                    stack.append(robot)
+
+        return [robot[1] for robot in sorted(stack, key=lambda robot: robot[3])]
 
 
 if __name__ == "__main__":
