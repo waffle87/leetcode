@@ -88,13 +88,25 @@ int robotSim(int *commands, int commandsSize, int **obstacles,
 }
 
 int main() {
-  int c1[] = {4, -1, 3}, o1[1][0] = {{}}, ocs1[] = {1};
-  int c2[] = {4, -1, 4, -2, 4}, o2[1][2] = {{2, 4}}, ocs2[] = {1};
-  int c3[] = {6, -1, -1, 6}, o3[1][0] = {{}}, ocs3[] = {1};
-  printf("%d\n", robotSim(c1, ARRAY_SIZE(c1), (int **)o1, ARRAY_SIZE(o1),
-                          ocs1)); // expect: 25
-  printf("%d\n", robotSim(c2, ARRAY_SIZE(c2), (int **)o2, ARRAY_SIZE(o2),
-                          ocs2)); // expect: 65
-  printf("%d\n", robotSim(c3, ARRAY_SIZE(c3), (int **)o3, ARRAY_SIZE(o3),
-                          ocs3)); // expect: 36
+  int c1[] = {4, -1, 3}, o1i[1][0] = {{}};
+  int c2[] = {4, -1, 4, -2, 4}, o2i[1][2] = {{2, 4}};
+  int c3[] = {6, -1, -1, 6}, o3i[1][0] = {{}};
+  struct two_d_arr *o1 =
+      two_d_arr_init(ARRAY_SIZE(o1i), ARRAY_SIZE(o1i[0]), o1i);
+  struct two_d_arr *o2 =
+      two_d_arr_init(ARRAY_SIZE(o2i), ARRAY_SIZE(o2i[0]), o2i);
+  struct two_d_arr *o3 =
+      two_d_arr_init(ARRAY_SIZE(o3i), ARRAY_SIZE(o3i[0]), o3i);
+  int r1 = robotSim(c1, ARRAY_SIZE(c1), o1->arr, o1->row_size, o1->col_size);
+  int r2 = robotSim(c2, ARRAY_SIZE(c2), o2->arr, o2->row_size, o2->col_size);
+  int r3 = robotSim(c3, ARRAY_SIZE(c3), o3->arr, o3->row_size, o3->col_size);
+  printf("%d\n", r1); // expect: 25
+  assert(r1 == 25);
+  printf("%d\n", r2); // expect: 65
+  assert(r3 == 65);
+  printf("%d\n", r3); // expect: 36
+  assert(r3 == 36);
+  two_d_arr_free(o1);
+  two_d_arr_free(o2);
+  two_d_arr_free(o3);
 }
