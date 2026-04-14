@@ -232,15 +232,18 @@ long long minimumTotalDistance(int *robot, int robotSize, int **factory,
 int main() {
   int r1[] = {0, 4, 6}, f1i[2][2] = {{2, 2}, {6, 2}};
   int r2[] = {1, -1}, f2i[2][2] = {{-2, 1}, {2, 1}};
-  struct two_d_arr *f1 = two_d_arr_init(2, 2, f1i);
-  struct two_d_arr *f2 = two_d_arr_init(2, 2, f2i);
-  printf("%lld\n",
-         minimumTotalDistance(r1, ARRAY_SIZE(r1), f1->arr, f1->row_size,
-                              f1->col_size)); // expect: 4
-
-  printf("%lld\n",
-         minimumTotalDistance(r2, ARRAY_SIZE(r2), f2->arr, f2->row_size,
-                              f2->col_size)); // expect: 2
+  struct two_d_arr *f1 =
+      two_d_arr_init(ARRAY_SIZE(f1i), ARRAY_SIZE(f1i[0]), f1i);
+  struct two_d_arr *f2 =
+      two_d_arr_init(ARRAY_SIZE(f2i), ARRAY_SIZE(f2i[0]), f2i);
+  long long mtd1 = minimumTotalDistance(r1, ARRAY_SIZE(r1), f1->arr,
+                                        f1->row_size, f1->col_size);
+  long long mtd2 = minimumTotalDistance(r2, ARRAY_SIZE(r2), f2->arr,
+                                        f2->row_size, f2->col_size);
+  printf("%lld\n", mtd1);
+  assert(mtd1 == 4);
+  printf("%lld\n", mtd2);
+  assert(mtd2 == 2);
   two_d_arr_free(f1);
   two_d_arr_free(f2);
 }
