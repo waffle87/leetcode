@@ -41,7 +41,7 @@ void two_d_arr_free(struct two_d_arr *obj);
 
 struct ListNode *listnode_create(int val);
 struct ListNode *listnode_build(int *vals, int size);
-void listnode_print(struct ListNode *head);
+void listnode_print(struct ListNode *head, int *expected);
 void listnode_free(struct ListNode *head);
 
 struct TreeNode *treenode_create(int val);

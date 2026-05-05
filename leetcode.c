@@ -39,11 +39,14 @@ struct ListNode *listnode_build(int *vals, int size) {
   return head;
 }
 
-void listnode_print(struct ListNode *head) {
+void listnode_print(struct ListNode *head, int *expected) {
   struct ListNode *curr = head;
+  int n = 0;
   while (curr != NULL) {
     printf("%d ", curr->val);
+    assert(curr->val == expected[n]);
     curr = curr->next;
+    n++;
   }
   printf("\n");
 }
