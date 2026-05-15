@@ -8,8 +8,8 @@
  * algorithm must be o log n time.
  */
 
-int findMin(int *nums, int nums_size) {
-  int low = 0, high = nums_size - 1;
+int findMin(int *nums, int numsSize) {
+  int low = 0, high = numsSize - 1;
   while (low < high) {
     int mid = low + (high - low) / 2;
     if (nums[mid] < nums[high])
@@ -21,9 +21,16 @@ int findMin(int *nums, int nums_size) {
 }
 
 int main() {
-  int n1[] = {3, 4, 5, 1, 2}, n2[] = {4, 5, 6, 7, 0, 1, 2},
-      n3[] = {11, 13, 15, 17};
-  printf("%d\n", findMin(n1, ARRAY_SIZE(n1))); // expect: 1
-  printf("%d\n", findMin(n2, ARRAY_SIZE(n2))); // expect: 0
-  printf("%d\n", findMin(n3, ARRAY_SIZE(n3))); // expect: 11
+  int n1[] = {3, 4, 5, 1, 2};
+  int n2[] = {4, 5, 6, 7, 0, 1, 2};
+  int n3[] = {11, 13, 15, 17};
+  int r1 = findMin(n1, ARRAY_SIZE(n1));
+  int r2 = findMin(n2, ARRAY_SIZE(n2));
+  int r3 = findMin(n3, ARRAY_SIZE(n3));
+  printf("%d\n", r1);
+  assert(r1 == 1);
+  printf("%d\n", r2);
+  assert(r2 == 0);
+  printf("%d\n", r3);
+  assert(r3 == 11);
 }
