@@ -1,9 +1,5 @@
 // 1345. Jump Game IV
-#include "lib/uthash/src/uthash.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * given array of integers 'arr', you are initially positioned at first index of
@@ -12,47 +8,41 @@
  * of array at any time.
  */
 
-typedef struct {
+struct node {
   int key;
-  struct list_node *ptr;
+  struct ListNode *ptr;
   UT_hash_handle hh;
-} node;
+};
 
-typedef struct {
-  int val;
-  int *next;
-} list_node;
-
-typedef struct {
+struct status {
   int pos;
   int step;
-} status;
+};
 
-int minJumps(int *arr, int arr_size) {
-  if (arr_size <= 1)
-    return 1;
-  status obj[arr_size];
-  int visited[arr_size];
-  memset(visited, 0, arr_size * sizeof(int));
-  node *hash = NULL, *s;
-  struct list_node *tp;
-  for (int i = 0; i < arr_size; i++) {
+int minJumps(int *arr, int arrSize) {
+  if (arrSize <= 1)
+    return 0;
+  struct status *obj = (struct status *)malloc(arrSize * sizeof(struct status));
+  bool *vis = (bool *)calloc(arrSize, sizeof(int));
+  struct node *hash = NULL, *s;
+  struct ListNode *tp;
+  for (int i = 0; i < arrSize; i++) {
     HASH_FIND_INT(hash, &arr[i], s);
     if (!s) {
-      s = (node *)calloc(1, sizeof(node));
+      s = (struct node *)calloc(1, sizeof(struct node));
       s->key = arr[i];
       HASH_ADD_INT(hash, key, s);
     }
-    tp = (struct list_node *)calloc(1, sizeof(struct list_node));
+    tp = (struct ListNode *)calloc(1, sizeof(struct ListNode));
     tp->val = i;
     tp->next = s->ptr;
     s->ptr = tp;
   }
   int top = 1, left = 0, pos, val;
   obj[0].step = obj[0].pos = 0;
-  visited[0] = 1;
+  vis[0] = true;
   while (left < top) {
-    if (obj[left].pos == arr_size - 1)
+    if (obj[left].pos == arrSize - 1)
       break;
     val = arr[obj[left].pos];
     HASH_FIND_INT(hash, &val, s);
@@ -60,8 +50,8 @@ int minJumps(int *arr, int arr_size) {
       tp = s->ptr;
       while (tp) {
         pos = tp->val;
-        if (!visited[pos]) {
-          visited[pos] = 1;
+        if (!vis[pos]) {
+          vis[pos] = true;
           obj[top].step = obj[left].step + 1;
           obj[top].pos = pos;
           top++;
@@ -72,26 +62,35 @@ int minJumps(int *arr, int arr_size) {
     }
     for (int i = 0; i < 2; i++) {
       pos = obj[left].pos + (i ? 1 : -1);
-      if (pos < 0 || pos >= arr_size)
+      if (pos < 0 || pos >= arrSize)
         continue;
-      if (visited[pos])
+      if (vis[pos])
         continue;
       obj[top].step = obj[left].step + 1;
       obj[top].pos = pos;
-      visited[pos] = 1;
+      vis[pos] = true;
       top++;
     }
     left++;
   }
+  int ans = obj[left].step;
   free(tp);
-  return obj[left].step;
+  free(vis);
+  free(obj);
+  return ans;
 }
 
 int main() {
   int a1[] = {100, -23, -23, 404, 100, 23, 23, 23, 3, 404};
   int a2[] = {7};
   int a3[] = {7, 6, 9, 6, 9, 6, 9, 7};
-  printf("%d\n", minJumps(a1, sizeof(a1) / sizeof(a1[0]))); // expect: 3
-  printf("%d\n", minJumps(a2, sizeof(a2) / sizeof(a2[0]))); // expect: 0
-  printf("%d\n", minJumps(a3, sizeof(a3) / sizeof(a3[0]))); // expect: 1
+  int r1 = minJumps(a1, ARRAY_SIZE(a1));
+  int r2 = minJumps(a2, ARRAY_SIZE(a2));
+  int r3 = minJumps(a3, ARRAY_SIZE(a3));
+  printf("%d\n", r1);
+  assert(r1 == 3);
+  printf("%d\n", r2);
+  assert(r2 == 0);
+  printf("%d\n", r3);
+  assert(r3 == 1);
 }
