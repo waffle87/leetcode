@@ -43,10 +43,12 @@ int getCommon(int *nums1, int nums1Size, int *nums2, int nums2Size) {
 }
 
 int main() {
-  int n11[] = {1, 2, 3}, n21[] = {2, 4}, n12[] = {1, 2, 3, 6},
-      n22[] = {2, 3, 4, 5};
-  printf("%d\n",
-         getCommon(n11, ARRAY_SIZE(n11), n21, ARRAY_SIZE(n21))); // expect: 2
-  printf("%d\n",
-         getCommon(n12, ARRAY_SIZE(n12), n22, ARRAY_SIZE(n22))); // expect: 2
+  int n11[] = {1, 2, 3}, n21[] = {2, 4};
+  int n12[] = {1, 2, 3, 6}, n22[] = {2, 3, 4, 5};
+  int r1 = getCommon(n11, ARRAY_SIZE(n11), n21, ARRAY_SIZE(n21));
+  int r2 = getCommon(n12, ARRAY_SIZE(n12), n22, ARRAY_SIZE(n22));
+  printf("%d\n", r1);
+  assert(r1 == 2);
+  printf("%d\n", r2);
+  assert(r2 == 2);
 }
