@@ -10,20 +10,16 @@ exactly once.
 """
 
 
-class Solution(object):
-    def findThePrefixCommonArray(self, A, B):
-        """
-        :type A: List[int]
-        :type B: List[int]
-        :rtype: List[int]
-        """
-        ans, vis, cnt = [], 0, 0
-        for ab in zip(A, B):
-            for a in ab:
-                if (1 << a) & vis:
-                    cnt += 1
-                vis |= 1 << a
-            ans.append(cnt)
+class Solution:
+    def findThePrefixCommonArray(self, A: List[int], B: List[int]) -> List[int]:
+        n = len(A)
+        ans = [0] * n
+        a, b = 0, 0
+        for i in range(n):
+            a |= 1 << A[i]
+            b |= 1 << B[i]
+            ab = a & b
+            ans[i] = ab.bit_count()
         return ans
 
 

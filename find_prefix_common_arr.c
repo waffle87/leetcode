@@ -12,32 +12,35 @@
 
 int *findThePrefixCommonArray(int *A, int ASize, int *B, int BSize,
                               int *returnSize) {
-  int *ans = (int *)malloc(ASize * sizeof(int)), cnt = 0;
-  int *vis = (int *)malloc((ASize + 1) * sizeof(int));
-  for (int i = 0; i < ASize; i++) {
-    if (++vis[A[i]] == 2)
-      cnt++;
-    if (++vis[B[i]] == 2)
-      cnt++;
-    ans[i] = cnt;
-  }
-  free(vis);
+  int *ans = (int *)malloc(ASize * sizeof(int));
   *returnSize = ASize;
+  long long a = 0, b = 0;
+  for (int i = 0; i < ASize; i++) {
+    a |= (1LL << A[i]);
+    b |= (1LL << B[i]);
+    long long ab = a & b;
+    ans[i] = __builtin_popcountll(ab);
+  }
   return ans;
 }
 
 int main() {
-  int a1[] = {1, 2, 3, 4}, b1[] = {3, 1, 2, 4}, rs1;
-  int a2[] = {2, 3, 1}, b2[] = {3, 1, 2}, rs2;
-  int *ftpca1 =
-      findThePrefixCommonArray(a1, ARRAY_SIZE(a1), b1, ARRAY_SIZE(b1), &rs1);
-  int *ftpca2 =
-      findThePrefixCommonArray(a2, ARRAY_SIZE(a2), b2, ARRAY_SIZE(b2), &rs2);
-  for (int i = 0; i < rs1; i++)
-    printf("%d ", ftpca1[i]); // expect: 0 2 3 4
+  int a1[] = {1, 2, 3, 4}, b1[] = {3, 1, 2, 4}, r1[] = {0, 1, 3, 4};
+  int a2[] = {2, 3, 1}, b2[] = {3, 1, 2}, r2[] = {0, 1, 3};
+  int rs1, *ftpca1 = findThePrefixCommonArray(a1, ARRAY_SIZE(a1), b1,
+                                              ARRAY_SIZE(b1), &rs1);
+  int rs2, *ftpca2 = findThePrefixCommonArray(a2, ARRAY_SIZE(a2), b2,
+                                              ARRAY_SIZE(b2), &rs2);
+  for (int i = 0; i < rs1; i++) {
+    printf("%d ", ftpca1[i]);
+    assert(ftpca1[i] == r1[i]);
+  }
   printf("\n");
-  for (int i = 0; i < rs2; i++)
-    printf("%d ", ftpca2[i]); // expect: 0 1 3
+  for (int i = 0; i < rs2; i++) {
+    printf("%d ", ftpca2[i]);
+    assert(ftpca2[i] == r2[i]);
+  }
   printf("\n");
-  free(ftpca1), free(ftpca2);
+  free(ftpca1);
+  free(ftpca2);
 }
