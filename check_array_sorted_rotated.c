@@ -18,7 +18,13 @@ bool check(int *nums, int numsSize) {
 
 int main() {
   int n1[] = {3, 4, 5, 1, 2}, n2[] = {2, 1, 3, 4}, n3[] = {1, 2, 3};
-  printf("%d\n", check(n1, ARRAY_SIZE(n1))); // expect: 1
-  printf("%d\n", check(n2, ARRAY_SIZE(n2))); // expect: 0
-  printf("%d\n", check(n3, ARRAY_SIZE(n3))); // expect: 1
+  int r1 = check(n1, ARRAY_SIZE(n1));
+  int r2 = check(n2, ARRAY_SIZE(n2));
+  int r3 = check(n3, ARRAY_SIZE(n3));
+  printf("%d\n", r1);
+  assert(r1 == 1);
+  printf("%d\n", r2);
+  assert(r2 == 0);
+  printf("%d\n", r3);
+  assert(r3 == 1);
 }
