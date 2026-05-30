@@ -17,137 +17,98 @@
  */
 
 struct segment_tree {
+  int n;
   int *tree;
-  int *max;
-  int size;
 };
 
-struct segment_tree *segment_tree_init(int size) {
-  struct segment_tree *obj =
-      (struct segment_tree *)malloc(sizeof(struct segment_tree));
-  obj->size = size;
-  obj->tree = (int *)malloc(size * sizeof(int));
-  obj->max = (int *)malloc(size * sizeof(int));
-  for (int i = 0; i < size; i++) {
-    obj->tree[i] = -1;
-    obj->max[i] = -1;
-  }
-  return obj;
+void update(struct segment_tree *obj, int i, int val) {
+  for (obj->tree[i += obj->n] = val; i > 1; i >>= 1)
+    obj->tree[i >> 1] = fmax(obj->tree[i], obj->tree[i ^ 1]);
 }
 
-void segment_tree_update(struct segment_tree *obj, int idx) {
-  int tmp = 0, max = 0, start = 0;
-  if (obj->tree[idx] != -1) {
-    start = idx;
-    max = obj->max[idx];
-  } else {
-    for (int i = idx; i >= 0; i--) {
-      if (obj->tree[i] != -1) {
-        start = i;
-        max = obj->max[i];
-        break;
-      }
-    }
+int query(struct segment_tree *obj, int r) {
+  int res = 0;
+  for (int l = obj->n, r_idx = r + obj->n + 1; l < r_idx;
+       l >>= 1, r_idx >>= 1) {
+    if (l & 1)
+      res = fmax(res, obj->tree[l++]);
+    if (r_idx & 1)
+      res = fmax(res, obj->tree[--r_idx]);
   }
-  obj->tree[idx] = -2;
-  for (int i = start; i < idx; i++) {
-    if (obj->tree[i] == -1)
-      obj->tree[i] = tmp;
-    if (tmp > max)
-      max = tmp;
-    tmp++;
-    if (obj->tree[i] == -2)
-      tmp = 1;
-    obj->max[i] = max;
-  }
-  if (tmp > max)
-    max = tmp;
-  obj->max[idx] = max;
-  for (int i = idx + 1; i < obj->size; i++) {
-    if (obj->tree[i] == -1)
-      break;
-    if (obj->max[i] == max && (obj->tree[i] == -2 || obj->tree[i] == max))
-      break;
-    if (obj->tree[i] == -2) {
-      if (tmp > max)
-        max = tmp;
-      tmp = 0;
-
-    } else
-      obj->tree[i] = tmp;
-    if (tmp > max)
-      max = tmp;
-    tmp++;
-    obj->max[i] = max;
-  }
-}
-
-int segment_tree_query(struct segment_tree *obj, int end, int size) {
-  if (end - size < 0)
-    return 0;
-  for (int i = end; i >= 0; i--) {
-    if (end - i >= size)
-      return size;
-    if (obj->tree[i] != -1)
-      return obj->max[i];
-  }
-  return 0;
-}
-
-bool is_intersected(struct segment_tree *obj, int end, int size) {
-  if (end - size < 0)
-    return false;
-  int max = segment_tree_query(obj, end, size);
-  return max >= size;
+  return res;
 }
 
 bool *getResults(int **queries, int queriesSize, int *queriesColSize,
                  int *returnSize) {
+  int max_x = 0, n = 1;
+  for (int i = 0; i < queriesSize; i++)
+    max_x = fmax(max_x, queries[i][1]);
+  while (n <= max_x + 1)
+    n *= 2;
+  struct segment_tree st = {n, (int *)calloc(2 * n, sizeof(int))};
+  int *obstacles = (int *)malloc((queriesSize + 1) * sizeof(int));
+  obstacles[0] = 0;
+  int obstacle_cnt = 1;
+  bool *ans = (bool *)malloc(queriesSize * sizeof(bool));
   *returnSize = 0;
-  int tree_size = 0;
   for (int i = 0; i < queriesSize; i++) {
-    if (tree_size < queries[i][1])
-      tree_size = queries[i][1];
-    if (queriesColSize[i] == 3 && queries[i][0] == 2)
-      (*returnSize)++;
-  }
-  tree_size++;
-  bool *ans = (bool *)malloc(*returnSize * sizeof(bool));
-  struct segment_tree *tree = segment_tree_init(tree_size);
-  int idx = 0;
-  for (int i = 0; i < queriesSize; i++) {
-    int m = queriesColSize[i], *curr = queries[i];
-    if (m == 2 && curr[0] == 1) {
-      int val = curr[1];
-      segment_tree_update(tree, val);
-    } else if (m == 3 && curr[0] == 2) {
-      int end = curr[1], size = curr[2];
-      ans[idx++] = is_intersected(tree, end, size);
+    int type = queries[i][0], x = queries[i][1];
+    int left = 0, right = obstacle_cnt;
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (obstacles[mid] > x)
+        right = mid;
+      else
+        left = mid + 1;
+    }
+    int idx = left;
+    if (type == 1) {
+      int prev = obstacles[idx - 1];
+      int next = idx < obstacle_cnt ? obstacles[idx] : -1;
+      update(&st, x, x - prev);
+      if (next != -1)
+        update(&st, next, next - x);
+      memmove(&obstacles[idx + 1], &obstacles[idx],
+              (obstacle_cnt - idx) * sizeof(int));
+      obstacles[idx] = x;
+      obstacle_cnt++;
+    } else {
+      int sz = queries[i][2], prev = obstacles[idx - 1];
+      int max = fmax(x - prev, query(&st, prev));
+      ans[(*returnSize)++] = (sz <= max);
     }
   }
-  free(tree->tree), free(tree);
+  free(obstacles);
+  free(st.tree);
   return ans;
 }
 
 int main() {
-  int q1i[4][3] = {{1, 2}, {2, 3, 3}, {2, 3, 1}, {2, 2, 2}}, qcs1[] = {}, rs1;
-  int q2i[5][3] = {{1, 7}, {2, 7, 6}, {1, 2}, {2, 7, 5}, {2, 7, 6}},
-      qcs2[] = {}, rs2;
+  int q1i[4][3] = {{1, 2}, {2, 3, 3}, {2, 3, 1}, {2, 2, 2}};
+  int qcs1[] = {}, rs1;
+  bool r1[] = {false, true, true};
+  int q2i[5][3] = {{1, 7}, {2, 7, 6}, {1, 2}, {2, 7, 5}, {2, 7, 6}};
+  int qcs2[] = {}, rs2;
+  bool r2[] = {true, true, false};
   for (int i = 0; i < ARRAY_SIZE(q1i); i++)
     qcs1[i] = ARRAY_SIZE(q1i[i]);
   for (int i = 0; i < ARRAY_SIZE(q2i); i++)
     qcs2[i] = ARRAY_SIZE(q2i[i]);
   struct two_d_arr *q1 =
-      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[0]), q1i);
+      two_d_arr_init(ARRAY_SIZE(q1i), ARRAY_SIZE(q1i[1]), q1i);
   struct two_d_arr *q2 =
-      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[0]), q2i);
+      two_d_arr_init(ARRAY_SIZE(q2i), ARRAY_SIZE(q2i[1]), q2i);
   bool *gr1 = getResults(q1->arr, q1->row_size, qcs1, &rs1);
   bool *gr2 = getResults(q2->arr, q2->row_size, qcs2, &rs2);
-  for (int i = 0; i < rs1; i++)
-    printf("%d ", gr1[i]); // expect: 0 1 1
+  for (int i = 0; i < rs1; i++) {
+    printf("%d ", gr1[i]);
+    assert(gr1[i] == r1[i]);
+  }
   printf("\n");
-  for (int i = 0; i < rs2; i++)
-    printf("%d ", gr1[i]); // expect: 1 1 1
+  for (int i = 0; i < rs2; i++) {
+    printf("%d ", gr2[i]);
+    assert(gr2[i] == r2[i]);
+  }
   printf("\n");
   free(gr1);
   free(gr2);
