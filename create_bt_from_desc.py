@@ -1,5 +1,5 @@
 # 2196. Create Binary Tree From Descriptions
-from collections import defaultdict
+from leetcode import TreeNode, treenode_print
 
 """
 you are given a 2d integer array 'descriptions' where 'descriptions[i] =
@@ -10,45 +10,32 @@ generated such that the binary tree is valid.
 """
 
 
-# Definition for a binary tree node.
-class TreeNode(object):
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-
-class Solution(object):
-    def createBinaryTree(self, descriptions):
-        """
-        :type descriptions: List[List[int]]
-        :rtype: Optional[TreeNode]
-        """
-        children = set()
-        m = {}
-        for p, c, l in descriptions:
-            np = m.setdefault(p, TreeNode(p))
-            nc = m.setdefault(c, TreeNode(c))
-            if l:
-                np.left = nc
+class Solution:
+    def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
+        children, map = set(), {}
+        for parent, child, left in descriptions:
+            node_parent = map.setdefault(parent, TreeNode(parent))
+            node_child = map.setdefault(child, TreeNode(child))
+            if left:
+                node_parent.left = node_child
             else:
-                np.right = nc
-            children.add(c)
-        root = (set(m) - set(children)).pop()
-        return m[root]
+                node_parent.right = node_child
+            children.add(child)
+        root = (set(map) - set(children)).pop()
+        return map[root]
 
 
 if __name__ == "__main__":
     obj = Solution()
-    print(
-        obj.createBinaryTree(
-            descriptions=[
-                [20, 15, 1],
-                [20, 17, 0],
-                [50, 20, 1],
-                [50, 80, 0],
-                [80, 19, 1],
-            ]
-        )
+    cbt1 = obj.createBinaryTree(
+        descriptions=[
+            [20, 15, 1],
+            [20, 17, 0],
+            [50, 20, 1],
+            [50, 80, 0],
+            [80, 19, 1],
+        ]
     )
-    print(obj.createBinaryTree(descriptions=[[1, 2, 1], [2, 3, 0], [3, 4, 1]]))
+    cbt2 = obj.createBinaryTree(descriptions=[[1, 2, 1], [2, 3, 0], [3, 4, 1]])
+    treenode_print(cbt1)
+    treenode_print(cbt2)
