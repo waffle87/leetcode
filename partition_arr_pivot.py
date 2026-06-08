@@ -11,13 +11,8 @@ rearrangement
 """
 
 
-class Solution(object):
-    def pivotArray(self, nums, pivot):
-        """
-        :type nums: List[int]
-        :type pivot: int
-        :rtype: List[int]
-        """
+class Solution:
+    def pivotArray(self, nums: List[int], pivot: int) -> List[int]:
         ans = [0] * len(nums)
         left, right = 0, len(nums) - 1
         for i, j in zip(range(len(nums)), range(len(nums) - 1, -1, -1)):
