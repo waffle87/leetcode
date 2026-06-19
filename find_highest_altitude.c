@@ -1,7 +1,5 @@
 // 1732. Find the Highest Altitude
-#include <limits.h>
-#include <math.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * there is a biker going on a road trip. the road trip consists of 'n + 1'
@@ -11,19 +9,23 @@
  * return the highest altitude of a point
  */
 
-int largestAltitude(int *gain, int gain_size) {
-  int ans = INT_MIN, pre_sum = 0;
-  for (int i = 0; i < gain_size; i++) {
-    ans = fmax(pre_sum, ans);
-    pre_sum += gain[i];
+int largestAltitude(int *gain, int gainSize) {
+  int ans = 0, sum = 0;
+  for (int i = 0; i < gainSize; i++) {
+    sum += gain[i];
+    int diff = sum - ans;
+    ans += diff & ~(diff >> 0x1F);
   }
-  if (pre_sum > ans)
-    ans = pre_sum;
   return ans;
 }
 
 int main() {
-  int g1[] = {-5, 1, 5, 0, -7}, g2[] = {-4, -3, -2, -1, 4, 3, 2};
-  printf("%d\n", largestAltitude(g1, 5)); // expect: 1
-  printf("%d\n", largestAltitude(g2, 7)); // expect: 0
+  int g1[] = {-5, 1, 5, 0, -7};
+  int g2[] = {-4, -3, -2, -1, 4, 3, 2};
+  int r1 = largestAltitude(g1, ARRAY_SIZE(g1));
+  int r2 = largestAltitude(g2, ARRAY_SIZE(g2));
+  printf("%d\n", r1);
+  assert(r1 == 1);
+  printf("%d\n", r2);
+  assert(r2 == 0);
 }
