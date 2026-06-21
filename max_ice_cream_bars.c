@@ -1,6 +1,5 @@
 // 1833. Maximum Ice Cream Bars
-#include <stdio.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
 /*
  * it is a sweltering summer day, and a boy wants to buy some ice cream bars. at
@@ -12,26 +11,38 @@
  * 'coins' coins. you must solve the problem by counting sort.
  */
 
-int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
-
-int maxIceCream(int *costs, int costs_size, int coins) {
-  int n = costs_size;
-  qsort(costs, n, sizeof(int), cmp);
-  int ans = 0, sum = 0;
-  for (int i = 0; i < n; i++) {
-    sum += costs[i];
-    if (sum <= coins)
-      ans++;
-    else
+int maxIceCream(int *costs, int costsSize, int coins) {
+  int max_cost = 0;
+  for (int i = 0; i < costsSize; i++)
+    max_cost = fmax(max_cost, costs[i]);
+  int *freq = (int *)calloc(max_cost + 1, sizeof(int));
+  for (int i = 0; i < costsSize; i++)
+    freq[costs[i]]++;
+  int ans = 0;
+  for (int cost = 1; cost <= max_cost; cost++) {
+    if (!freq[cost])
+      continue;
+    int can_buy = freq[cost] < coins / cost ? freq[cost] : coins / cost;
+    ans += can_buy;
+    coins -= can_buy * cost;
+    if (coins < cost)
       break;
   }
+  free(freq);
   return ans;
 }
 
 int main() {
-  int c1[] = {1, 3, 2, 4, 1}, c2[] = {10, 6, 8, 7, 7, 8},
-      c3[] = {1, 6, 3, 1, 2, 5};
-  printf("%d\n", maxIceCream(c1, 5, 7));  // expect: 4
-  printf("%d\n", maxIceCream(c2, 6, 5));  // expect: 0
-  printf("%d\n", maxIceCream(c3, 6, 20)); // expect: 6
+  int c1[] = {1, 3, 2, 4, 1};
+  int c2[] = {10, 6, 8, 7, 7, 8};
+  int c3[] = {1, 6, 3, 1, 2, 5};
+  int r1 = maxIceCream(c1, ARRAY_SIZE(c1), 7);
+  int r2 = maxIceCream(c2, ARRAY_SIZE(c2), 5);
+  int r3 = maxIceCream(c3, ARRAY_SIZE(c3), 20);
+  printf("%d\n", r1);
+  assert(r1 == 4);
+  printf("%d\n", r2);
+  assert(r2 == 0);
+  printf("%d\n", r3);
+  assert(r3 == 6);
 }
