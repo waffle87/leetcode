@@ -15,16 +15,14 @@ operations to satisfy the conditions.
 """
 
 
-class Solution(object):
-    def maximumElementAfterDecrementingAndRearranging(self, arr):
-        """
-        :type arr: List[int]
-        :rtype: int
-        """
-        arr.sort()
-        ans = 0
+class Solution:
+    def maximumElementAfterDecrementingAndRearranging(self, arr: List[int]) -> int:
+        n, ans = len(arr), 1
+        cnts = [0] * (n + 1)
         for i in arr:
-            ans = min(ans + 1, i)
+            cnts[min(i, n)] += 1
+        for i in range(2, n + 1):
+            ans = min(ans + cnts[i], i)
         return ans
 
 

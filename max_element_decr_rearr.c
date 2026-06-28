@@ -15,25 +15,27 @@
  * operations to satisfy the conditions.
  */
 
-int cmp(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
-
-int maximumElementAfterDecrementingAndRearranging(int *arr, int arr_size) {
-  qsort(arr, arr_size, sizeof(int), cmp);
-  int ans = 0, x = 1;
-  for (int i = 0; i < arr_size; i++)
-    if (arr[i] >= x) {
-      ans = (ans < x) ? x : ans;
-      x++;
-    }
+int maximumElementAfterDecrementingAndRearranging(int *arr, int arrSize) {
+  int *cnts = (int *)calloc(arrSize + 1, sizeof(int)), ans = 1;
+  for (int i = 0; i < arrSize; i++)
+    cnts[arr[i] < arrSize ? arr[i] : arrSize]++;
+  for (int i = 2; i <= arrSize; i++)
+    ans = (ans + cnts[i] < i) ? ans + cnts[i] : i;
+  free(cnts);
   return ans;
 }
 
 int main() {
-  int a1[] = {2, 2, 1, 2, 1}, a2[] = {100, 1, 1000}, a3[] = {1, 2, 3, 4, 5};
-  printf("%d\n", maximumElementAfterDecrementingAndRearranging(
-                     a1, ARRAY_SIZE(a1))); // expect: 2
-  printf("%d\n", maximumElementAfterDecrementingAndRearranging(
-                     a2, ARRAY_SIZE(a2))); // expect: 3
-  printf("%d\n", maximumElementAfterDecrementingAndRearranging(
-                     a3, ARRAY_SIZE(a3))); // expect: 5
+  int a1[] = {2, 2, 1, 2, 1};
+  int a2[] = {100, 1, 1000};
+  int a3[] = {1, 2, 3, 4, 5};
+  int r1 = maximumElementAfterDecrementingAndRearranging(a1, ARRAY_SIZE(a1));
+  int r2 = maximumElementAfterDecrementingAndRearranging(a2, ARRAY_SIZE(a2));
+  int r3 = maximumElementAfterDecrementingAndRearranging(a3, ARRAY_SIZE(a3));
+  printf("%d\n", r1);
+  assert(r1 == 2);
+  printf("%d\n", r2);
+  assert(r2 == 3);
+  printf("%d\n", r3);
+  assert(r3 == 5);
 }
