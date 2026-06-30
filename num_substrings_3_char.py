@@ -7,21 +7,16 @@ characters 'a', 'b', and 'c'.
 """
 
 
-class Solution(object):
-    def numberOfSubstrings(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        cnt = {c: 0 for c in "abc"}
-        ans, i = 0, 0
-        for j in range(len(s)):
-            cnt[s[j]] += 1
-            while all(cnt.values()):
-                cnt[s[i]] -= 1
-                i += 1
-            ans += i
-        return ans
+class Solution:
+    def numberOfSubstrings(self, s: str) -> int:
+
+        lastSeen = [-1, -1, -1]
+        count = 0
+        for i in range(len(s)):
+            lastSeen[ord(s[i]) - ord("a")] = i
+            if lastSeen[0] != -1 and lastSeen[1] != -1 and lastSeen[2] != -1:
+                count += 1 + min(lastSeen[0], lastSeen[1], lastSeen[2])
+        return count
 
 
 if __name__ == "__main__":

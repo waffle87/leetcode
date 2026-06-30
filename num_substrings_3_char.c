@@ -8,19 +8,28 @@
  */
 
 int numberOfSubstrings(char *s) {
-  int cnt[3] = {0}, ans = 0, i = 0, n = strlen(s);
-  for (int j = 0; j < n; ++j) {
-    ++cnt[s[j] - 'a'];
-    while (cnt[0] && cnt[1] && cnt[2])
-      --cnt[s[i++] - 'a'];
-    ans += i;
+  int vis[3] = {-1, -1, -1}, cnt = 0;
+  for (int i = 0; s[i] != '\0'; i++) {
+    vis[s[i] - 'a'] = i;
+    if (vis[0] != -1 && vis[1] != -1 && vis[2] != -1) {
+      int min = vis[0];
+      min = fmin(min, vis[1]);
+      min = fmin(min, vis[2]);
+      cnt += 1 + min;
+    }
   }
-  return ans;
+  return cnt;
 }
 
 int main() {
   char *s1 = "abcabc", *s2 = "aaacb", *s3 = "abc";
-  printf("%d\n", numberOfSubstrings(s1)); // expect: 10
-  printf("%d\n", numberOfSubstrings(s2)); // expect: 3
-  printf("%d\n", numberOfSubstrings(s3)); // expect: 1
+  int r1 = numberOfSubstrings(s1);
+  int r2 = numberOfSubstrings(s2);
+  int r3 = numberOfSubstrings(s3);
+  printf("%d\n", r1);
+  assert(r1 == 10);
+  printf("%d\n", r3);
+  assert(r2 == 3);
+  printf("%d\n", r3);
+  assert(r3 == 1);
 }
