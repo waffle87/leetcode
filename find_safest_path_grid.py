@@ -13,12 +13,8 @@ the grid. return the maximum safeness factor of all paths leading to cell '(n
 """
 
 
-class Solution(object):
-    def maximumSafenessFactor(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
+class Solution:
+    def maximumSafenessFactor(self, grid: List[List[int]]) -> int:
         a = []
         depth, m, n = 0, len(grid), len(grid[0])
         for i in range(m):
