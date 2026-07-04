@@ -1,48 +1,53 @@
 // 2492. Minimum Score of a Path Between Two Cities
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include "leetcode.h"
 
-int find_father(int **u, int val) {
-  int k = val;
-  while (k != u[k][0])
-    k = u[k][0];
-  return k;
+/*
+ * you are given a positive integer 'n' representing 'n' cities numbered from 1
+ * to 'n'. you are also given a 2d array 'roads' where 'roads[i] = [a_i, b_i,
+ * distance_i]' indicates that there is a bidirectional road between cities
+ * 'a_i' and 'b_i' with a distance equal to 'distance_i'. the cities graph is
+ * not necessarily connected. the score of a path between two cities is defined
+ * as the minimum distance of a road in this path. return the minimum possible
+ * score of a path between cities 1 and 'n'.
+ */
+
+int find(int *root, int x) {
+  if (root[x] != x)
+    root[x] = find(root, root[x]);
+  return root[x];
 }
 
-int minScore(int n, int **roads, int roads_size, int *roads_col_size) {
-  int **u = malloc((n + 1) * sizeof(int *));
-  for (int i = 1; i <= n; i++) {
-    u[i] = malloc(3 * sizeof(int));
-    u[i][0] = i;
-    u[i][1] = 1;
-    u[i][2] = INT_MAX;
+int minScore(int n, int **roads, int roadsSize, int *roadsColSize) {
+  int *root = (int *)malloc((n + 1) * sizeof(int));
+  for (int i = 0; i <= n; i++)
+    root[i] = i;
+  for (int i = 0; i < roadsSize; i++) {
+    int x = roads[i][0], y = roads[i][1];
+    root[find(root, x)] = find(root, y);
   }
-  for (int i = 0; i < roads_size; i++) {
-    int a = find_father(u, roads[i][0]);
-    int b = find_father(u, roads[i][1]);
-    int min = fmin(roads[i][2], fmin(u[a][2], u[b][2]));
-    if (a == b) {
-      u[a][2] = min;
-      continue;
-    }
-    if (u[a][1] >= u[b][1]) {
-      u[b][0] = a;
-      u[a][2] = min;
-      u[a][1] += u[b][1];
-    } else {
-      u[a][0] = b;
-      u[b][2] = min;
-      u[b][1] += u[a][1];
-    }
+  int ans = INT_MAX, target = find(root, 1);
+  for (int i = 0; i < roadsSize; i++) {
+    int x = roads[i][0], d = roads[i][2];
+    if (find(root, x) == target)
+      ans = fmin(ans, d);
   }
-  int first = find_father(u, 1), last = find_father(u, n), ans;
-  if (first != last)
-    ans = -1;
-  else
-    ans = u[first][2];
-  for (int i = 1; i <= n; i++)
-    free(u[i]);
-  free(u);
+  free(root);
   return ans;
+}
+
+int main() {
+  int r1i[4][3] = {{1, 2, 9}, {2, 3, 6}, {2, 4, 5}, {1, 4, 7}};
+  int r2i[3][3] = {{1, 2, 2}, {1, 3, 4}, {3, 4, 7}};
+  struct two_d_arr *r1 =
+      two_d_arr_init(ARRAY_SIZE(r1i), ARRAY_SIZE(r1i[0]), r1i);
+  struct two_d_arr *r2 =
+      two_d_arr_init(ARRAY_SIZE(r2i), ARRAY_SIZE(r2i[0]), r2i);
+  int ms1 = minScore(4, r1->arr, r1->row_size, r1->col_size);
+  int ms2 = minScore(4, r2->arr, r2->row_size, r2->col_size);
+  printf("%d\n", ms1);
+  assert(ms1 == 5);
+  printf("%d\n", ms2);
+  assert(ms2 == 2);
+  two_d_arr_free(r1);
+  two_d_arr_free(r2);
 }
