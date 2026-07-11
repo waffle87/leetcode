@@ -1,4 +1,5 @@
 # 2685. Count the Number of Complete Components
+from typing import List
 
 """
 you are given an integer 'n'. there is an undirected graph with 'n' vertices,
@@ -13,13 +14,9 @@ of its vertices
 """
 
 
-class Solution(object):
-    def countCompleteComponents(self, n, edges):
-        """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: int
-        """
+class Solution:
+    def countCompleteComponents(self, n: int, edges: List[List[int]]) -> int:
+
         graph = [[] for _ in range(n)]
         for i, j in edges:
             graph[i].append(j)

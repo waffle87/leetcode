@@ -13,62 +13,71 @@
  * of its vertices
  */
 
+struct disjoint_set {
+  int *parent;
+  int *node_cnt;
+  int *edge_cnt;
+};
+
+int get_root(struct disjoint_set *set, int node) {
+  if (set->parent[node] == node)
+    return node;
+  return set->parent[node] = get_root(set, set->parent[node]);
+}
+
 int countCompleteComponents(int n, int **edges, int edgesSize,
                             int *edgesColSize) {
-  int *vertices = (int *)calloc(n, sizeof(int));
-  int *edge_cnt = (int *)calloc(n, sizeof(int));
-  int *vert_cnt = (int *)calloc(n, sizeof(int));
-  int group = 1, ans = 0;
+  int cnt = 0;
+  struct disjoint_set *set =
+      (struct disjoint_set *)malloc(sizeof(struct disjoint_set));
+  set->parent = (int *)malloc(n * sizeof(int));
+  set->node_cnt = (int *)malloc(n * sizeof(int));
+  set->edge_cnt = (int *)calloc(n, sizeof(int));
+  for (int i = 0; i < n; i++) {
+    set->parent[i] = i;
+    set->node_cnt[i] = 1;
+  }
   for (int i = 0; i < edgesSize; i++) {
-    int v1 = edges[i][0];
-    int v2 = edges[i][1];
-    if (!(vertices[v1] + vertices[v2])) {
-      vertices[v1] = vertices[v2] = group;
-      edge_cnt[group] = 2;
-      vert_cnt[group++] = 1;
-    } else if (!vertices[v1]) {
-      vertices[v1] = vertices[v2];
-      ++edge_cnt[vertices[v2]];
-      ++vert_cnt[vertices[v2]];
-    } else if (!vertices[v2]) {
-      vertices[v2] = vertices[v1];
-      ++edge_cnt[vertices[v1]];
-      ++vert_cnt[vertices[v1]];
-    } else if (vertices[v1] == vertices[v2])
-      ++vert_cnt[vertices[v1]];
-    else {
-      vert_cnt[vertices[v1]] += vert_cnt[vertices[v2]] + 1;
-      edge_cnt[vertices[v1]] += edge_cnt[vertices[v2]];
-      edge_cnt[vertices[v2]] = vert_cnt[vertices[v2]] = 0;
-      for (int i = 0; i < n; i++)
-        if (vertices[i] == vertices[v2])
-          vertices[i] = vertices[v1];
+    int root, descendant;
+    if (get_root(set, edges[i][0]) < get_root(set, edges[i][1])) {
+      root = set->parent[edges[i][0]];
+      descendant = set->parent[edges[i][1]];
+    } else {
+      root = set->parent[edges[i][1]];
+      descendant = set->parent[edges[i][0]];
     }
+    if (root == descendant) {
+      set->edge_cnt[root]++;
+      continue;
+    }
+    set->edge_cnt[root] += 1 + set->edge_cnt[descendant];
+    set->node_cnt[root] += set->node_cnt[descendant];
+    set->parent[descendant] = root;
   }
-  int connect_cnt = 0;
-  for (int i = 1; i < group; i++) {
-    int edges = edge_cnt[i], verts = vert_cnt[i];
-    if (edges && (edges * (edges - 1) / 2 == verts))
-      ++ans;
-    connect_cnt += edges;
-  }
-  free(vert_cnt);
-  free(edge_cnt);
-  free(vertices);
-  return ans + (n - connect_cnt);
+  for (int i = 0; i < n; i++)
+    if (set->parent[i] == i)
+      if (set->edge_cnt[i] == (set->node_cnt[i] * (set->node_cnt[i] - 1)) / 2)
+        cnt++;
+  free(set->parent);
+  free(set->node_cnt);
+  free(set->edge_cnt);
+  free(set);
+  return cnt;
 }
 
 int main() {
-  int e1i[4][2] = {{0, 1}, {0, 2}, {1, 2}, {3, 4}},
-      e2i[5][2] = {{0, 1}, {0, 2}, {1, 2}, {3, 4}, {3, 5}};
+  int e1i[4][2] = {{0, 1}, {0, 2}, {1, 2}, {3, 4}};
+  int e2i[5][2] = {{0, 1}, {0, 2}, {1, 2}, {3, 4}, {3, 5}};
   struct two_d_arr *e1 =
       two_d_arr_init(ARRAY_SIZE(e1i), ARRAY_SIZE(e1i[0]), e1i);
   struct two_d_arr *e2 =
       two_d_arr_init(ARRAY_SIZE(e2i), ARRAY_SIZE(e2i[0]), e2i);
-  printf("%d\n", countCompleteComponents(6, e1->arr, e1->row_size,
-                                         e1->col_size)); // expect: 3
-  printf("%d\n", countCompleteComponents(6, e2->arr, e2->row_size,
-                                         e2->col_size)); // expect: 1
+  int r1 = countCompleteComponents(6, e1->arr, e1->row_size, e1->col_size);
+  int r2 = countCompleteComponents(6, e2->arr, e2->row_size, e2->col_size);
+  printf("%d\n", r1);
+  assert(r1 == 3);
+  printf("%d\n", r2);
+  assert(r2 == 1);
   two_d_arr_free(e1);
   two_d_arr_free(e2);
 }
