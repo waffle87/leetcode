@@ -1,4 +1,6 @@
 # 1331. Rank Transform of an Array
+from itertools import count
+from typing import List
 
 """
 given an array of integers 'arr', replace each element with its rank. the
@@ -9,16 +11,9 @@ as small as possible.
 """
 
 
-class Solution(object):
-    def arrayRankTransform(self, arr):
-        """
-        :type arr: List[int]
-        :rtype: List[int]
-        """
-        rank = {}
-        for i in sorted(arr):
-            rank.setdefault(i, len(rank) + 1)
-        return map(rank.get, arr)
+class Solution:
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        return map(dict(zip(sorted(set(arr)), count(1))).get, arr)
 
 
 if __name__ == "__main__":
