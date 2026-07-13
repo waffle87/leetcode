@@ -1,4 +1,6 @@
 # 1291. Sequential Digits
+from collections import deque
+from typing import List
 
 """
 an integer has sequential digits if and only if each digit in the number is
@@ -7,13 +9,9 @@ the range '[low, high]' inclusive that have sequential digits.
 """
 
 
-class Solution(object):
-    def sequentialDigits(self, low, high):
-        """
-        :type low: int
-        :type high: int
-        :rtype: List[int]
-        """
+class Solution:
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+
         ans = []
         queue = deque(range(1, 10))
         while queue:

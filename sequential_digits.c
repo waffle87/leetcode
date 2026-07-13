@@ -7,37 +7,42 @@
  * the range '[low, high]' inclusive that have sequential digits.
  */
 
-int cmp(const void *a, const void *b) { return *(int *)a - *(int *)b; }
-
-int *sequentialDigits(int low, int high, int *return_size) {
+int *sequentialDigits(int low, int high, int *returnSize) {
+  static int nums[36] = {
+      12,      23,       34,       45,       56,     67,     78,      89,
+      123,     234,      345,      456,      567,    678,    789,     1234,
+      2345,    3456,     4567,     5678,     6789,   12345,  23456,   34567,
+      45678,   56789,    123456,   234567,   345678, 456789, 1234567, 2345678,
+      3456789, 12345678, 23456789, 123456789};
   int *ans = NULL;
-  *return_size = 0;
-  for (int i = 1; i <= 9; i++) {
-    int num = i;
-    for (int j = i + 1; j <= 9; j++) {
-      num *= 10 + j;
-      if (low <= num && num <= high) {
-        (*return_size)++;
-        ans = realloc(ans, sizeof(int) * (*return_size));
-        ans[(*return_size) - 1] = num;
-      }
-    }
+  *returnSize = 0;
+  for (int i = 0; i < 36; i++) {
+    if (nums[i] < low)
+      continue;
+    if (nums[i] > high)
+      break;
+    (*returnSize)++;
+    ans = (int *)realloc(ans, (*returnSize) * sizeof(int));
+    ans[(*returnSize) - 1] = nums[i];
   }
-  if (!ans)
-    return NULL;
-  qsort(ans, *return_size, sizeof(int), cmp);
   return ans;
 }
 
 int main() {
-  int rs1[] = {}, rs2[] = {};
-  int *sd1 = sequentialDigits(100, 300, rs1);
-  int *sd2 = sequentialDigits(1000, 13000, rs2);
-  for (int i = 0; i < 2; i++)
+  int rs1, r1[] = {123, 234};
+  int rs2, r2[] = {1234, 2345, 3456, 4567, 5678, 6789, 12345};
+  int *sd1 = sequentialDigits(100, 300, &rs1);
+  int *sd2 = sequentialDigits(1000, 13000, &rs2);
+  for (int i = 0; i < rs1; i++) {
     printf("%d ", sd1[i]);
+    assert(sd1[i] == r1[i]);
+  }
   printf("\n");
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < rs2; i++) {
     printf("%d ", sd2[i]);
+    assert(sd2[i] == r2[i]);
+  }
   printf("\n");
-  free(sd1), free(sd2);
+  free(sd1);
+  free(sd2);
 }
