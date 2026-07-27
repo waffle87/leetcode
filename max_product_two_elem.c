@@ -7,24 +7,28 @@
  * 1)'
  */
 
-int maxProduct(int *nums, int nums_size) {
-  if (nums_size == 2)
-    return (nums[0] - 1) * (nums[1] - 1);
-  int max = nums[1] > nums[0] ? nums[1] : nums[0];
-  int min = nums[1] > nums[0] ? nums[0] : nums[1];
-  for (int i = 2; i < nums_size; i++) {
-    if (nums[i] > max) {
-      min = max;
-      max = nums[i];
-    } else if (nums[i] <= max && nums[i] > min)
-      min = nums[i];
+int maxProduct(int *nums, int numsSize) {
+  int a = INT_MIN, b = INT_MAX;
+  for (int i = 0; i < numsSize; i++) {
+    int n = nums[i];
+    if (n >= a) {
+      b = a;
+      a = n;
+    } else if (n > b)
+      b = n;
   }
-  return (max - 1) * (min - 1);
+  return (a - 1) * (b - 1);
 }
 
 int main() {
   int n1[] = {3, 4, 5, 2}, n2[] = {1, 5, 4, 5}, n3[] = {3, 7};
-  printf("%d\n", maxProduct(n1, ARRAY_SIZE(n1))); // expect: 12
-  printf("%d\n", maxProduct(n2, ARRAY_SIZE(n2))); // expect: 16
-  printf("%d\n", maxProduct(n3, ARRAY_SIZE(n3))); // expect: 12
+  int r1 = maxProduct(n1, ARRAY_SIZE(n1));
+  int r2 = maxProduct(n2, ARRAY_SIZE(n2));
+  int r3 = maxProduct(n3, ARRAY_SIZE(n3));
+  printf("%d\n", r1);
+  assert(r1 == 12);
+  printf("%d\n", r2);
+  assert(r2 == 16);
+  printf("%d\n", r3);
+  assert(r3 == 12);
 }
