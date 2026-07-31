@@ -1,5 +1,4 @@
 # 3016. Minimum Number of Pushes to Type Word II
-from collections import Counter
 
 """
 you are given a string 'word' containing lowercase english letters. telephone
@@ -15,15 +14,15 @@ to type the string 'word'. return the minimum number of pushes needed to type
 """
 
 
-class Solution(object):
-    def minimumPushes(self, word):
-        """
-        :type word: str
-        :rtype: int
-        """
-        return sum(
-            (i // 8 + 1) * j for i, j in enumerate(sorted(Counter(word).values())[::-1])
-        )
+class Solution:
+    def minimumPushes(self, word: str) -> int:
+        cnt, ans = [0] * 26, 0
+        for i in word:
+            cnt[ord(i) - ord("a")] += 1
+        cnt.sort(reverse=True)
+        for i in range(26):
+            ans += cnt[i] * (i // 8 + 1)
+        return ans
 
 
 if __name__ == "__main__":

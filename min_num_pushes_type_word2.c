@@ -14,32 +14,29 @@
  * 'word' after remapping the keys.
  */
 
-int cmp(const int *const a, const int *const b) { return -(*a - *b); }
+int cmp(const void *a, const void *b) { return (*(int *)b - *(int *)a); }
 
 int minimumPushes(char *word) {
-  int *lower_freq = (int *)calloc(26, sizeof(int));
-  for (int i = 0; word[i] != '\0'; i++) {
-    assert(word[i] >= 'a' && word[i] <= 'z');
-    lower_freq[word[i] - 'a']++;
-  }
-  qsort(lower_freq, 26, sizeof(int), &cmp);
-  int ans = 0;
-  for (int i = 1; 1; i++) {
-    const int base_idx = 8 * (i - 1);
-    for (int j = 0; j < 8; j++) {
-      const int curr_idx = base_idx + j;
-      if (!(curr_idx < 26 && lower_freq[curr_idx]))
-        return ans;
-      ans += i * lower_freq[curr_idx];
-    }
-  }
-  free(lower_freq);
+  int cnt[26] = {0}, ans = 0;
+  for (int i = 0; word[i] != '\0'; i++)
+    cnt[word[i] - 'a']++;
+  qsort(cnt, 26, sizeof(int), cmp);
+  for (int i = 0; i < 26; i++)
+    ans += cnt[i] * (i / 8 + 1);
   return ans;
 }
 
 int main() {
-  char *w1 = "abcde", *w2 = "xyzxyzxyzxyz", *w3 = "aabbccddeeffgghhiiiiii";
-  printf("%d\n", minimumPushes(w1)); // expect: 5
-  printf("%d\n", minimumPushes(w2)); // expect: 12
-  printf("%d\n", minimumPushes(w3)); // expect: 24
+  char *w1 = "abcde";
+  char *w2 = "xyzxyzxyzxyz";
+  char *w3 = "aabbccddeeffgghhiiiiii";
+  int r1 = minimumPushes(w1);
+  int r2 = minimumPushes(w2);
+  int r3 = minimumPushes(w3);
+  printf("%d\n", r1);
+  assert(r1 == 5);
+  printf("%d\n", r2);
+  assert(r2 == 12);
+  printf("%d\n", r3);
+  assert(r3 == 24);
 }
