@@ -1,7 +1,5 @@
 // 486. Predict the Winner
-#include <math.h>
-#include <stdbool.h>
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * given an integer array 'nums'. two players are playing a game with this
@@ -16,22 +14,24 @@
  * are playing optimally.
  */
 
-int get_score(int *nums, int left, int right) {
-  if (left == right)
-    return nums[left];
-  return fmax(nums[left] - get_score(nums, left + 1, right),
-              nums[right] - get_score(nums, left, right - 1));
-}
-
-bool PredictTheWinner(int *nums, int nums_size) {
-  if (get_score(nums, 0, nums_size - 1) >= 0)
-    return true;
-  else
-    return false;
+bool predictTheWinner(int *nums, int numsSize) {
+  int *dp = (int *)malloc(numsSize * sizeof(int));
+  for (int i = numsSize - 1; i >= 0; i--) {
+    dp[i] = nums[i];
+    for (int j = i + 1; j < numsSize; j++)
+      dp[j] = fmax(nums[i] - dp[j], nums[j] - dp[j - 1]);
+  }
+  bool ans = dp[numsSize - 1] >= 0;
+  free(dp);
+  return ans;
 }
 
 int main() {
   int n1[] = {1, 5, 2}, n2[] = {1, 5, 233, 7};
-  printf("%d\n", PredictTheWinner(n1, 3)); // expect: 0
-  printf("%d\n", PredictTheWinner(n2, 4)); // expect: 1
+  bool r1 = predictTheWinner(n1, ARRAY_SIZE(n1));
+  bool r2 = predictTheWinner(n2, ARRAY_SIZE(n2));
+  printf("%d\n", r1);
+  assert(r1 == false);
+  printf("%d\n", r2);
+  assert(r2 == true);
 }
