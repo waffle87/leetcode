@@ -1,10 +1,10 @@
 // 1406. Stone Game III
-#include <stdio.h>
+#include "leetcode.h"
 
 /*
  * alice and bob continue their games with piles of stones. there are several
  * stones arranged in a row, and each stone has an associated value which is an
- * integer given in the array 'stone_value'. alice and bob take turns with alice
+ * integer given in the array 'stoneValue'. alice and bob take turns with alice
  * starting first. on each player's turn, that player can take 1,2, or 3 stones
  * from the first remaining stones in row. the score of each player is the sum
  * of the values of the stones taken the score of each player is initially zero.
@@ -14,33 +14,33 @@
  * optimally. return "Alice", "Bob", or "Tie" accordingly
  */
 
-int min(int a, int b, int c) {
-  if (a <= b && a <= c)
-    return a;
-  if (b <= a && b <= c)
-    return b;
-  return c;
-}
-
-char *stoneGameIII(int *stone_value, int stone_value_size) {
-  int dp[50005] = {0}, sum = 0;
-  for (int i = stone_value_size - 1; i >= 0; --i) {
-    sum += stone_value[i];
-    dp[i] = sum - min(dp[i + 1], dp[i + 2], dp[i + 3]);
+char *stoneGameIII(int *stoneValue, int stoneValueSize) {
+  char *ans[] = {"Bob", "Tie", "Alice"};
+  int dp[4] = {0, 0, 0, 0};
+  for (int i = stoneValueSize - 1; i >= 0; i--) {
+    int j = i & 3;
+    dp[j] = stoneValue[i] - dp[(i + 1) & 3];
+    if (i + 2 <= stoneValueSize)
+      dp[j] = fmax(dp[j], stoneValue[i] + stoneValue[i + 1] - dp[(i + 2) & 3]);
+    if (i + 3 <= stoneValueSize)
+      dp[j] = fmax(dp[j], stoneValue[i] + stoneValue[i + 1] +
+                              stoneValue[i + 2] - dp[(i + 3) & 3]);
   }
-  if (dp[0] * 2 == sum)
-    return "Tie";
-  if (dp[0] * 2 > sum)
-    return "Alice";
-  else
-    return "Bob";
+  return ans[(dp[0] > 0) - (dp[0] < 0) + 1];
 }
 
 int main() {
   int sv1[] = {1, 2, 3, 7};
   int sv2[] = {1, 2, 3, -9};
   int sv3[] = {1, 2, 3, 6};
-  printf("%s\n", stoneGameIII(sv1, 4)); // expect: Bob
-  printf("%s\n", stoneGameIII(sv2, 4)); // expect: Alice
-  printf("%s\n", stoneGameIII(sv3, 4)); // expect: Tie
+  char *r1 = "Bob", *r2 = "Alice", *r3 = "Tie";
+  char *st1 = stoneGameIII(sv1, ARRAY_SIZE(sv1));
+  char *st2 = stoneGameIII(sv2, ARRAY_SIZE(sv2));
+  char *st3 = stoneGameIII(sv3, ARRAY_SIZE(sv3));
+  printf("%s\n", st1);
+  assert(!strcmp(st1, r1));
+  printf("%s\n", st2);
+  assert(!strcmp(st2, r2));
+  printf("%s\n", st3);
+  assert(!strcmp(st3, r3));
 }
