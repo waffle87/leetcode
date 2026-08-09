@@ -12,32 +12,37 @@
  * return maximum stones alice can get.
  */
 
-int stoneGameII(int *piles, int piles_size) {
-  int n = piles_size;
-  int *sum = (int *)malloc((n + 1) * sizeof(int));
-  int **dp = (int **)malloc((n + 1) * sizeof(int *));
-  for (int i = 0; i <= n; i++)
-    dp[i] = (int *)calloc(n + 1, sizeof(int));
-  sum[n] = 0;
-  for (int i = n - 1; i >= 0; i--)
-    sum[i] = sum[i + 1] + piles[i];
-  for (int i = 0; i < n; ++i)
-    dp[i][n] = sum[i];
-  for (int i = n - 1; i >= 0; i--)
-    for (int m = n - 1; m >= 1; m--)
-      for (int x = 1; x <= 2 * m && i + x <= n; ++x)
-        dp[i][m] = fmax(dp[i][m], sum[i] - dp[i + x][(int)fmax(m, x)]);
+int stoneGameII(int *piles, int pilesSize) {
+  int **dp = (int **)malloc(pilesSize * sizeof(int *));
+  for (int i = 0; i < pilesSize; i++)
+    dp[i] = (int *)calloc(pilesSize + 1, sizeof(int));
+  int *suffix = (int *)malloc(pilesSize * sizeof(int));
+  suffix[pilesSize - 1] = piles[pilesSize - 1];
+  for (int i = pilesSize - 2; i >= 0; i--)
+    suffix[i] = suffix[i + 1] + piles[i];
+  for (int i = pilesSize - 1; i >= 0; i--)
+    for (int j = 1; j <= pilesSize; j++) {
+      if (i + 2 * j >= pilesSize)
+        dp[i][j] = suffix[i];
+      else
+        for (int k = 1; k <= 2 * j; k++)
+          dp[i][j] = fmax(dp[i][j], suffix[i] - dp[i + k][(int)fmax(j, k)]);
+    }
   int ans = dp[0][1];
-  for (int i = 0; i <= n; i++)
+  for (int i = 0; i < pilesSize; i++)
     free(dp[i]);
   free(dp);
-  free(sum);
+  free(suffix);
   return ans;
 }
 
 int main() {
   int p1[] = {2, 7, 9, 4, 4};
   int p2[] = {1, 2, 3, 4, 5, 100};
-  printf("%d\n", stoneGameII(p1, 5)); // expect: 10
-  printf("%d\n", stoneGameII(p2, 6)); // expect: 104
+  int r1 = stoneGameII(p1, ARRAY_SIZE(p1));
+  int r2 = stoneGameII(p2, ARRAY_SIZE(p2));
+  printf("%d\n", r1);
+  assert(r1 == 10);
+  printf("%d\n", r2);
+  assert(r2 == 104);
 }

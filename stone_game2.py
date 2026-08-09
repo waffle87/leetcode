@@ -1,4 +1,5 @@
 # 1140. Stone Game II
+from functools import cache
 
 """
 alice and bob continue their games with piles of stones. there are a number
@@ -12,28 +13,28 @@ return maximum stones alice can get.
 """
 
 
-class Solution(object):
-    def stoneGameII(self, piles):
-        """
-        :type piles: List[int]
-        :rtype: int
-        """
-
-        def dp(x, y, z):
-            if y == len(piles):
+class Solution:
+    def stoneGameII(self, piles: list[int]) -> int:
+        @cache
+        def minimax(st, m, player):
+            if st >= len(piles):
                 return 0
-            if x == 0:
-                curr, res = 0, float("-inf")
-                for i in range(1, min(z * 2, len(piles) - y) + 1):
-                    curr += piles[y + i - 1]
-                    res = max(res, curr + dp(1, y + i, max(i, z)))
+            if player:
+                return max(
+                    [
+                        sum(piles[st : st + x]) + minimax(st + x, max(m, x), player ^ 1)
+                        for x in range(1, 2 * m + 1)
+                    ]
+                )
             else:
-                res = float("inf")
-                for i in range(1, min(z * 2, len(piles) - y) + 1):
-                    res = min(res, dp(0, y + i, max(i, z)))
-            return res
+                return min(
+                    [
+                        minimax(st + x, max(m, x), player ^ 1)
+                        for x in range(1, 2 * m + 1)
+                    ]
+                )
 
-        return dp(0, 0, 1)
+        return minimax(0, 1, 1)
 
 
 if __name__ == "__main__":
