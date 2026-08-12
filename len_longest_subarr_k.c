@@ -42,9 +42,16 @@ int maxSubarrayLength(int *nums, int numsSize, int k) {
 }
 
 int main() {
-  int n1[] = {1, 2, 3, 1, 2, 3, 1, 2}, n2[] = {1, 2, 1, 2, 1, 2, 1, 2},
-      n3[] = {5, 5, 5, 5, 5, 5, 5};
-  printf("%d\n", maxSubarrayLength(n1, ARRAY_SIZE(n1), 2)); // expect: 6
-  printf("%d\n", maxSubarrayLength(n2, ARRAY_SIZE(n2), 1)); // expect: 2
-  printf("%d\n", maxSubarrayLength(n3, ARRAY_SIZE(n3), 4)); // expect: 4
+  int n1[] = {1, 2, 3, 1, 2, 3, 1, 2};
+  int n2[] = {1, 2, 1, 2, 1, 2, 1, 2};
+  int n3[] = {5, 5, 5, 5, 5, 5, 5};
+  int r1 = maxSubarrayLength(n1, ARRAY_SIZE(n1), 2);
+  int r2 = maxSubarrayLength(n2, ARRAY_SIZE(n2), 1);
+  int r3 = maxSubarrayLength(n3, ARRAY_SIZE(n3), 4);
+  printf("%d\n", r1);
+  assert(r1 == 6);
+  printf("%d\n", r2);
+  assert(r2 == 2);
+  printf("%d\n", r3);
+  assert(r3 == 4);
 }

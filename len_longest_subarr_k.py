@@ -10,13 +10,8 @@ contiguous non empty sequence of elements within an array
 """
 
 
-class Solution(object):
-    def maxSubarrayLength(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
+class Solution:
+    def maxSubarrayLength(self, nums: List[int], k: int) -> int:
         cnt = Counter()
         ans, i = 0, 0
         for j in range(len(nums)):
