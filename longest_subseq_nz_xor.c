@@ -8,13 +8,12 @@
  */
 
 int longestSubsequence(int *nums, int numsSize) {
-  int sum = 0;
-  bool pos = false;
+  int total = 0, non_zero = 0;
   for (int i = 0; i < numsSize; i++) {
-    pos |= (bool)nums[i];
-    sum ^= nums[i];
+    non_zero |= nums[i] > 0;
+    total ^= nums[i];
   }
-  return pos ? numsSize - !sum : 0;
+  return non_zero * (numsSize - !total);
 }
 
 int main() {

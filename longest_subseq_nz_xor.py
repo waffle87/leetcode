@@ -1,7 +1,6 @@
 # 3702. Longest Subsequence With Non-Zero Bitwise XOR
 from functools import reduce
 from operator import xor
-from typing import List
 
 """
 you are given an integer array 'nums'. return the length of the longest
@@ -11,13 +10,8 @@ exists, return 0.
 
 
 class Solution:
-    def longestSubsequence(self, nums: List[int]) -> int:
-        n = len(nums)
-        if max(nums) == 0:
-            return 0
-        if reduce(xor, nums) == 0:
-            return n - 1
-        return n
+    def longestSubsequence(self, nums: list[int]) -> int:
+        return int(any(nums)) and len(nums) - (not reduce(xor, nums))
 
 
 if __name__ == "__main__":
