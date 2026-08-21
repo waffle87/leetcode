@@ -9,44 +9,76 @@
  * coins.
  */
 
-int gcd(int a, int b) { return !b ? a : gcd(b, a % b); }
-
-int lcm(int a, int b) { return a / gcd(a, b) * b; }
-
-int cnt(int *coins, int coinsSize, int x) {
-  int sum = 0;
-  for (int mask = 1; mask < (1 << coinsSize); mask++) {
-    int bits = __builtin_popcountll(mask);
-    int least_common = 1;
-    for (int j = 0; j < coinsSize; j++)
-      if (mask & (1 << j))
-        least_common = lcm(least_common, coins[j]);
-    if (bits & 1)
-      sum += x / least_common;
-    else
-      sum -= x / least_common;
+long long gcd(long long a, long long b) {
+  while (b) {
+    long long tmp = b;
+    b = a % b;
+    a = tmp;
   }
-  return sum;
+  return a;
 }
 
-int bin_search(int *coins, int coinsSize, int k) {
-  int left = 1, right = 25LL * 2e9;
-  while (left < right) {
-    int mid = left + (right - left) / 2;
-    if (cnt(coins, coinsSize, mid) < k)
-      left = mid + 1;
+long long count(long long x, int m, long long *lcm) {
+  long long res = 0;
+  for (int mask = 1; mask < m; mask++) {
+    if (lcm[mask] > x)
+      continue;
+    if (__builtin_popcount(mask) & 1)
+      res += x / lcm[mask];
     else
-      right = mid;
+      res -= x / lcm[mask];
   }
-  return left;
+  return res;
 }
+
+int cmp(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
 
 long long findKthSmallest(int *coins, int coinsSize, int k) {
-  return bin_search(coins, coinsSize, k);
+  qsort(coins, coinsSize, sizeof(int), cmp);
+  int *new_coins = (int *)malloc(coinsSize * sizeof(int));
+  int new_size = 0;
+  for (int i = 0; i < coinsSize; i++) {
+    bool flag = true;
+    for (int j = 0; j < new_size; j++)
+      if (!(coins[i] % new_coins[j])) {
+        flag = false;
+        break;
+      }
+    if (flag)
+      new_coins[new_size++] = coins[i];
+  }
+  int n = new_size, m = 1 << n;
+  long long *lcm = (long long *)malloc(m * sizeof(long long));
+  long long l = k, r = (long long)new_coins[0] * k + 1;
+  lcm[0] = 1;
+  for (int mask = 1; mask < m; mask++) {
+    int pre = mask & (mask - 1);
+    int i = __builtin_ctz(mask);
+    long long tmp = lcm[pre] / gcd(lcm[pre], new_coins[i]);
+    if (tmp <= r / new_coins[i])
+      lcm[mask] = tmp * new_coins[i];
+    else
+      lcm[mask] = r + 1;
+  }
+  while (l < r) {
+    long long x = l + (r - l) / 2;
+    if (count(x, m, lcm) >= k)
+      r = x;
+    else
+      l = x + 1;
+  }
+  long long ans = l;
+  free(new_coins);
+  free(lcm);
+  return ans;
 }
 
 int main() {
   int c1[] = {3, 6, 9}, c2[] = {5, 2};
-  printf("%lld\n", findKthSmallest(c1, ARRAY_SIZE(c1), 3)); // expect: 9
-  printf("%lld\n", findKthSmallest(c2, ARRAY_SIZE(c2), 7)); // expect: 12
+  long long r1 = findKthSmallest(c1, ARRAY_SIZE(c1), 3);
+  long long r2 = findKthSmallest(c2, ARRAY_SIZE(c2), 7);
+  printf("%lld\n", r1);
+  assert(r1 == 9);
+  printf("%lld\n", r2);
+  assert(r2 == 12);
 }

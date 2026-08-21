@@ -1,7 +1,4 @@
 # 3116. Kth Smallest Amount With Single Denomination Combination
-from collections import defaultdict
-from itertools import combinations
-from math import lcm
 
 """
 you are given an integer array 'coins' representing coins of different
@@ -11,37 +8,37 @@ denominations. return the k'th smallest amount that can be made using these
 coins.
 """
 
+from bisect import bisect_left
+from math import lcm
 
-class Solution(object):
-    def findKthSmallest(self, coins, k):
-        """
-        :type coins: List[int]
-        :type k: int
-        :rtype: int
-        """
-        n, dic = len(coins), defaultdict(list)
-        for i in range(1, n + 1):
-            for comb in combinations(coins, i):
-                dic[len(comb)].append(lcm(*comb))
 
-        def cnt(dic, target):
-            res = 0
+class Solution:
+    def findKthSmallest(self, coins: List[int], k: int) -> int:
+        coins.sort()
+        a = []
+        for i in coins:
+            if all(i % j for j in a):
+                a.append(i)
+        n = len(a)
+
+        def check(mid):
+            total = 0
             for i in range(1, n + 1):
-                for j in dic[i]:
-                    res += target // j * pow(-1, i + 1)
-            return res
+                q = (1 << i) - 1
+                lim = 1 << n
+                sign = ((i & 1) << 1) - 1
+                while q < lim:
+                    x = 1
+                    for j in range(n):
+                        if (q >> j) & 1:
+                            x = lcm(x, a[j])
+                    total += (mid // x) * sign
+                    c = q & -q
+                    r = q + c
+                    q = (((r ^ q) >> 2) // c) | r
+            return total >= k
 
-        start, end = min(coins), min(coins) * k
-        while start + 1 < end:
-            mid = (start + end) // 2
-            if cnt(dic, mid) >= k:
-                end = mid
-            else:
-                start = mid
-        if cnt(dic, start) >= k:
-            return start
-        else:
-            return end
+        return bisect_left(range(a[0] * k + 1), True, lo=k, key=check)
 
 
 if __name__ == "__main__":
