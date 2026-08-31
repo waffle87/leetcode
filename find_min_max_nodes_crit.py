@@ -1,4 +1,5 @@
 # 2058. Find the Minimum and Maximum Number of Nodes Between Critical Points
+from leetcode import ListNode, listnode_build
 
 """
 a critical point in a linked list is defined as either a local maxima or a
@@ -14,28 +15,34 @@ points, return '[-1, -1]'
 """
 
 
-# Definition for singly-linked list.
-class ListNode(object):
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-
-
-class Solution(object):
-    def nodesBetweenCriticalPoints(self, head):
-        """
-        :type head: Optional[ListNode]
-        :rtype: List[int]
-        """
-        crit, crit_pt, prev = 0, [], head.val
-        while head.next:
-            if (prev - head.val) * (head.val - head.next.val) < 0:
-                crit_pt.append(crit)
-            prev, head = head.val, head.next
-            crit += 1
-        n = len(crit_pt)
-        if n < 2:
+class Solution:
+    def nodesBetweenCriticalPoints(self, head: Optional[ListNode]) -> List[int]:
+        if not head or not head.next or not head.next.next:
             return [-1, -1]
-        mn = min((crit_pt[i] - crit_pt[i - 1] for i in range(1, n)))
-        mx = crit_pt[-1] - crit_pt[0]
-        return [mn, mx]
+        crit, pos = [], -1
+        prev, curr = head, head.next
+        while curr.next:
+            if (curr.val > prev.val and curr.val > curr.next.val) or (
+                curr.val < prev.val and curr.val < curr.next.val
+            ):
+                crit.append(pos)
+            prev = curr
+            curr = curr.next
+            pos += 1
+        if len(crit) < 2:
+            return [-1, -1]
+        min_dist = float("inf")
+        max_dist = crit[-1] - crit[0]
+        for i in range(1, len(crit)):
+            min_dist_betw_3eq_elem = min(min_dist, crit[i] - crit[i - 1])
+        return [min_dist, max_dist]
+
+
+if __name__ == "__main__":
+    obj = Solution()
+    h1 = listnode_build(vals=[3, 1])
+    h2 = listnode_build(vals=[5, 3, 1, 2, 5, 1, 2])
+    h3 = listnode_build(vals=[1, 3, 2, 2, 3, 2, 2, 2, 7])
+    print(obj.nodesBetweenCriticalPoints(h1))
+    print(obj.nodesBetweenCriticalPoints(h2))
+    print(obj.nodesBetweenCriticalPoints(h3))
