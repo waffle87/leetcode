@@ -1,4 +1,5 @@
 # 2265. Count Nodes Equal to Average of Subtree
+from leetcode import TreeNode, treenode_build
 
 """
 given the root of a binary tree, return the number of nodes where the value
@@ -9,34 +10,28 @@ root and all of its descendants
 """
 
 
-class TreeNode(object):
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-
-class Solution(object):
-    def averageOfSubtree(self, root):
-        ans = 0
-
-        def traverse(node):
-            nonlocal ans
-            if not node:
+class Solution:
+    def averageOfSubtree(self, root: TreeNode) -> int:
+        def dfs(node):
+            if node is None:
                 return 0, 0
-            left_sum, left_count = traverse(node.left)
-            right_sum, right_count = traverse(node.right)
-            s = node.val + left_sum + right_sum
-            c = 1 + left_count + right_count
-            if s // c == node.val:
-                ans += 1
-            return s, c
+            left_sum, left_cnt = dfs(node.left)
+            right_sum, right_cnt = dfs(node.right)
+            subtree_sum = left_sum + right_sum + node.val
+            subtree_cnt = left_cnt + right_cnt + 1
+            if subtree_sum // subtree_cnt == node.val:
+                nonlocal total_cnt
+                total_cnt += 1
+            return subtree_sum, subtree_cnt
 
-        traverse(root)
-        return ans
+        total_cnt = 0
+        dfs(root)
+        return total_cnt
 
 
 if __name__ == "__main__":
     obj = Solution()
-    print(obj.averageOfSubtree(root=[4, 8, 5, 0, 1, null, 6]))
-    print(obj.averageOfSubtree(root=[1]))
+    r1 = treenode_build(vals=[4, 8, 5, 0, 1, None, 6])
+    r2 = treenode_build(vals=[1])
+    print(obj.averageOfSubtree(r1))
+    print(obj.averageOfSubtree(r2))

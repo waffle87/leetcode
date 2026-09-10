@@ -9,28 +9,48 @@
  * root and all of its descendants
  */
 
-struct TreeNode {
-  int val;
-  struct TreeNode *left;
-  struct TreeNode *right;
+struct data {
+  int total;
+  int count;
 };
 
-int cnt_subtree(struct TreeNode *root, int *res) {
+struct data postorder(struct TreeNode *root, int *mid) {
+  struct data res = {0, 0};
   if (!root)
-    return 0;
-  int left = cnt_subtree(root->left, res);
-  int rght = cnt_subtree(root->right, res);
-  int curr_cnt = left + rght + 1, curr_sum = root->val;
-  curr_sum += (root->left) ? root->left->val : 0;
-  curr_sum += (root->right) ? root->right->val : 0;
-  if (root->val == (curr_sum / curr_cnt))
-    (*res)++;
-  root->val = curr_sum;
-  return curr_cnt;
+    return res;
+  if (root->left) {
+    struct data left = postorder(root->left, mid);
+    res.total += left.total;
+    res.count += left.count;
+  }
+  if (root->right) {
+    struct data right = postorder(root->right, mid);
+    res.total += right.total;
+    res.count += right.count;
+  }
+  res.total += root->val;
+  res.count++;
+  if (res.total / res.count == root->val)
+    ++(*mid);
+  return res;
 }
 
 int averageOfSubtree(struct TreeNode *root) {
-  int ans = 0;
-  cnt_subtree(root, &ans);
-  return ans;
+  int mid = 0;
+  struct data res = postorder(root, &mid);
+  return mid;
+}
+
+int main() {
+  int r1i[] = {4, 8, 5, 0, 1, -1, 6}, r2i[] = {1};
+  struct TreeNode *r1 = treenode_build(r1i, ARRAY_SIZE(r1i));
+  struct TreeNode *r2 = treenode_build(r2i, ARRAY_SIZE(r2i));
+  int aos1 = averageOfSubtree(r1);
+  int aos2 = averageOfSubtree(r2);
+  printf("%d\n", aos1);
+  assert(aos1 == 5);
+  printf("%d\n", aos2);
+  assert(aos2 == 1);
+  treenode_free(r1);
+  treenode_free(r2);
 }
