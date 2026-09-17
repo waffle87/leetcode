@@ -1,5 +1,4 @@
 # 1477. Find Two Non-overlapping Sub-arrays Each With Target Sum
-from itertools import accumulate
 
 """
 you are given an array of integers 'arr' and an integer 'target'. you have to
@@ -11,25 +10,22 @@ find such two subarrays.
 """
 
 
-class Solution(object):
-    def minSumOfLengths(self, arr, target):
-        """
-        :type arr: List[int]
-        :type target: int
-        :rtype: int
-        """
-        prefix = {0: -1}
-        curr_bestl = [float("inf")] * len(arr)
-        ans, best = float("inf"), float("inf")
-        for i, curr in enumerate(accumulate(arr)):
-            if curr - target in prefix:
-                end = prefix[curr - target]
-                if end > -1:
-                    ans = min(ans, i - end + curr_bestl[end])
-                best = min(best, i - end)
-            curr_bestl[i] = best
-            prefix[curr] = i
-        return -1 if ans == float("inf") else ans
+class Solution:
+    def minSumOfLengths(self, arr: List[int], target: int) -> int:
+        i, window, ans = 0, 0, float("inf")
+        dp = [float("inf")] * len(arr)
+        for j, num in enumerate(arr):
+            window += num
+            while window > target:
+                window -= arr[i]
+                i += 1
+            if window == target:
+                curr = j - i + 1
+                ans = min(ans, curr + dp[i - 1])
+                dp[j] = min(curr, dp[j - 1])
+            else:
+                dp[j] = dp[j - 1]
+        return ans if ans < float("inf") else -1
 
 
 if __name__ == "__main__":
