@@ -9,24 +9,21 @@ operations. return the minimum number of operations to reduce 'x' to exactly
 """
 
 
-class Solution(object):
-    def minOperations(self, nums, x):
-        target, n = sum(nums) - x, len(nums)
+class Solution:
+    def minOperations(self, nums: List[int], x: int) -> int:
+        target = sum(nums) - x
+        curr_sum, max_len, start = 0, 0, 0
+        found = False
+        for end in range(len(nums)):
+            curr_sum += nums[end]
+            while start <= end and curr_sum > target:
+                curr_sum -= nums[start]
+                start += 1
+            if curr_sum == target:
+                found = True
+                max_len = max(max_len, end - start + 1)
 
-        if target == 0:
-            return n
-
-        max_len = cur_sum = left = 0
-
-        for right, val in enumerate(nums):
-            cur_sum += val
-            while left <= right and cur_sum > target:
-                cur_sum -= nums[left]
-                left += 1
-            if cur_sum == target:
-                max_len = max(max_len, right - left + 1)
-
-        return n - max_len if max_len else -1
+        return len(nums) - max_len if found else -1
 
 
 if __name__ == "__main__":
