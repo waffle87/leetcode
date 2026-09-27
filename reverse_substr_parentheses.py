@@ -7,20 +7,26 @@ from the innermost one. your result should not contain any brackets.
 """
 
 
-class Solution(object):
-    def reverseParentheses(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        ans = [""]
-        for c in s:
-            if c == "(":
-                ans.append("")
-            elif c == ")":
-                ans[len(ans) - 2] += ans.pop()[::-1]
+class Solution:
+    def reverseParentheses(self, s: str) -> str:
+        n = len(s)
+        link, stack = [0] * n, []
+        for i, j in enumerate(s):
+            if j == "(":
+                stack.append(i)
+            elif j == ")":
+                k = stack.pop()
+                link[i] = k
+                link[k] = i
+        ans, dir, i = [], 1, 0
+        while i < n:
+            c = s[i]
+            if c == "(" or c == ")":
+                i = link[i]
+                dir = -dir
             else:
-                ans[-1] += c
+                ans.append(c)
+            i += dir
         return "".join(ans)
 
 
