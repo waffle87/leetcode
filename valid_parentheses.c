@@ -1,8 +1,5 @@
 // 20. Valid Parentheses
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "leetcode.h"
 
 /*
  * given a string 's' containing just the characters '(, ), {, }, [, ]',
@@ -13,35 +10,27 @@
  */
 
 bool isValid(char *s) {
-  int len = strlen(s);
-  if (len % 2)
-    return false;
-  int n = len / 2, idx = 0;
-  char *stack = malloc(n), c, top;
-  for (int i = 0; i < len; i++) {
-    c = s[i];
-    if (c == '(' || c == '[' || c == '{') {
-      if (idx == n)
-        return false;
-      else
-        stack[idx++] = c;
-    } else {
-      if (!idx)
-        return false;
-      top = stack[idx - 1];
-      if (top == '(' && c == ')' || top == '[' && c == ']' ||
-          top == '{' && c == '}')
-        idx--;
-      else
-        return false;
-    }
+  int n = strlen(s), j = 0;
+  for (int i = n - 1; i >= 0 && j > 0; i--) {
+    int b = s[i];
+    int c = (b >> 1 ^ b) & 1;
+    s[n - j] = b - 1 - (b >> 6);
+    j += 2 * c - 1 - (((s[n - j + 1] ^ b) & ~-c) << 14);
   }
-  return !idx;
+  return j == 1;
 }
 
 int main() {
-  char s1[] = {"()"}, s2[] = {"()[]{}"}, s3[] = {"(]"};
-  printf("%d\n", isValid(s1)); // expect: 1
-  printf("%d\n", isValid(s2)); // expect: 1
-  printf("%d\n", isValid(s3)); // expect: 0
+  char *s1 = "()";
+  char *s2 = "()[]{}";
+  char *s3 = "(]";
+  bool r1 = isValid(s1);
+  bool r2 = isValid(s2);
+  bool r3 = isValid(s3);
+  printf("%d\n", r1);
+  assert(r1 == true);
+  printf("%d\n", r2);
+  assert(r2 == true);
+  printf("%d\n", r3);
+  assert(r3 == false);
 }
