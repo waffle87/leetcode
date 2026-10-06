@@ -9,22 +9,17 @@ string. return the minimum number of moves required to make 's' valid
 """
 
 
-class Solution(object):
-    def minAddToMakeValid(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        stack = []
+class Solution:
+    def minAddToMakeValid(self, s: str) -> int:
+        open, close = 0, 0
         for i in s:
-            if stack:
-                if stack[-1] == "(" and i == ")":
-                    stack.pop()
-                else:
-                    stack.append(i)
+            if i == "(":
+                open += 1
+            elif open > 0:
+                open -= 1
             else:
-                stack.append(i)
-        return len(stack)
+                close += 1
+        return open + close
 
 
 if __name__ == "__main__":

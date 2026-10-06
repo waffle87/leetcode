@@ -10,21 +10,21 @@
  */
 
 int minAddToMakeValid(char *s) {
-  int open = 0, close = 0, n = strlen(s);
-  for (int i = 0; i < n; i++)
-    if (s[i] == '(')
-      open++;
-    else {
-      if (open)
-        open--;
-      else
-        close++;
-    }
-  return open + close;
+  int p[2] = {0}, n = strlen(s);
+  for (int i = 0; i < n; i++) {
+    bool left = s[i] == '(';
+    p[0] += left;
+    p[p[0] <= 0] += (1 - ((p[0] > 0) << 1)) * (!left);
+  }
+  return p[0] + p[1];
 }
 
 int main() {
   char *s1 = "())", *s2 = "(((";
-  printf("%d\n", minAddToMakeValid(s1)); // expect: 1
-  printf("%d\n", minAddToMakeValid(s2)); // expect: 3
+  int r1 = minAddToMakeValid(s1);
+  int r2 = minAddToMakeValid(s2);
+  printf("%d\n", r1);
+  assert(r1 == 1);
+  printf("%d\n", r2);
+  assert(r2 == 3);
 }
