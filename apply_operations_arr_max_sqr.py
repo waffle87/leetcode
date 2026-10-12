@@ -1,5 +1,4 @@
 # 2897. Apply Operations on Array to Maximize Sum of Squares
-from collections import Counter
 
 """
 you are given a 0-indexed integer array 'nums' and a positive integer 'k'.
@@ -12,17 +11,20 @@ answer can be very large, return it modulo 10^9+7.
 """
 
 
-class Solution(object):
-    def maxSum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        cnt = Counter(i for j in nums for i in range(32) if j & (1 << i))
-        return sum(sum((cnt[i] > j) << i for i in range(32)) ** 2 for j in range(k)) % (
-            10**9 + 7
-        )
+class Solution:
+    def maxSum(self, nums: List[int], k: int) -> int:
+        n, ans = len(nums), 0
+        idx = [0] * 32
+        arr = [0] * n
+        for i in nums:
+            for j in range(32):
+                if (i >> j) & 1:
+                    arr[idx[j]] += 1 << j
+                    idx[j] += 1
+        for i in range(k):
+            ans += arr[i] ** 2
+            ans %= 10**9 + 7
+        return ans
 
 
 if __name__ == "__main__":
