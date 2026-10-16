@@ -10,72 +10,84 @@
  * all subarrays of 'nums'. return the answer mmodulo 1e9+7;
  */
 
-#define MOD 1000000007
+struct bit {
+  int size;
+  long long *tree1;
+  long long *tree2;
+};
 
-int64_t *upper, *lower;
-uint32_t n;
+struct bit *bit_init(int n) {
+  struct bit *obj = (struct bit *)malloc(sizeof(struct bit));
+  obj->size = n;
+  obj->tree1 = (long long *)calloc(n + 2, sizeof(long long));
+  obj->tree2 = (long long *)calloc(n + 2, sizeof(long long));
+  return obj;
+}
 
-void update(int32_t l, int32_t r) {
-  int32_t lv = l - 1, rv = r;
-  ++l, r += 2;
-  while (l <= n | r <= n) {
-    if (l <= n) {
-      ++lower[l];
-      upper[l] += lv;
-      l += l & (-l);
-    }
-    if (r <= n) {
-      --lower[r];
-      upper[r] -= rv;
-      r += r & (-r);
-    }
+void bit_free(struct bit *obj) {
+  free(obj->tree1);
+  free(obj->tree2);
+  free(obj);
+}
+
+int low_bit(int idx) { return idx & -idx; }
+
+void add_helper(struct bit *obj, int idx, int delta) {
+  idx++;
+  long long raw_idx = idx;
+  while (idx <= obj->size) {
+    obj->tree1[idx] += delta;
+    obj->tree2[idx] += raw_idx * delta;
+    idx += low_bit(idx);
   }
 }
 
-uint64_t query(int32_t l, int32_t r) {
-  int64_t lls = 0, lus = 0, rls = 0, rus = 0;
-  int32_t ll = l, rr = r++;
-  while (r || l) {
-    if (r) {
-      rls += lower[r];
-      rus += upper[r];
-      r -= r & (-r);
-    }
-    if (l) {
-      lls += lower[l];
-      lus += upper[l];
-      l -= l & (-l);
-    }
+void add(struct bit *obj, int left, int right, int delta) {
+  add_helper(obj, left, delta);
+  add_helper(obj, right + 1, -delta);
+}
+
+long long query_helper(struct bit *obj, int idx) {
+  idx++;
+  long long raw_idx = idx + 1;
+  idx = fmax(idx, obj->size);
+  long long res = 0;
+  while (idx > 0) {
+    res += raw_idx * obj->tree1[idx] - obj->tree2[idx];
+    idx -= low_bit(idx);
   }
-  return (uint64_t)rls * rr - lls * (--ll) - rus;
+  return res;
+}
+
+long long query(struct bit *obj, int left, int right) {
+  return query_helper(obj, right) - query_helper(obj, left - 1);
 }
 
 int sumCounts(int *nums, int numsSize) {
-  uint64_t sum_cnt = numsSize, last_sum = 0;
-  uint32_t distinct[100001] = {0};
-  n = numsSize;
-  upper = (int64_t *)malloc((n + 1) * sizeof(int64_t));
-  lower = (int64_t *)malloc((n + 1) * sizeof(int64_t));
-  for (int i = 0; i <= n; i++) {
-    upper[i] = 0;
-    lower[i] = 0;
+  int n = numsSize, vis[100005];
+  memset(vis, -1, sizeof(vis));
+  long long ans = 0, curr = 0, mod = 1e9 + 7;
+  struct bit *tree = bit_init(n + 10);
+  for (int i = 0; i < n; i++) {
+    int a = nums[i];
+    int j = vis[a] + 1;
+    long long q = query(tree, j, i);
+    curr = (curr + q * 2 + i - j + 1) % mod;
+    ans += curr % mod;
+    add(tree, j, i, 1);
+    vis[a] = i;
   }
-  update(0, n - 1);
-  for (uint64_t i = 0; i < n; ++i) {
-    uint32_t idx = nums[i], j = distinct[idx];
-    if (j < i) {
-      last_sum += (query(j, i - 1) << 1) + i - j;
-      update(j, i - 1);
-    }
-    sum_cnt += last_sum++;
-    distinct[idx] = i + 1;
-  }
-  free(upper), free(lower);
-  return sum_cnt * MOD;
+  bit_free(tree);
+  return (int)ans;
 }
 
 int main() {
-  int n1[] = {1, 2, 1}, n2[] = {2, 2};
-  printf("%d\n", sumCounts(n1, ARRAY_SIZE(n1))); // expect: 15
-  printf("%d\n", sumCounts(n2, ARRAY_SIZE(n2))); // expect: 3
+  int n1[] = {1, 2, 1};
+  int n2[] = {2, 2};
+  int r1 = sumCounts(n1, ARRAY_SIZE(n1));
+  int r2 = sumCounts(n2, ARRAY_SIZE(n2));
+  printf("%d\n", r1);
+  assert(r1 == 15);
+  printf("%d\n", r2);
+  assert(r2 == 3);
 }

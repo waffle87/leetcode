@@ -43,12 +43,8 @@ class SegmentTreeNode:
         return res
 
 
-class Solution(object):
-    def sumCounts(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def sumCounts(self, nums: list[int]) -> int:
         last_idx_dict = {}
         segment_tree = SegmentTreeNode(0, len(nums))
         ans, curr = 0, 0
