@@ -1,6 +1,5 @@
 // 1267. Count Servers that Communicate
 #include "leetcode.h"
-#include <stdio.h>
 
 /*
  * you are given a map of a server centre, represented as a 'm x n' integer
@@ -45,12 +44,15 @@ int main() {
       two_d_arr_init(ARRAY_SIZE(g2i), ARRAY_SIZE(g2i[0]), g2i);
   struct two_d_arr *g3 =
       two_d_arr_init(ARRAY_SIZE(g3i), ARRAY_SIZE(g3i[0]), g3i);
-  printf("%d\n", countServers(g1->arr, g1->row_size, g1->col_size)); // expect:
-                                                                     // 0
-  printf("%d\n", countServers(g2->arr, g2->row_size, g2->col_size)); // expect:
-                                                                     // 3
-  printf("%d\n", countServers(g3->arr, g3->row_size, g3->col_size)); // expect:
-                                                                     // 4
+  int r1 = countServers(g1->arr, g1->row_size, g1->col_size);
+  int r2 = countServers(g2->arr, g2->row_size, g2->col_size);
+  int r3 = countServers(g3->arr, g3->row_size, g3->col_size);
+  printf("%d\n", r1);
+  assert(r1 == 0);
+  printf("%d\n", r2);
+  assert(r2 == 3);
+  printf("%d\n", r3);
+  assert(r3 == 4);
   two_d_arr_free(g1);
   two_d_arr_free(g2);
   two_d_arr_free(g3);

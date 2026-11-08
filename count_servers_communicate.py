@@ -9,12 +9,9 @@ with any other server.
 """
 
 
-class Solution(object):
-    def countServers(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
+class Solution:
+    def countServers(self, grid: list[list[int]]) -> int:
+
         rows, cols = map(sum, grid), map(sum, zip(*grid))
         return sum(
             rows[i] + cols[j] > 2
