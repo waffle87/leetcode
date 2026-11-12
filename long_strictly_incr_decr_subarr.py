@@ -7,12 +7,8 @@ decreasing.
 """
 
 
-class Solution(object):
-    def longestMonotonicSubarray(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def longestMonotonicSubarray(self, nums: list[int]) -> int:
         n, ans, inc, dec = len(nums), 1, 1, 1
         for i in range(1, n):
             a, b = nums[i] > nums[i - 1], nums[i] < nums[i - 1]

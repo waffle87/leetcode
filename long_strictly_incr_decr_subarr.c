@@ -19,8 +19,16 @@ int longestMonotonicSubarray(int *nums, int numsSize) {
 }
 
 int main() {
-  int n1[] = {1, 4, 3, 3, 2}, n2[] = {3, 3, 3, 3}, n3[] = {3, 2, 1};
-  printf("%d\n", longestMonotonicSubarray(n1, ARRAY_SIZE(n1))); // expect: 2
-  printf("%d\n", longestMonotonicSubarray(n2, ARRAY_SIZE(n2))); // expect: 1
-  printf("%d\n", longestMonotonicSubarray(n3, ARRAY_SIZE(n3))); // expect: 3
+  int n1[] = {1, 4, 3, 3, 2};
+  int n2[] = {3, 3, 3, 3};
+  int n3[] = {3, 2, 1};
+  int r1 = longestMonotonicSubarray(n1, ARRAY_SIZE(n1));
+  int r2 = longestMonotonicSubarray(n2, ARRAY_SIZE(n2));
+  int r3 = longestMonotonicSubarray(n3, ARRAY_SIZE(n3));
+  printf("%d\n", r1);
+  assert(r1 == 2);
+  printf("%d\n", r2);
+  assert(r2 == 1);
+  printf("%d\n", r3);
+  assert(r3 == 3);
 }
