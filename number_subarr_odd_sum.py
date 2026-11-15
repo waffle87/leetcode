@@ -6,19 +6,15 @@ sum. since the answer can be very large, return it modulo 10e9+7.
 """
 
 
-class Solution(object):
-    def numOfSubarrays(self, arr):
-        """
-        :type arr: List[int]
-        :rtype: int
-        """
-        cnt = [1, 0]
-        curr, ans = 0, 0
-        for i in arr:
-            curr ^= i & 1
-            ans += cnt[1 - curr]
-            cnt[curr] += 1
-        return ans % (10**9 + 7)
+class Solution:
+    def numOfSubarrays(self, arr: list[int]) -> int:
+        p = int(bytearray(arr).translate(b"01" * 128), 2)
+        s = 1
+        while s < len(arr):
+            p ^= p >> s
+            s <<= 1
+        odd = p.bit_count()
+        return odd * (len(arr) + 1 - odd) % (10**9 + 7)
 
 
 if __name__ == "__main__":
