@@ -9,17 +9,9 @@ minimum number of changes required to make the string 's' beautiful.
 """
 
 
-class Solution(object):
-    def minChanges(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        n, changes = len(s), 0
-        for i in range(0, n, 2):
-            if s[i] != s[i + 1]:
-                changes += 1
-        return changes
+class Solution:
+    def minChanges(self, s: str) -> int:
+        return (int(s[::2], 2) ^ int(s[1::2], 2)).bit_count()
 
 
 if __name__ == "__main__":

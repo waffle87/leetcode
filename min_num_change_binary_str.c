@@ -10,16 +10,24 @@
  */
 
 int minChanges(char *s) {
-  int changes = 0;
-  for (int i = 0; i < strlen(s); i += 2)
-    if (s[i] != s[i + 1])
-      changes++;
-  return changes;
+  uint16_t *t = (uint16_t *)(s);
+  int cnt = 0, n = strlen(s);
+  for (int i = 0; i < n / 2; i++)
+    cnt += (1 & ((t[i] >> 8) ^ t[i]));
+  return cnt;
 }
 
 int main() {
-  char *s1 = "1001", *s2 = "10", *s3 = "0000";
-  printf("%d\n", minChanges(s1)); // expect: 2
-  printf("%d\n", minChanges(s2)); // expect: 1
-  printf("%d\n", minChanges(s3)); // expect: 0
+  char *s1 = "1001";
+  char *s2 = "10";
+  char *s3 = "0000";
+  int r1 = minChanges(s1);
+  int r2 = minChanges(s2);
+  int r3 = minChanges(s3);
+  printf("%d\n", r1);
+  assert(r1 == 2);
+  printf("%d\n", r2);
+  assert(r2 == 1);
+  printf("%d\n", r3);
+  assert(r3 == 0);
 }
