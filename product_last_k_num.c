@@ -58,10 +58,18 @@ int main() {
   productOfNumbersAdd(obj, 2);
   productOfNumbersAdd(obj, 5);
   productOfNumbersAdd(obj, 4);
-  printf("%d\n", productOfNumbersGetProduct(obj, 2)); // expect: 20
-  printf("%d\n", productOfNumbersGetProduct(obj, 3)); // expect: 40
-  printf("%d\n", productOfNumbersGetProduct(obj, 4)); // expect: 0
+  int r1 = productOfNumbersGetProduct(obj, 2);
+  int r2 = productOfNumbersGetProduct(obj, 3);
+  int r3 = productOfNumbersGetProduct(obj, 4);
+  printf("%d\n", r1);
+  assert(r1 == 20);
+  printf("%d\n", r2);
+  assert(r2 == 40);
+  printf("%d\n", r3);
+  assert(r3 == 0);
   productOfNumbersAdd(obj, 8);
-  printf("%d\n", productOfNumbersGetProduct(obj, 2)); // expect: 32
+  int r4 = productOfNumbersGetProduct(obj, 2);
+  printf("%d\n", r4);
+  assert(r4 == 32);
   productOfNumbersFree(obj);
 }

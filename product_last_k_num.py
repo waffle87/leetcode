@@ -8,29 +8,32 @@ the product of any contiguous sequence of numbers will fit into a single
 32-bit integer without overflowing.
 """
 
+from bisect import bisect_left
+from math import prod
 
-class ProductOfNumbers(object):
+
+class ProductOfNumbers:
     def __init__(self):
-        self.pre = [1]
+        self.size = 0
+        self.zero = -1
+        self.where = []
+        self.factor = []
 
-    def add(self, num):
-        """
-        :type num: int
-        :rtype: None
-        """
+    def add(self, num: int) -> None:
         if num == 0:
-            self.pre = [1]
-        else:
-            self.pre.append(self.pre[-1] * num)
+            self.zero = self.size
+            self.where = []
+            self.factor = []
+        elif num > 1:
+            self.where.append(self.size)
+            self.factor.append(num)
+        self.size += 1
 
-    def getProduct(self, k):
-        """
-        :type k: int
-        :rtype: int
-        """
-        if k >= len(self.pre):
+    def getProduct(self, k: int) -> int:
+        start = self.size - k
+        if self.zero >= start:
             return 0
-        return self.pre[-1] / self.pre[-k - 1]
+        return prod(self.factor[bisect_left(self.where, start) :])
 
 
 if __name__ == "__main__":
